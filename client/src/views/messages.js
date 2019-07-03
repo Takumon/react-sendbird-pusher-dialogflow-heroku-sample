@@ -47,6 +47,7 @@ const PUSHER_APP_ID = process.env.REACT_APP_PUSHER_APP_ID;
 const PUSHER_APP_CLUSTER = process.env.REACT_APP_PUSHER_APP_CLUSTER;
 const BOT_CHANNEL = process.env.REACT_APP_BOT_CHANNEL;
 const BOT_WEATHER_EVENT = process.env.REACT_APP_BOT_WEATHER_EVENT;
+const EVENT_HANDLER_ID = uuid4();
 
 
 const Container = styled.div`
@@ -72,7 +73,9 @@ export default function Messages({ userId }) {
   }
 
   const [messages, setMessages] = useState([]);
+  const [sb, setSb] = useState(null);
   const [channel, setChannel] = useState(null);
+  const [pusherChannel, setPusherChannel] = useState(null);
 
 
   const query = useRef(null);
@@ -80,7 +83,9 @@ export default function Messages({ userId }) {
 
 
   async function registerFunc(messageText) {
+    console.log('registerFunc', channel, messageText)
     const registeredMessage = await sendMessage(channel, messageText);
+    console.log('registerFunc', registeredMessage)
     addMessageInModel(registeredMessage);
   }
 
@@ -103,6 +108,7 @@ export default function Messages({ userId }) {
 
   // Model Operations
   function addMessageInModel(newOne) {
+    console.log('addMessageInModel', newOne)
     setMessages(msgs => {
       let targetIndex = null;
 
@@ -171,30 +177,19 @@ export default function Messages({ userId }) {
   }
 
 
+
   useEffect(() => {
     let unmounted = false;
     query.current = currentQuery;
 
     (async () => {
-
       // init＿ SendBird
       const sb = new SendBird({appId: APP_ID});
       const user = await connect(sb, userId);
       const openedChannel = await openChannel(sb, CHANNEL_ID);
       await enterChannel(openedChannel);
+      setSb(sb);
       setChannel(openedChannel);
-
-
-      const EVENT_HANDLER_ID = uuid4();
-
-      const ChannelHandler = new sb.ChannelHandler();
-  
-
-      // Add event handlers for sync in other browser
-      ChannelHandler.onMessageReceived = (_, message) => addMessageInModel(message);
-      ChannelHandler.onMessageUpdated = (_, message) => updateMessageInModel(message);
-      ChannelHandler.onMessageDeleted = (_, messageId) => deleteMessageInModel(messageId);
-      sb.addChannelHandler(EVENT_HANDLER_ID, ChannelHandler);
 
 
       if (!query.current) {
@@ -205,32 +200,68 @@ export default function Messages({ userId }) {
       if(!unmounted && messages) {
         setMessages(messages);
       }
-      
     })();
 
     // clean up
-    return () => unmounted = true;
+    return () => {
+      unmounted = true;
+    }
   }, []);
 
+
+
   useEffect(() => {
-    // init Pusher
+    if (!sb || !channel) return;
+
+    const ChannelHandler = new sb.ChannelHandler();
+  
+    // Add event handlers for sync in other browser
+    ChannelHandler.onMessageReceived = (_, message) => addMessageInModel(message);
+    ChannelHandler.onMessageUpdated = (_, message) => updateMessageInModel(message);
+    ChannelHandler.onMessageDeleted = (_, messageId) => deleteMessageInModel(messageId);
+    console.log('addChannelHandler')
+    sb.addChannelHandler(EVENT_HANDLER_ID, ChannelHandler);
+
+    return () => {
+      if (!sb || !channel) return;
+      
+      console.log('removeChannelHandler')
+      sb.removeChannelHandler(EVENT_HANDLER_ID);
+    }
+
+  }, [channel])
+
+
+  function registerFuncFromPusher({ message }) {
+    registerFunc(createTextMessage(message))
+  }
+
+  // init Pusher
+  useEffect(() => {
     const pusher = new Pusher(PUSHER_APP_ID, {
       cluster: PUSHER_APP_CLUSTER,
       encrypted: true,
     });
+    setPusherChannel(pusher.subscribe(BOT_CHANNEL));
+  }, [])
 
-    const pucherChannel = pusher.subscribe(BOT_CHANNEL);
-    pucherChannel.bind(BOT_WEATHER_EVENT, ({ message }) => {
-      registerFunc(createTextMessage(message))
-    });
+  useEffect(() => {
+    if (!pusherChannel && !channel) return;
+
+    console.log('bind pusherChannel event')
+
+    pusherChannel.bind(BOT_WEATHER_EVENT, registerFuncFromPusher);
 
     return () => {
-      pucherChannel.unbind(BOT_WEATHER_EVENT);
+      console.log('unbind pusherChannel event')
+      pusherChannel.unbind(BOT_WEATHER_EVENT, registerFuncFromPusher);
     };
 
-  }, [channel])
+  }, [pusherChannel, channel])
   
 
+
+  
   return (
     <Layout>
       <Header>
