@@ -44,6 +44,7 @@ const { Header, Content, Footer } = Layout;
 const APP_ID = process.env.REACT_APP_APP_ID;
 const CHANNEL_ID = process.env.REACT_APP_CHANNEL_ID;
 const PUSHER_APP_ID = process.env.REACT_APP_PUSHER_APP_ID;
+const PUSHER_APP_CLUSTER = process.env.REACT_APP_PUSHER_APP_CLUSTER;
 const BOT_CHANNEL = process.env.REACT_APP_BOT_CHANNEL;
 const BOT_WEATHER_EVENT = process.env.REACT_APP_BOT_WEATHER_EVENT;
 
@@ -213,7 +214,7 @@ export default function Messages({ userId }) {
   useEffect(() => {
     // init Pusher
     const pusher = new Pusher(PUSHER_APP_ID, {
-      cluster: 'us3',
+      cluster: PUSHER_APP_CLUSTER,
       encrypted: true,
     });
 
