@@ -48,6 +48,8 @@ const PUSHER_APP_CLUSTER = process.env.REACT_APP_PUSHER_APP_CLUSTER;
 const BOT_CHANNEL = process.env.REACT_APP_BOT_CHANNEL;
 const BOT_WEATHER_EVENT = process.env.REACT_APP_BOT_WEATHER_EVENT;
 
+console.log(process.env)
+
 const Container = styled.div`
   padding: 12px;
 `;
