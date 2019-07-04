@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef  } from 'react';
+import React, { useState, useEffect, useCallback  } from 'react';
 import { Link } from 'react-router-dom';
 import styled from '@emotion/styled'
 import history from '../history'
@@ -14,7 +14,6 @@ import {
   deleteMessage,
   enterChannel,
   getMessage,
-  getChannel,
   openChannel,
   updateMessage,
   sendMessage,
@@ -79,16 +78,14 @@ export default function Messages({ userId }) {
   const [pusherChannel, setPusherChannel] = useState(null);
 
 
-  const query = useRef(null);
-  let currentQuery = query.current;
+  const registerFunc = useCallback(
+    async (messageText) => {
+      const registeredMessage = await sendMessage(channel, messageText);
+      addMessageInModel(registeredMessage);  
+    },
+    [ channel] ,
+  );
 
-
-  async function registerFunc(messageText) {
-    console.log('registerFunc', channel, messageText)
-    const registeredMessage = await sendMessage(channel, messageText);
-    console.log('registerFunc', registeredMessage)
-    addMessageInModel(registeredMessage);
-  }
 
   async function registerFileFunc(file) {
     const registeredMessage = await sendFileMessage(channel, file);
@@ -114,7 +111,7 @@ export default function Messages({ userId }) {
       let targetIndex = null;
 
       for (const index in msgs) {
-        if (msgs[index].messageId == newOne.messageId) {
+        if (msgs[index].messageId === newOne.messageId) {
           targetIndex = Number(index);  // index is string
           break;
         }
@@ -154,7 +151,7 @@ export default function Messages({ userId }) {
       let targetIndex = null;
 
       for (const index in msgs) {
-        if (msgs[index].messageId == deletedMessageId) {
+        if (msgs[index].messageId === deletedMessageId) {
           targetIndex = Number(index);  // index is string
           break;
         }
@@ -181,22 +178,19 @@ export default function Messages({ userId }) {
 
   useEffect(() => {
     let unmounted = false;
-    query.current = currentQuery;
 
     (async () => {
       // init＿ SendBird
       const sb = new SendBird({appId: APP_ID});
-      const user = await connect(sb, userId);
+      // const user = await connect(sb, userId);
+      await connect(sb, userId);
       const openedChannel = await openChannel(sb, CHANNEL_ID);
       await enterChannel(openedChannel);
       setSb(sb);
       setChannel(openedChannel);
 
-
-      if (!query.current) {
-        query.current = openedChannel.createPreviousMessageListQuery();
-      }
-      const messages = await getMessage(query.current);
+      const currentQuery = openedChannel.createPreviousMessageListQuery();
+      const messages = await getMessage(currentQuery);
 
       if(!unmounted && messages) {
         setMessages(messages);
@@ -207,7 +201,7 @@ export default function Messages({ userId }) {
     return () => {
       unmounted = true;
     }
-  }, []);
+  }, [userId]);
 
 
 
@@ -230,12 +224,9 @@ export default function Messages({ userId }) {
       sb.removeChannelHandler(EVENT_HANDLER_ID);
     }
 
-  }, [channel])
+  }, [sb, channel])
 
 
-  function registerFuncFromPusher({ message }) {
-    registerFunc(createTextMessage(message))
-  }
 
   // init Pusher
   useEffect(() => {
@@ -249,6 +240,10 @@ export default function Messages({ userId }) {
   useEffect(() => {
     if (!pusherChannel && !channel) return;
 
+    function registerFuncFromPusher({ message }) {
+      registerFunc(createTextMessage(message))
+    }
+
     console.log('bind pusherChannel event')
 
     pusherChannel.bind(BOT_WEATHER_EVENT, registerFuncFromPusher);
@@ -258,7 +253,7 @@ export default function Messages({ userId }) {
       pusherChannel.unbind(BOT_WEATHER_EVENT, registerFuncFromPusher);
     };
 
-  }, [pusherChannel, channel])
+  }, [pusherChannel, channel, registerFunc])
   
 
 

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef  } from 'react';
+import React, { useState  } from 'react';
 import styled from '@emotion/styled'
 import {
   Input,
@@ -11,11 +11,11 @@ const SingleInputForm = styled.div`
   align-items: stretch;
 `;
 
-const SingleInputForm_Input = styled.div`
+const SingleInputFormInput = styled.div`
   flex-grow: 1;
 `;
 
-const SingleInputForm_Button = styled.div`
+const SingleInputFormButton = styled.div`
 
 `;
 
@@ -34,15 +34,15 @@ export default function Login({ setUserId }) {
     <>
       <h1>Login</h1>
       <SingleInputForm>
-        <SingleInputForm_Input>
+        <SingleInputFormInput>
           <Input
             type="text"
             value={userIdForm}
             onChange={e => setUserIdForm(e.target.value)}
             placeholder="UserId"
           />
-        </SingleInputForm_Input>
-        <SingleInputForm_Button>
+        </SingleInputFormInput>
+        <SingleInputFormButton>
           <Button
             onClick={() => {
               login(userIdForm);
@@ -50,7 +50,7 @@ export default function Login({ setUserId }) {
             }}
             type="primary"
           >SEND!</Button>
-        </SingleInputForm_Button>
+        </SingleInputFormButton>
       </SingleInputForm>
     </>
   );

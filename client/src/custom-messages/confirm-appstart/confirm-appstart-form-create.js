@@ -1,8 +1,7 @@
 
-import React, { useState } from 'react';
+import React from 'react';
 import styled from '@emotion/styled'
 import {
-  Input,
   Button,
 } from 'antd';
 import {
@@ -15,9 +14,6 @@ const Container = styled.div`
   align-items: stretch;
 `;
 
-const InputArea = styled.div`
-  flex-grow: 1;
-`;
 
 const ButtonArea = styled.div`
 

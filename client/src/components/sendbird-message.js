@@ -175,7 +175,6 @@ function CustomMessageView({
       );
 
     case CUSTOM_MESSAGE_TYPE.ANSWER:
-      console.log('ANSEWRだよ')
       // isAnswerではなく答えた人でレイアウトを変える
       return (
         <MessageTextView

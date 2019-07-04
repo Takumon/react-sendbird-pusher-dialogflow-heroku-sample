@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect, useRef  } from 'react';
+import React, { useState, useEffect  } from 'react';
 import { Card, Button, Input, DatePicker } from 'antd';
 import styled from '@emotion/styled'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -37,8 +37,8 @@ const Action = styled.div`
 
 export default function ProfileView({ m, registerFunc }) {
 
-  const [id, setId] = useState('');
-  const [leadId, setLeadId] = useState('');
+  // const [id ] = useState('');
+  // const [leadId ] = useState('');
   const [lastName, setLastName] = useState('');
   const [firstName, setFirstName] = useState('');
   const [phone, setPhone] = useState('');
@@ -94,26 +94,26 @@ export default function ProfileView({ m, registerFunc }) {
   async function onSubmit() {
     setSubmitting(true);
 
-    const messageId = stripPrefix('' + m.messageId);
+    // const messageId = stripPrefix('' + m.messageId);
 
-    const patchOp = {
-      operation: 'set',
-      property: `profile`,
-      value: {
-        id,
-        leadId,
-        lastName,
-        firstName,
-        phone,
-        birthday,
-        sex,
-        isSubmitted: true,
-      }
-    };
+    // const patchOp = {
+    //   operation: 'set',
+    //   property: `profile`,
+    //   value: {
+    //     id,
+    //     leadId,
+    //     lastName,
+    //     firstName,
+    //     phone,
+    //     birthday,
+    //     sex,
+    //     isSubmitted: true,
+    //   }
+    // };
 
-    const payload = {
-      raw: JSON.stringify(patchOp)
-    };
+    // const payload = {
+    //   raw: JSON.stringify(patchOp)
+    // };
 
     registerFunc(createTextMessage('予約中です...'));
 
@@ -130,18 +130,18 @@ export default function ProfileView({ m, registerFunc }) {
         setSubmitting(false);
         setSubmitted(true);
 
-        const payload = {
-          name: firstName + ' ' + lastName,
-          phone,
-          sex,
-          birthday
-        };
+        // const payload = {
+        //   name: firstName + ' ' + lastName,
+        //   phone,
+        //   sex,
+        //   birthday
+        // };
 
         try {
 
           // TODO Build Server for Profile
           // const resp = await patch(`/editProfile?leadID=${leadId}`, payload)
-          const resp = { ok: true };
+          // const resp = { ok: true };
 
           // TODO Build Message sender in Redux
           // const conversation = WebSDK.getConversation(this.props.message.conversationId);
@@ -245,7 +245,7 @@ export default function ProfileView({ m, registerFunc }) {
                       type="radio"
                       value="9002"
                       style={{width: '13px'}}
-                      checked={sex == '9002'}
+                      checked={sex === '9002'}
                       disabled={submitted}
                       onChange={e => setSex(e.target.value)}
                     />
@@ -254,7 +254,7 @@ export default function ProfileView({ m, registerFunc }) {
                       type="radio"
                       value="9003"
                       style={{width: '13px'}}
-                      checked={sex == '9003'}
+                      checked={sex === '9003'}
                       disabled={submitted}
                       onChange={e => setSex(e.target.value)}
                     />
@@ -291,7 +291,7 @@ export default function ProfileView({ m, registerFunc }) {
 
 
 // TODO Export other file
-function stripPrefix(prefixedLayerID) {
-  const pieces = prefixedLayerID.split('/');
-  return pieces[pieces.length - 1];
-}
+// function stripPrefix(prefixedLayerID) {
+//   const pieces = prefixedLayerID.split('/');
+//   return pieces[pieces.length - 1];
+// }

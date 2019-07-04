@@ -1,6 +1,5 @@
 
 import React from 'react';
-import styled from '@emotion/styled'
 import { PDFDownloadLink } from "@react-pdf/renderer";
 import PurchasePdf from './purchase-pdf';
 

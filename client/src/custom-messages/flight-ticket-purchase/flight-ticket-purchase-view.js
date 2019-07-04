@@ -1,13 +1,10 @@
 
-import React, { useState, useEffect, useRef  } from 'react';
-import { Card, Button, Input, DatePicker, Modal, } from 'antd';
+import React, { useState  } from 'react';
+import { Modal } from 'antd';
 import styled from '@emotion/styled'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
   createFlightTicketPurchaseMessage,
 } from '../../utils/message-converter';
-import CheckCircleSvg from '../../images/check-circle.svg';
-import SelectSeatsCardSvg from '../../images/select-seats-card.svg';
 
 
 const Container = styled.div`
@@ -76,32 +73,6 @@ const Container = styled.div`
   }
 `;
 
-// const Container = styled.div`
-//   text-align: left;
-//   border: 0.1px solid #222;
-//   border-radius: 4px;
-// `;
-
-const Content = styled.div`
-  padding: 0.5em 1em;
-
-  table {
-    width: 100%;
-    
-    tbody th {
-      font-weight: normal;
-    }
-  }
-`;
-
-const Action = styled.div`
-  display: flex;
-
-  Button {
-    flex-grow: 1;
-    margin: 12px;
-  }
-`;
 
 export default function FlightSeatView({ m, registerFunc }) {
   const {

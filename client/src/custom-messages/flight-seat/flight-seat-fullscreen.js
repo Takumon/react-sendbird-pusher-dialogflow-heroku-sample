@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect, useRef  } from 'react';
+import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import styled from '@emotion/styled'
 import FlightSeatsSvg from '../../images/flight-seats.svg';
@@ -127,27 +127,6 @@ const Container = styled.div`
     button.dismiss {
       backdrop-filter: saturate(130%) blur(1rem);
     }
-  }
-`;
-
-const Content = styled.div`
-  padding: 0.5em 1em;
-
-  table {
-    width: 100%;
-    
-    tbody th {
-      font-weight: normal;
-    }
-  }
-`;
-
-const Action = styled.div`
-  display: flex;
-
-  Button {
-    flex-grow: 1;
-    margin: 12px;
   }
 `;
 

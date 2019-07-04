@@ -8,7 +8,6 @@ const initialState = {
 };
 
 export default function auth(state = initialState, action) {
-  console.log('XXXXXX', action)
   switch(action.type) {
     case SET_USER_ID:
       return {

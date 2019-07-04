@@ -4,14 +4,6 @@ import ArrowSvg from '../../images/arrow.svg';
 import FlightTicketsSvg from '../../images/flight-tickets.svg';
 import CarouselCellFullScreen from './carousel-cell-fullscreen';
 
-const CarouselContainer = styled.div`
-  font-size: 0.9em;
-  text-align: left;
-  white-space: nowrap;
-  max-width: 480px;
-`;
-
-
 
 const FlightTicket = styled.div`
   background-repeat: no-repeat;
@@ -61,7 +53,7 @@ const FlightTicketPanel = styled.div`
     cursor: pointer;
   }
 
-  &> span:first-child {
+  &> span:first-of-type {
     float: left;
   }
 
@@ -94,11 +86,11 @@ const FlightTickets = styled.div`
 
 export default function CarouselCell(props) {
   const {
-    id,
+    // id,
     date,
     routes,
     selectable,
-    registerFunc,
+    // registerFunc,
   } = props;
   
   const [isShowDetail, setShowDetail] = useState(false);
@@ -129,7 +121,7 @@ export default function CarouselCell(props) {
       })
     ];
 
-    console.log('君に決めた！っていうメッセージを次に送る');
+    console.log('君に決めた！っていうメッセージを次に送る', cards);
     // const parts = messagePartsForFlightTicketList(cards);
     // composer.send(parts);
     // registerFunc()でやる
@@ -152,7 +144,7 @@ export default function CarouselCell(props) {
               <td className='flightTicketCell' style={{wordWrap: 'break-word',textAlign: 'center'}}>
                 <p>{route.depart.airport}</p>
               </td>
-              <td><img style={{width: '100%'}} src={ArrowSvg} /></td>
+              <td><img style={{width: '100%'}} alt="arrow" src={ArrowSvg} /></td>
               <td className='flightTicketCell'>
                 <p>{route.arrival.airport}</p>
               </td>

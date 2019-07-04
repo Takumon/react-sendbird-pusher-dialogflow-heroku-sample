@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import { Card, Button } from 'antd';
 import FlightTicketSvg from '../../images/flight-ticket.svg';
 import ArrowSvg from '../../images/arrow.svg';
 
@@ -128,7 +127,7 @@ export default function CarouselCellFullScreen({
             <td className='flightTicketCell' style={{wordWrap: 'break-word',textAlign: 'center'}}>
               <p>{route.depart.airport}</p>
             </td>
-            <td><img style={{width: '100%'}} src={ArrowSvg} /></td>
+            <td><img style={{width: '100%'}} alt="arrow" src={ArrowSvg} /></td>
             <td className='flightTicketCell'>
               <p>{route.arrival.airport}</p>
             </td>

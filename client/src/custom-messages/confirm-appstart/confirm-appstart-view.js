@@ -2,9 +2,6 @@
 import React from 'react';
 import styled from '@emotion/styled'
 import { Card, Button } from 'antd';
-import {
-  createTextMessage,
-} from '../../utils/message-converter';
 
 
 const Container = styled.div`

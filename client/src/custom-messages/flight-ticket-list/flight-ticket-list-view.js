@@ -9,8 +9,6 @@ export default function FlightTicketListView({ m, registerFunc }) {
     contents,
   } = m.customMessage;
 
-  console.log(contents);
-
   return (
     <>
       {title && <div>{title}</div>}

@@ -1,14 +1,10 @@
 import React from 'react';
 
 import {
-  PDFViewer,
   Document,
   Page,
   Text,
-  View,
   StyleSheet,
-  BlobProvider,
-  PDFDownloadLink,
 } from "@react-pdf/renderer";
 
 export default function PurchasePdf({
