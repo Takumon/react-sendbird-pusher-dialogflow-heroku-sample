@@ -2,6 +2,10 @@
 import React from 'react';
 import styled from '@emotion/styled'
 import { Card, Button } from 'antd';
+import {
+  createTextMessage,
+} from '../../utils/message-converter';
+
 
 const Container = styled.div`
   text-align: left;
@@ -34,13 +38,13 @@ const Action = styled.div`
 
 
 
-export default function ConfirmationView({ m, answer, yesAction, noAction }) {
+export default function ConfirmAppStartView({ m, registerFunc, answer, yesAction, noAction }) {
   const {
     title,
-    contents,
-    text = 'デフォルト'
+    text,
   } = m.customMessage;
 
+  // テキストで返信してきた場合も何らか返せるようにする
   async function validateAndNext(value) {
     // TODO 
     if(value === 'はい') {
@@ -50,15 +54,13 @@ export default function ConfirmationView({ m, answer, yesAction, noAction }) {
     }
   }
 
-
   const ActionYes = (
     <Button
       type="primary"
       onClick={async (e) => {
-        const messageStr = 'はい';
-        // TODO 入力チェック
-        await answer(messageStr)
-        await validateAndNext(messageStr);
+        const ansMessage = 'はい';
+        await answer(ansMessage)
+        await validateAndNext(ansMessage)
       }}
     >はい</Button>
   );
@@ -66,11 +68,10 @@ export default function ConfirmationView({ m, answer, yesAction, noAction }) {
   const ActionNo = (
     <Button
       type="dainger"
-      onClick={async (e) => {
-        const messageStr = 'いいえ';
-        // TODO 入力チェック
-        await answer(messageStr)
-        await validateAndNext(messageStr);
+      onClick={e => {
+        const ansMessage = 'いいえ';
+        answer(ansMessage)
+        validateAndNext(ansMessage)
       }}
     >いいえ</Button>
   );
@@ -79,18 +80,7 @@ export default function ConfirmationView({ m, answer, yesAction, noAction }) {
     <Container>
       <Card title={title} >
         <Content>
-          <div>{text}</div>
-          <hr/>
-          <table>
-            <tbody>
-              {contents.map(d => (
-                <tr key={d.name} >
-                  <th>{d.name}</th>
-                  <td>{d.value}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+          {text}
         </Content>
 
         <Action>

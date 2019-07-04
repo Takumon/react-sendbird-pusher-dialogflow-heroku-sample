@@ -2,6 +2,15 @@ export { default as MessageTextView } from "./text-view";
 export { default as MessageTextFormCreate } from "./text-form-create";
 export { default as MessageTextFormUpdate } from "./text-form-update";
 
+export { default as MessageDepartureFormView } from "./departure-form-view";
+export { default as MessageArrivalFormView } from "./arrival-form-view";
+
+export { default as MessageConfirmAppStartView } from "./confirm-appstart/confirm-appstart-view";
+export { default as MessageConfirmAppStartCreate } from "./confirm-appstart/confirm-appstart-form-create";
+
+export { default as MessageConfirmAirLineView } from "./confirm-airline/confirm-airline-view";
+
+
 export { default as MessageLinkView } from "./link-view";
 export { default as MessageLinkFormCreate } from "./link-form-create";
 export { default as MessageLinkFormUpdate } from "./link-form-update";

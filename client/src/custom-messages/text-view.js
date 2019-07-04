@@ -2,11 +2,13 @@
 import React from 'react';
 import styled from '@emotion/styled'
 
-const Container = styled.div`
-  text-align: left;
-`;
 
-export default function TextView({ m }) {
+export default function TextView({ m, isAnswer }) {
+
+  const Container = styled.div`
+    text-align: ${isAnswer ? 'right' : 'left'};
+  `;
+
   return (
     <Container>
       {m.customMessage.text}

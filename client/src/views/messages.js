@@ -37,6 +37,7 @@ import {
   MessageFlightTicketPurchaseCreate,
   MessageFlightTicketPurchasePdfCreate,
   MessageWeatherBotCreate,
+  MessageConfirmAppStartCreate,
 } from '../custom-messages';
 
 const { Header, Content, Footer } = Layout;
@@ -289,18 +290,22 @@ export default function Messages({ userId }) {
               />
             )}
           </MessageArea>
+          <MessageConfirmAppStartCreate
+            registerFunc={registerFunc}
+            registerFileFunc={registerFileFunc}
+          />
           <MessageTextFormCreate
             registerFunc={registerFunc}
             registerFileFunc={registerFileFunc}
-            />
+          />
           <MessageLinkFormCreate
             registerFunc={registerFunc}
             registerFileFunc={registerFileFunc}
-            />
+          />
           <MessageImageFormCreate
             registerFunc={registerFunc}
             registerFileFunc={registerFileFunc}
-            />
+          />
           <MessageConfirmationCreate
             registerFunc={registerFunc}
             registerFileFunc={registerFileFunc}
@@ -308,23 +313,23 @@ export default function Messages({ userId }) {
           <MessageFlightTicketListCreate
             registerFunc={registerFunc}
             registerFileFunc={registerFileFunc}
-            />
+          />
           <MessageProfileCreate
             registerFunc={registerFunc}
             registerFileFunc={registerFileFunc}
-            />
+          />
           <MessageFlightSeatCreate
             registerFunc={registerFunc}
             registerFileFunc={registerFileFunc}
-            />
+          />
           <MessageFlightTicketPurchaseCreate
             registerFunc={registerFunc}
             registerFileFunc={registerFileFunc}
-            />
+          />
           <MessageFlightTicketPurchasePdfCreate
             registerFunc={registerFunc}
             registerFileFunc={registerFileFunc}
-            />
+          />
           <MessageWeatherBotCreate
             registerFunc={registerFunc}
             registerFileFunc={registerFileFunc}

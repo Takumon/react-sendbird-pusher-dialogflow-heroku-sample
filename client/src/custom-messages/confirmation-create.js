@@ -24,7 +24,8 @@ export default function ConfirmationCraete({ registerFunc }) {
   function action() {
     const messageStr = createConfirmationMessage(
       // title
-      'フライト予約',
+      'フライト予約内容',
+      '以下の内容でフライトを検索しますか？',
       // contents
       [
         { name: '国内線・国際線', value: '国際線' },
