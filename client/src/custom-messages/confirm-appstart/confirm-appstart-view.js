@@ -35,21 +35,12 @@ const Action = styled.div`
 
 
 
-export default function ConfirmAppStartView({ m, registerFunc, answer, yesAction, noAction }) {
+export default function ConfirmAppStartView({ m, answer }) {
   const {
     title,
     text,
   } = m.customMessage;
 
-  // テキストで返信してきた場合も何らか返せるようにする
-  async function validateAndNext(value) {
-    // TODO 
-    if(value === 'はい') {
-      await yesAction();
-    } else if (value === 'いいえ') {
-      await noAction();      
-    }
-  }
 
   const ActionYes = (
     <Button
@@ -57,7 +48,6 @@ export default function ConfirmAppStartView({ m, registerFunc, answer, yesAction
       onClick={async (e) => {
         const ansMessage = 'はい';
         await answer(ansMessage)
-        await validateAndNext(ansMessage)
       }}
     >はい</Button>
   );
@@ -68,7 +58,6 @@ export default function ConfirmAppStartView({ m, registerFunc, answer, yesAction
       onClick={e => {
         const ansMessage = 'いいえ';
         answer(ansMessage)
-        validateAndNext(ansMessage)
       }}
     >いいえ</Button>
   );

@@ -20,9 +20,48 @@ import {
   sendFileMessage,
 } from '../utils/sendbird';
 
+
 import {
+  MessageTextView,
+  MessageLinkView,
+  MessageImageView,
+
+  MessageConfirmAppStartView,
+  MessageConfirmAirLineView,
+  MessageDepartureFormView,
+  MessageArrivalFormView,
+  MessageConfirmationView,
+  MessageFlightTicketListView,
+  MessageProfileView,
+  MessageFlightSeatPreConfirmView,
+  MessageFlightSeatView,
+  MessageFlightSeatConfirmView,
+  MessageFlightTicketPurchasePreConfirmView,
+  MessageFlightTicketPurchaseView,
+  MessageFlightTicketPurchasePdfView,
+} from '../custom-messages';
+import {
+  toCustom,
+  CUSTOM_MESSAGE_TYPE,
   createTextMessage,
+  createAnswerMessage,
+  createConfirmMessage,
+  createConfirmAirLineMessage,
+  createDepartureFormMessage,
+  createArrivalFormMessage,
+  createConfirmationMessage,
+  createFlightTicketListMessage,
+  createFlightTicketAnswerMessage,
+  createFlightTicketConfirmMessage,
+  createProfileFormMessage,
+  createFlightSeatPreConfirmMessage,
+  createFlightSeatFormMessage,
+  createFlightSeatConfirmMessage,
+  createFlightTicketPurchasePreConfirmMessage,
+  createFlightTicketPurchaseMessage,
+  createFlightTicketPurchasePdfMessage,
 } from '../utils/message-converter';
+
 
 import {
   MessageWeatherBotCreate,
@@ -52,12 +91,91 @@ const HeaderTitle = styled.div`
 const MessageArea = styled.div`
 `;
 
+
+
+
+class FlightTicketRegisterBot {
+  constructor({
+    registerFunc,
+  }) {
+
+    class AppStart {
+      constructor(bot) {
+        console.log('セットするbot', bot);
+        this.bot = bot;
+      }
+
+      view = MessageConfirmAppStartView;
+
+      async next({ message, isValid }) {
+        console.log('question next', message, isValid)
+
+        if (isValid) {
+          await registerFunc(createConfirmAirLineMessage());
+          this.bot.setQuestion(new ConfirmAirLine())
+
+        } else {
+          console.log('TODO リトライする')
+          console.log('TODO 終了するにしても、ボットを外す処理を実行する')
+          await registerFunc(createTextMessage(
+            'いいえだったので処理を終了します'
+          ))  
+        }
+      }
+    };
+
+    class ConfirmAirLine {
+      constructor(bot) {
+        this.bot = bot;
+      }
+      
+      view = MessageConfirmAirLineView;
+
+      async next({ message, isValid }) {
+
+        if (isValid) {
+          await registerFunc(createDepartureFormMessage())
+          // this.bot.setQuestion()
+
+        } else {
+          console.log('TODO リトライする')
+          console.log('TODO 終了するにしても、ボットを外す処理を実行する')
+          await registerFunc(createTextMessage(
+            'いいえだったので処理を終了します'
+          ))  
+        }
+      }
+    }
+
+    registerFunc(createConfirmMessage(
+      '予約を開始しますか？',
+      'チャットから航空機件予約が行えます。航空機件予約を開始しますか？'
+    ));
+    this.question = new AppStart(this);
+  }
+
+  next({ message, isValid }) {
+    console.log('bot next', message, isValid)
+    if (!this.question) return;
+
+    this.question.next({message, isValid });
+  }
+
+  setQuestion(q) {
+    this.question = q;
+  }
+}
+
+
+
+
 export default function Messages({ userId }) {
   if (!userId) {
     console.log('Please set userId');
     history.push('/login')
   }
 
+  const [attachedBot, setAttachedBot] = useState(null);
   const [messages, setMessages] = useState([]);
   const [sb, setSb] = useState(null);
   const [channel, setChannel] = useState(null);
@@ -160,6 +278,24 @@ export default function Messages({ userId }) {
     });
   }
 
+  const execNextBotAction = useCallback(
+    async (message) => {
+      console.log('execNextBotAction', message, attachedBot)
+      if (!attachedBot) return;
+      console.log('バリデーションの仕組み')
+      attachedBot.next({ message, isValid: true });
+    },
+    [ attachedBot] ,
+  );
+
+  function detachBot() {
+    setAttachedBot(null);
+  }
+
+  function attachBot() {
+    setAttachedBot(new FlightTicketRegisterBot({ registerFunc }));
+  }
+
 
 
   useEffect(() => {
@@ -197,7 +333,15 @@ export default function Messages({ userId }) {
     const ChannelHandler = new sb.ChannelHandler();
   
     // Add event handlers for sync in other browser
-    ChannelHandler.onMessageReceived = (_, message) => addMessageInModel(message);
+    ChannelHandler.onMessageReceived = (_, message) => {
+      // ChatBot has to reaction
+      addMessageInModel(message);
+
+      console.log('execNextBotAction', message, attachedBot)
+      if (!attachedBot) return;
+      console.log('バリデーションの仕組み')
+      attachedBot.next({ message, isValid: true });
+    };
     ChannelHandler.onMessageUpdated = (_, message) => updateMessageInModel(message);
     ChannelHandler.onMessageDeleted = (_, messageId) => deleteMessageInModel(messageId);
     console.log('addChannelHandler')
@@ -210,7 +354,7 @@ export default function Messages({ userId }) {
       sb.removeChannelHandler(EVENT_HANDLER_ID);
     }
 
-  }, [sb, channel])
+  }, [sb, channel, attachedBot])
 
 
 
@@ -242,7 +386,16 @@ export default function Messages({ userId }) {
   }, [pusherChannel, channel, registerFunc])
   
 
-
+  const UserId = styled.div`
+    font-size: 12px;
+    z-index: 12;
+    color: white;
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 12px;
+    height: 64px;
+  `;
   
   return (
     <Layout>
@@ -250,6 +403,18 @@ export default function Messages({ userId }) {
         <HeaderTitle>
           航空券予約
         </HeaderTitle>
+        { attachedBot ? (
+          <Button onClick={detachBot} >
+            Detach Bot
+          </Button>
+        ) : (
+          <Button onClick={attachBot} >
+            Attach Bot
+          </Button>
+        )}
+        <UserId>
+          { userId }
+        </UserId>
         {/* <Link to='/login'>
           <Button>
             Logout

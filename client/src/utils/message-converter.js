@@ -51,10 +51,10 @@ export function createAnswerMessage(text, questionType) {
   });
 }
 
-export function createDepartureFormMessage(text) {
+export function createDepartureFormMessage() {
   return JSON.stringify({
     type: CUSTOM_MESSAGE_TYPE.DEPARTURE_FORM,
-    text,
+    text: '出発の地域はどこでしょうか',
   });
 }
 
@@ -92,11 +92,11 @@ export function createConfirmMessage(title, text) {
   });
 }
 
-export function createConfirmAirLineMessage(title, text) {
+export function createConfirmAirLineMessage() {
   return JSON.stringify({
     type: CUSTOM_MESSAGE_TYPE.CONFIRM_AIR_LINE,
-    title,
-    text,
+    title: '国内線/国際線',
+    text: '国内線と国際線のどちらですか？',
   });
 }
 

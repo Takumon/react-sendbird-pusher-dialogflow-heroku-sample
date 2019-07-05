@@ -162,26 +162,11 @@ function CustomMessageView({
       return (
         <MessageConfirmAppStartView
           m={message}
-          registerFunc={registerFunc}
-
           answer={(value) => {
             registerFunc(createAnswerMessage(
               value,
               CUSTOM_MESSAGE_TYPE.CONFIRM
             ));
-          }}
-
-          yesAction={() => {
-            registerFunc(createConfirmAirLineMessage(
-              '国内線/国際線',
-              '国内線と国際線のどちらですか？'
-            ))
-          }}
-
-          noAction={() => {
-            registerFunc(createTextMessage(
-              'いいえだったので処理を終了します'
-            ))
           }}
         />
       );
@@ -197,16 +182,6 @@ function CustomMessageView({
               value,
               CUSTOM_MESSAGE_TYPE.CONFIRM_AIR_LINE
             ));
-          }}
-
-          validAction={(value) => {
-            registerFunc(createDepartureFormMessage(
-              '出発の地域はどこでしょうか',
-            ))
-          }}
-
-          invalidAction={(value) => {
-            // TODO 実装
           }}
         />
       );
