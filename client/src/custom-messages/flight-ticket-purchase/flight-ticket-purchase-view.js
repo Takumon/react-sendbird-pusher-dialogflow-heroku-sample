@@ -7,72 +7,6 @@ import {
 } from '../../utils/message-converter';
 
 
-const Container = styled.div`
-  width: 100%;
-  background: white;
-  border-radius: 0.5rem;
-  box-shadow: 0 0 2px 0px #DDD;
-  display: inline-block;
-  margin: 0.25rem 0.5rem;
-  overflow: hidden;
-  width: 300px;
-  text-align: left;
-
-  .header {
-    height: 20px;
-    background-color: #00539C;
-    color: white;
-    padding: 10px;
-    
-    span {
-      float: left;
-    }
-    
-    span.date {
-      float: right;
-      background-color: #236BA4;
-      border-radius: 5px;
-      padding: 5px;
-      font-size: 10px;
-    }
-  }
-
-  .content {
-    padding: 10px;
-    
-    hr {
-      border-style: solid;
-      border-color: #DBDBDB;
-    }
-    
-    table {
-      width: 100%;
-    }
-    
-    td {
-      text-align: right;
-    }
-  }
-
-  .footer {
-    background-color: #FAFAFA;
-    height: 20px;
-    padding: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    cursor: pointer;
-
-    span {
-      color: #58646D;
-    }
-  }
-
-  .confirmed {
-    cursor: default;
-  }
-`;
-
 
 export default function FlightSeatView({ m, registerFunc, answer, yesAction, noAction }) {
   const {
@@ -103,6 +37,79 @@ export default function FlightSeatView({ m, registerFunc, answer, yesAction, noA
     await answer(order);
     await yesAction();
   }
+
+
+
+
+
+
+
+const Container = styled.div`
+width: 100%;
+background: white;
+border-radius: 0.5rem;
+box-shadow: 0 0 2px 0px #DDD;
+display: inline-block;
+margin: 0.25rem 0.5rem;
+margin-left: ${ confirmed > 0 ? 'auto' : '0.5rem' };
+overflow: hidden;
+width: 300px;
+text-align: left;
+
+.header {
+  height: 20px;
+  background-color: #00539C;
+  color: white;
+  padding: 10px;
+  
+  span {
+    float: left;
+  }
+  
+  span.date {
+    float: right;
+    background-color: #236BA4;
+    border-radius: 5px;
+    padding: 5px;
+    font-size: 10px;
+  }
+}
+
+.content {
+  padding: 10px;
+  
+  hr {
+    border-style: solid;
+    border-color: #DBDBDB;
+  }
+  
+  table {
+    width: 100%;
+  }
+  
+  td {
+    text-align: right;
+  }
+}
+
+.footer {
+  background-color: #FAFAFA;
+  height: 20px;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+
+  span {
+    color: #58646D;
+  }
+}
+
+.confirmed {
+  cursor: default;
+}
+`;
 
   try {
     const footer =
@@ -138,7 +145,11 @@ export default function FlightSeatView({ m, registerFunc, answer, yesAction, noA
 
     return (
       <>
-        {title && <div>{title}</div>}
+        <div
+          style={{ textAlign: confirmed ? 'right' : 'left' }}
+        >
+          {title && <div>{title}</div>}
+        </div>
         <Container>
           <div className="header">
             <span>航空券購入</span>

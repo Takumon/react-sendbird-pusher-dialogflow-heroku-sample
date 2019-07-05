@@ -18,7 +18,9 @@ export default function FlightTicketPurchasePdfView({ m, registerFunc }) {
 
   return (
     <>
-      {title && <div>{title}</div>}
+      <div style={{ textAlign: 'left', }} >
+        {title && <div>{title}</div>}
+      </div>
       <PDFDownloadLink document={pdf} fileName="e-ticket.pdf">
         {({ blob, url, loading, error }) => loading ? 'Loading e-ticket...' : 'Download e-ticket'}
       </PDFDownloadLink>

@@ -101,7 +101,7 @@ export default function FlightSeatView({ m, registerFunc, isAnswer, answer, yesA
     return (
       <>
         <div
-          styele={{ textAlign: isAnswer ? 'right' : 'left' }}
+          style={{ textAlign: seats && seats.length > 0 ? 'right' : 'left' }}
         >
           {title && <div>{title}</div>}
         </div>
