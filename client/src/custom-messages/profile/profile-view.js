@@ -35,7 +35,7 @@ const Action = styled.div`
   }
 `;
 
-export default function ProfileView({ m, registerFunc }) {
+export default function ProfileView({ m, registerFunc, yesAction, noAction }) {
 
   // const [id ] = useState('');
   // const [leadId ] = useState('');
@@ -48,6 +48,7 @@ export default function ProfileView({ m, registerFunc }) {
   const [isSubmitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
+  
   useEffect(() => {
     let unmounted = false;
 
@@ -157,7 +158,7 @@ export default function ProfileView({ m, registerFunc }) {
             registerFunc(createTextMessage('ご予約が確定しました。'));
 
             setTimeout(() => {
-              registerFunc(createTextMessage('引き続きお座席を指定しますか？'));
+              yesAction()
             }, 100)
           }, 1000)
 
@@ -193,6 +194,8 @@ export default function ProfileView({ m, registerFunc }) {
 
   try {
     return (
+      <>
+      <div style={{textAlign: 'left'}}>{m.customMessage.title}</div>
       <Container>
         <Card title={<><FontAwesomeIcon icon='bars' /> お客様情報</>} >
           <Content>
@@ -282,6 +285,7 @@ export default function ProfileView({ m, registerFunc }) {
           </Action>
         </Card>
       </Container>
+      </>
     );
   } catch (e) {
     console.log(e);

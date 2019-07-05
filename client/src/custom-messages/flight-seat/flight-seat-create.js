@@ -5,7 +5,7 @@ import {
   Button,
 } from 'antd';
 import {
-  createFlightSeatMessage,
+  createFlightSeatFormMessage,
 } from '../../utils/message-converter';
 
 const Container = styled.div`
@@ -21,7 +21,7 @@ const ButtonArea = styled.div`
 export default function FlightSeatCreate({ registerFunc }) {
 
   function action() {
-    const messageStr = createFlightSeatMessage(
+    const messageStr = createFlightSeatFormMessage(
       '座席を選択してください。',
     );
     registerFunc(messageStr);

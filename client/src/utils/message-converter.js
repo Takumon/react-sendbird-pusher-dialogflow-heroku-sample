@@ -11,8 +11,13 @@ export const CUSTOM_MESSAGE_TYPE = {
   ANSWER: 'ANSWER',
   CONFIRMATION: 'CONFIRMATION',
   FLIGHT_TICKET_LIST: 'FLIGHT_TICKET_LIST',
+  FLIGHT_TICKET_ANSWER: 'FLIGHT_TICKET_ANSWER',
+  FLIGHT_TICKET_CONFIRM: 'FLIGHT_TICKET_CONFIRM',
   PROFILE_FORM: 'PROFILE_FORM',
+  FLIGHT_SEAT_PRE_CONFIRM: 'FLIGHT_SEAT_PRE_CONFIRM', 
   FLIGHT_SEAT_FORM: 'FLIGHT_SEAT_FORM',
+  FLIGHT_SEAT_CONFIRM: 'FLIGHT_SEAT_CONFIRM',
+  FLIGHT_TICKET_PURCHASE_PRE_CONFIRM: 'FLIGHT_TICKET_PURCHASE_PRE_CONFIRM',
   FLIGHT_TICKET_PURCHASE_FORM: 'FLIGHT_TICKET_PURCHASE_FORM',
   FLIGHT_TICKET_PURCHASE_PDF: 'FLIGHT_TICKET_PURCHASE_PDF',
 };
@@ -48,22 +53,35 @@ export function createAnswerMessage(text, questionType) {
   });
 }
 
-export function createDepartureFormMessage(text, questionType) {
+export function createDepartureFormMessage(text) {
   return JSON.stringify({
     type: CUSTOM_MESSAGE_TYPE.DEPARTURE_FORM,
-    questionType,
     text,
   });
 }
 
-export function createArrivalFormMessage(text, questionType) {
+export function createArrivalFormMessage(text) {
   return JSON.stringify({
     type: CUSTOM_MESSAGE_TYPE.ARRIVAL_FORM,
-    questionType,
     text,
   });
 }
 
+export function createFlightSeatConfirmMessage(text, seat) {
+  return JSON.stringify({
+    type: CUSTOM_MESSAGE_TYPE.FLIGHT_SEAT_CONFIRM,
+    text,
+    seat,
+  });
+}
+
+
+export function createFlightSeatPreConfirmMessage(text) {
+  return JSON.stringify({
+    type: CUSTOM_MESSAGE_TYPE.FLIGHT_SEAT_PRE_CONFIRM,
+    text,
+  });
+}
 
 
 
@@ -119,6 +137,25 @@ export function createFlightTicketListMessage(title, contents) {
   });
 }
 
+export function createFlightTicketAnswerMessage(title, contents, questionType) {
+  return JSON.stringify({
+    type: CUSTOM_MESSAGE_TYPE.FLIGHT_TICKET_ANSWER,
+    title,
+    contents,
+    questionType,
+  });
+}
+
+
+export function createFlightTicketConfirmMessage(title, contents) {
+  return JSON.stringify({
+    type: CUSTOM_MESSAGE_TYPE.FLIGHT_TICKET_CONFIRM,
+    title,
+    contents,
+  });
+}
+
+
 export function createProfileFormMessage(title) {
   return JSON.stringify({
     type: CUSTOM_MESSAGE_TYPE.PROFILE_FORM,
@@ -126,13 +163,22 @@ export function createProfileFormMessage(title) {
   });
 }
 
-export function createFlightSeatMessage(title, contents) {
+export function createFlightSeatFormMessage(title, contents) {
   return JSON.stringify({
     type: CUSTOM_MESSAGE_TYPE.FLIGHT_SEAT_FORM,
     title,
     contents,
   });
 }
+
+
+export function createFlightTicketPurchasePreConfirmMessage(text) {
+  return JSON.stringify({
+    type: CUSTOM_MESSAGE_TYPE.FLIGHT_TICKET_PURCHASE_PRE_CONFIRM,
+    text,
+  });
+}
+
 
 
 export function createFlightTicketPurchaseMessage(title, contents) {

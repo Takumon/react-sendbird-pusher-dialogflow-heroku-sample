@@ -74,7 +74,7 @@ const Container = styled.div`
 `;
 
 
-export default function FlightSeatView({ m, registerFunc }) {
+export default function FlightSeatView({ m, registerFunc, answer, yesAction, noAction }) {
   const {
     title,
     contents,
@@ -91,7 +91,7 @@ export default function FlightSeatView({ m, registerFunc }) {
   const [isShowModal, setShowModal] = useState(false);
 
 
-  function purchase() {
+  async function purchase() {
     setShowModal(false);
 
     const order = Object.assign(
@@ -99,11 +99,9 @@ export default function FlightSeatView({ m, registerFunc }) {
       { confirmed: true }
     );
 
-    const messageStr = createFlightTicketPurchaseMessage(
-      undefined,
-      { order },
-    );
-    registerFunc(messageStr);
+    // 精算処理
+    await answer(order);
+    await yesAction();
   }
 
   try {

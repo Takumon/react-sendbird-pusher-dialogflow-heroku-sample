@@ -24,17 +24,7 @@ import {
   createTextMessage,
 } from '../utils/message-converter';
 
-
 import {
-  MessageTextFormCreate,
-  MessageLinkFormCreate,
-  MessageImageFormCreate,
-  MessageConfirmationCreate,
-  MessageFlightTicketListCreate,
-  MessageProfileCreate,
-  MessageFlightSeatCreate,
-  MessageFlightTicketPurchaseCreate,
-  MessageFlightTicketPurchasePdfCreate,
   MessageWeatherBotCreate,
   MessageConfirmAppStartCreate,
 } from '../custom-messages';
@@ -289,42 +279,7 @@ export default function Messages({ userId }) {
             registerFunc={registerFunc}
             registerFileFunc={registerFileFunc}
           />
-          <MessageTextFormCreate
-            registerFunc={registerFunc}
-            registerFileFunc={registerFileFunc}
-          />
-          <MessageLinkFormCreate
-            registerFunc={registerFunc}
-            registerFileFunc={registerFileFunc}
-          />
-          <MessageImageFormCreate
-            registerFunc={registerFunc}
-            registerFileFunc={registerFileFunc}
-          />
-          <MessageConfirmationCreate
-            registerFunc={registerFunc}
-            registerFileFunc={registerFileFunc}
-            />
-          <MessageFlightTicketListCreate
-            registerFunc={registerFunc}
-            registerFileFunc={registerFileFunc}
-          />
-          <MessageProfileCreate
-            registerFunc={registerFunc}
-            registerFileFunc={registerFileFunc}
-          />
-          <MessageFlightSeatCreate
-            registerFunc={registerFunc}
-            registerFileFunc={registerFileFunc}
-          />
-          <MessageFlightTicketPurchaseCreate
-            registerFunc={registerFunc}
-            registerFileFunc={registerFileFunc}
-          />
-          <MessageFlightTicketPurchasePdfCreate
-            registerFunc={registerFunc}
-            registerFileFunc={registerFileFunc}
-          />
+
           <MessageWeatherBotCreate
             registerFunc={registerFunc}
             registerFileFunc={registerFileFunc}

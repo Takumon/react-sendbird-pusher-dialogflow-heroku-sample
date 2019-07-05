@@ -86,26 +86,22 @@ const FlightTickets = styled.div`
 
 export default function CarouselCell(props) {
   const {
-    // id,
+    id,
     date,
     routes,
+    price,
+    time,
+    milage,
     selectable,
-    // registerFunc,
+    
+    answer,
+    yesAction,
   } = props;
   
   const [isShowDetail, setShowDetail] = useState(false);
 
-  function selectFlight() {
+  async function selectFlight() {
     setShowDetail(false);
-
-    const {
-      id,
-      date,
-      routes,
-      price,
-      time,
-      milage,
-    } = props;
 
     const cards = [
       Object.assign({
@@ -122,9 +118,8 @@ export default function CarouselCell(props) {
     ];
 
     console.log('君に決めた！っていうメッセージを次に送る', cards);
-    // const parts = messagePartsForFlightTicketList(cards);
-    // composer.send(parts);
-    // registerFunc()でやる
+    await answer(cards);
+    await yesAction(cards)
   }
 
 

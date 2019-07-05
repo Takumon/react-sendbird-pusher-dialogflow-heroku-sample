@@ -10,6 +10,11 @@ export { default as MessageConfirmAppStartCreate } from "./confirm-appstart/conf
 
 export { default as MessageConfirmAirLineView } from "./confirm-airline/confirm-airline-view";
 
+export { default as MessageFlightSeatPreConfirmView } from "./flight-seat-pre-confirm-view";
+export { default as MessageFlightSeatConfirmView } from "./flight-seat-confirm-view";
+
+export { default as MessageFlightTicketPurchasePreConfirmView } from "./flight-ticket-purchase-pre-confirm-view";
+
 
 export { default as MessageLinkView } from "./link-view";
 export { default as MessageLinkFormCreate } from "./link-form-create";

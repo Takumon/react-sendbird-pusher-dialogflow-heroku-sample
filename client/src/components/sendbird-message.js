@@ -18,7 +18,10 @@ import {
   MessageConfirmationView,
   MessageFlightTicketListView,
   MessageProfileView,
+  MessageFlightSeatPreConfirmView,
   MessageFlightSeatView,
+  MessageFlightSeatConfirmView,
+  MessageFlightTicketPurchasePreConfirmView,
   MessageFlightTicketPurchaseView,
   MessageFlightTicketPurchasePdfView,
 } from '../custom-messages';
@@ -31,7 +34,16 @@ import {
   createDepartureFormMessage,
   createArrivalFormMessage,
   createConfirmationMessage,
-  createFlightTicketListMessage
+  createFlightTicketListMessage,
+  createFlightTicketAnswerMessage,
+  createFlightTicketConfirmMessage,
+  createProfileFormMessage,
+  createFlightSeatPreConfirmMessage,
+  createFlightSeatFormMessage,
+  createFlightSeatConfirmMessage,
+  createFlightTicketPurchasePreConfirmMessage,
+  createFlightTicketPurchaseMessage,
+  createFlightTicketPurchasePdfMessage,
 } from '../utils/message-converter';
 
 
@@ -316,7 +328,7 @@ function CustomMessageView({
           }}
         />
       );
-      
+
 
       case CUSTOM_MESSAGE_TYPE.CONFIRMATION:
         return (
@@ -453,20 +465,125 @@ function CustomMessageView({
           />
         );
     
-    case CUSTOM_MESSAGE_TYPE.FLIGHT_TICKET_LIST:
-      return (
-        <MessageFlightTicketListView
-          m={message}
-          registerFunc={registerFunc}
-        />
-      );
 
+
+      case CUSTOM_MESSAGE_TYPE.FLIGHT_TICKET_LIST:
+        return (
+          <MessageFlightTicketListView
+            m={message}
+            registerFunc={registerFunc}
+            answer={async (cards) => {
+              await registerFunc(createFlightTicketAnswerMessage(
+                'こちらのフライトを希望します。',
+                cards,
+                CUSTOM_MESSAGE_TYPE.FLIGHT_TICKET
+              ));
+            }}
+  
+            yesAction={async (cards) => {
+              // TODO 入力値をキャッシュして、キャッシュした値を代入
+              const messageStr = createFlightTicketConfirmMessage(
+                'ご希望のフライトは以下で間違いないでしょうか。',
+                cards,
+              );
+              await registerFunc(messageStr);
+            }}
+  
+            noAction={async () => {
+              await registerFunc(createTextMessage(
+                'いいえだったので処理を終了します'
+              ))
+            }}
+          />
+        );
+  
+    case CUSTOM_MESSAGE_TYPE.FLIGHT_TICKET_ANSWER:
+        return (
+          <MessageFlightTicketListView
+            m={message}
+            isAnswer={true}
+          />
+        );
+
+    case CUSTOM_MESSAGE_TYPE.FLIGHT_TICKET_CONFIRM:
+        return (
+          <MessageFlightTicketListView
+            isConfirm={true}
+            m={message}
+            answer={async (cards) => {
+              await registerFunc(createAnswerMessage(
+                'はい',
+                CUSTOM_MESSAGE_TYPE.FLIGHT_TICKET_CONFIRM
+              ));
+            }}
+
+            yesAction={(cards) => {
+              // TODO 入力値をキャッシュして、キャッシュした値を代入
+              const messageStr = createProfileFormMessage(
+                '次にお客様の情報をお伺いします。',
+              );
+              registerFunc(messageStr);
+            }}
+  
+            noAction={async () => {
+              await registerFunc(createTextMessage(
+                'いいえだったので処理を終了します'
+              ))
+            }}
+
+          />
+        );
+    
     case CUSTOM_MESSAGE_TYPE.PROFILE_FORM:
       return (
         <MessageProfileView
           m={message}
           registerFunc={registerFunc}
+
+          yesAction={async () => {
+            // TODO 入力値をキャッシュして、キャッシュした値を代入
+            const messageStr = createFlightSeatPreConfirmMessage(
+              '引き続き、お座席を指定しますか？',
+            );
+            await registerFunc(messageStr);
+          }}
+
+          noAction={async () => {
+            await registerFunc(createTextMessage(
+              'いいえだったので処理を終了します'
+            ))
+          }}
         />
+      );
+
+    case CUSTOM_MESSAGE_TYPE.FLIGHT_SEAT_PRE_CONFIRM:
+      return (
+        <MessageFlightSeatPreConfirmView
+          m={message}
+          registerFunc={registerFunc}
+          answer={async (value) => {
+            await registerFunc(createAnswerMessage(
+              value,
+              CUSTOM_MESSAGE_TYPE.FLIGHT_SEAT_PRE_CONFIRM
+            ));
+          }}
+
+          yesAction={async () => {
+            // TODO 入力値をキャッシュして、キャッシュした値を代入
+            const messageStr = createFlightSeatFormMessage(
+              '座席を選択してください。',
+            );
+            await registerFunc(messageStr);
+          }}
+
+          noAction={async () => {
+            await registerFunc(createTextMessage(
+              'いいえだったので処理を終了します'
+            ))
+          }}
+        />
+
+
       );
 
     case CUSTOM_MESSAGE_TYPE.FLIGHT_SEAT_FORM:
@@ -474,14 +591,137 @@ function CustomMessageView({
         <MessageFlightSeatView
           m={message}
           registerFunc={registerFunc}
+          answer={async (value) => {
+            const messageStr = createFlightSeatFormMessage(
+              undefined,
+              {
+                seats: [value],
+              },
+            );
+            await registerFunc(messageStr);
+          }}
+
+          yesAction={async (seat) => {
+            // TODO 入力値をキャッシュして、キャッシュした値を代入
+            const messageStr = createFlightSeatConfirmMessage(
+              '以下の座席でよろしいですか。',
+              seat,
+            );
+            await registerFunc(messageStr);
+          }}
+
+          noAction={async () => {
+            await registerFunc(createTextMessage(
+              'いいえだったので処理を終了します'
+            ))
+          }}
+
         />
       );
 
+    case CUSTOM_MESSAGE_TYPE.FLIGHT_SEAT_CONFIRM:
+      return (
+        <MessageFlightSeatConfirmView
+          m={message}
+          registerFunc={registerFunc}
+          answer={async (value) => {
+            await registerFunc(createAnswerMessage(
+              value,
+              CUSTOM_MESSAGE_TYPE.FLIGHT_SEAT_CONFIRM
+            ));
+          }}
+
+          yesAction={async () => {
+            // TODO 入力値をキャッシュして、キャッシュした値を代入
+            const messageStr = createFlightTicketPurchasePreConfirmMessage(
+              '引き続き購入手続きを行いますか?',
+            );
+            await registerFunc(messageStr);
+          }}
+
+          noAction={async () => {
+            await registerFunc(createTextMessage(
+              'いいえだったので処理を終了します'
+            ))
+          }}
+        />  
+      );
+
+    case CUSTOM_MESSAGE_TYPE.FLIGHT_TICKET_PURCHASE_PRE_CONFIRM:
+      return (
+        <MessageFlightTicketPurchasePreConfirmView
+          m={message}
+          registerFunc={registerFunc}
+          answer={async (value) => {
+            await registerFunc(createAnswerMessage(
+              value,
+              CUSTOM_MESSAGE_TYPE.FLIGHT_TICKET_PURCHASE_PRE_CONFIRM
+            ));
+          }}
+
+          yesAction={async () => {
+            // TODO 入力値をキャッシュして、キャッシュした値を代入
+            const messageStr = createFlightTicketPurchaseMessage(
+              '購入手続きをしてください。',
+              { order:
+                {
+                  price: '￥98,000',
+                  tax: '￥0',
+                  amount: '￥98,000',
+                  date: '12/30(月)',
+                  confirmed: false,
+                }
+              },        
+            );
+            await registerFunc(messageStr);
+          }}
+
+          noAction={async () => {
+            await registerFunc(createTextMessage(
+              'いいえだったので処理を終了します'
+            ))
+          }}
+        />
+
+
+      );
+    
+    
     case CUSTOM_MESSAGE_TYPE.FLIGHT_TICKET_PURCHASE_FORM:
       return (
         <MessageFlightTicketPurchaseView
           m={message}
           registerFunc={registerFunc}
+          answer={async (value) => {
+            const messageStr = createFlightTicketPurchaseMessage(
+              undefined,
+              { order: value },
+            );
+            await registerFunc(messageStr);        
+          }}
+
+          yesAction={async () => {
+            // TODO 入力値をキャッシュして、キャッシュした値を代入
+            const messageStr = createFlightTicketPurchasePdfMessage(
+              'お支払いが完了しました。お客様のe-ticketです。',
+              { order:
+                {
+                  price: '￥98,000',
+                  tax: '￥0',
+                  amount: '￥98,000',
+                  date: '12/30(月)',
+                }
+              }
+            );
+            await registerFunc(messageStr);
+            await registerFunc(createTextMessage('ご予約を終了いたします。引き続き質問等があればオペレーターが対応いたします。ありがとうございました。'));
+          }}
+
+          noAction={async () => {
+            await registerFunc(createTextMessage(
+              'いいえだったので処理を終了します'
+            ))
+          }}
         />
       );
 
@@ -510,6 +750,7 @@ function CustomMessageView({
       //     }),
       //   }} />
       // );
+      console.log(m);
       throw new Error(`Invalid message type = ${m.type}`)
   }
 }
