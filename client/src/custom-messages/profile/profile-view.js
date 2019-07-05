@@ -293,7 +293,6 @@ export default function ProfileView({ m, registerFunc, yesAction, noAction }) {
   }
 }
 
-
 // TODO Export other file
 // function stripPrefix(prefixedLayerID) {
 //   const pieces = prefixedLayerID.split('/');

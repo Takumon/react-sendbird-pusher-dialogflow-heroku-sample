@@ -50,10 +50,6 @@ const HeaderTitle = styled.div`
   float: left;
 `;
 const MessageArea = styled.div`
-  div {
-    margin-bottom: 4px;
-  }
-  
 `;
 
 export default function Messages({ userId }) {
@@ -252,13 +248,13 @@ export default function Messages({ userId }) {
     <Layout>
       <Header>
         <HeaderTitle>
-          Message
+          航空券予約
         </HeaderTitle>
-        <Link to='/login'>
+        {/* <Link to='/login'>
           <Button>
             Logout
           </Button>
-        </Link>
+        </Link> */}
       </Header>
       <Content>
         <Container>

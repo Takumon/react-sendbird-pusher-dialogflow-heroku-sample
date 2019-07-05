@@ -7,51 +7,6 @@ import {
 import FlightSeatFullScreen from './flight-seat-fullscreen';
 import SelectSeatsCardSvg from '../../images/select-seats-card.svg';
 
-const Container = styled.div`
-  background: white;
-  border-radius: 0.5rem;
-  box-shadow: 0 0 2px 0px #DDD;
-  display: inline-block;
-  margin: 0.25rem 0.5rem;
-  overflow: hidden;
-  width: 300px;
-  background-image: url(${SelectSeatsCardSvg});
-  background-size: 100% auto;
-
-  .selectedSeat {
-    width: 100%;
-    padding-left: 20px;
-    display: table-cell;
-    vertical-align: middle;
-    height: 80px;
-
-    span {
-      display: flex;
-      align-items: center;
-      font-size: 15px;
-    
-      svg {
-        margin-right: 10px;
-      }
-    }
-  }
-
-  .selectSeatLabel {
-    width: 100%;
-    background-color: #026CAB;
-
-    span {
-      width: 100%;
-      display: inline-block;
-      color: white;
-      text-align: center;
-      vertical-align: middle;
-      margin: 10px 0;
-      cursor: pointer;
-    }
-  }
-`;
-
 
 export default function FlightSeatView({ m, registerFunc, isAnswer, answer, yesAction }) {
 
@@ -68,9 +23,54 @@ export default function FlightSeatView({ m, registerFunc, isAnswer, answer, yesA
     await yesAction(seat);
   }
 
-  try {
-    const seats = contents && contents.seats;
+  const seats = contents && contents.seats;
+  const Container = styled.div`
+    background: white;
+    border-radius: 0.5rem;
+    box-shadow: 0 0 2px 0px #DDD;
+    display: inline-block;
+    margin: 0.25rem 0.5rem;
+    margin-left: ${ seats && seats.length > 0 ? 'auto' : '0.5rem' };
+    overflow: hidden;
+    width: 300px;
+    background-image: url(${SelectSeatsCardSvg});
+    background-size: 100% auto;
 
+    .selectedSeat {
+      width: 100%;
+      padding-left: 20px;
+      display: table-cell;
+      vertical-align: middle;
+      height: 80px;
+
+      span {
+        display: flex;
+        align-items: center;
+        font-size: 15px;
+      
+        svg {
+          margin-right: 10px;
+        }
+      }
+    }
+
+    .selectSeatLabel {
+      width: 100%;
+      background-color: #026CAB;
+
+      span {
+        width: 100%;
+        display: inline-block;
+        color: white;
+        text-align: center;
+        vertical-align: middle;
+        margin: 10px 0;
+        cursor: pointer;
+      }
+    }
+    `;
+
+  try {
     const selectedSeats = (
       <Container>
         <div className='selectedSeat'>
@@ -100,7 +100,11 @@ export default function FlightSeatView({ m, registerFunc, isAnswer, answer, yesA
 
     return (
       <>
-        {title && <div>{title}</div>}
+        <div
+          styele={{ textAlign: isAnswer ? 'right' : 'left' }}
+        >
+          {title && <div>{title}</div>}
+        </div>
         {selectedSeats}
         { isShowDetail 
           ? (

@@ -1,20 +1,15 @@
-import React, { useState  } from 'react';
+import React from 'react';
 import styled from '@emotion/styled'
-import { 
-  Button,
-} from 'antd';
+import { Button, Menu, Dropdown, Icon } from 'antd';
 import {
+  MessageTextView,
+  MessageLinkView,
+  MessageImageView,
+
   MessageConfirmAppStartView,
   MessageConfirmAirLineView,
   MessageDepartureFormView,
   MessageArrivalFormView,
-
-  MessageTextView,
-  MessageTextFormUpdate,
-  MessageLinkView,
-  MessageLinkFormUpdate,
-  MessageImageView,
-  MessageImageFormUpdate,
   MessageConfirmationView,
   MessageFlightTicketListView,
   MessageProfileView,
@@ -45,132 +40,84 @@ import {
   createFlightTicketPurchaseMessage,
   createFlightTicketPurchasePdfMessage,
 } from '../utils/message-converter';
-
+import BotAvatorIcon from '../images/bot.png';
+import MineAvatorIcon from '../images/mine.png';
 
 const Container = styled.div`
   display: flex;
   align-items: stretch;
+  margin-bottom: 36px;
 `;
 
+const MessageArea = styled.div`
+  position: relative;
+  flex-grow: 1;
+  margin-right: 1rem;
+  display: flex;
+  flex-direction: column;
+`;
 
-const AvatorArea = styled.div`
+const Avator = styled.img`
   width: 36px;
-  border-radius: 16px;
+  height: 36px;
+  border-radius: 18px;
   border: 1px solid gray;
   overflow: hidden;
   margin-right: 1rem;
 `;
 
-const MessageArea = styled.div`
-  flex-grow: 1;
-  margin-right: 1rem;
-`;
-
-const ButtonArea = styled.div`
-`;
 
 export default function SendBirdMessage({
   m,
   viewerUserId,
   registerFunc,
   registerFileFunc,
-  updateFunc,
   deleteFunc
 }) {
-  const [editable, setEditable] = useState(false);
 
-  const postUser = m.sender.userId === viewerUserId
-    ? 'Mine'
-    : m.sender.userId;
+  const menu = (
+    <Menu>
+      <Menu.Item key="0">
+        <Button
+            onClick={() => deleteFunc(m)}
+            type="danger"
+        >DELETE</Button>
+      </Menu.Item>
+    </Menu>
+  );
+
+  const dropdown = (
+    <div style={{
+      position: 'absolute',
+      top: '6px',
+      right: '-24px',
+    }} >
+      <Dropdown overlay={menu} placement="bottomRight" >
+        <a target="_blank" rel="noopener noreferrer" href="#">
+          <Icon type="more" />
+        </a>
+      </Dropdown>
+    </div>
+  );
 
   return (
-      <Container>
-        <AvatorArea>
-          {postUser}
-        </AvatorArea>
-        {editable
-          ? (
-            <CustomMessageFormUpdate
-              m={m}
-              updateFunc={updateFunc}
-              cancelFunc={() => {
-                console.log('falseにする')
-                setEditable(false);
-              }}
-            />
-          )
-          : (<>
-            <MessageArea>
-              <CustomMessageView
-                m={m}
-                registerFunc={registerFunc}
-                viewerUserId={viewerUserId}
-              />
-            </MessageArea>
-            <ButtonArea>
-              <Button
-                onClick={() => {
-                  console.log('trueにする')
-                  setEditable(true);
-                }} 
-              >EDITE</Button>
-              <Button
-                onClick={() => deleteFunc(m)}
-                type="danger"
-              >DELETE</Button>
-            </ButtonArea>
-          </>)
-        }
-      </Container>
+    <Container>
+      <Avator
+        alt="avator"
+        src={m.sender.userId === 'inouetakumon@gmail.com' ? BotAvatorIcon : MineAvatorIcon }
+      />
+      <MessageArea>
+        <CustomMessageView
+          m={m}
+          registerFunc={registerFunc}
+          viewerUserId={viewerUserId}
+        />
+        {dropdown}
+      </MessageArea>
+    </Container>
   );
 }
 
-
-function CustomMessageFormUpdate({
-  m,
-  updateFunc,
-  cancelFunc,
-}) {
-  const message = toCustom(m)
-
-  switch(message.customMessage.type) {
-    case CUSTOM_MESSAGE_TYPE.TEXT:
-      return (
-        <MessageTextFormUpdate
-          message={message}
-          updateFunc={updateFunc}
-          cancelFunc={cancelFunc}
-        />
-      );
-    case CUSTOM_MESSAGE_TYPE.LINK:
-      return (
-        <MessageLinkFormUpdate
-          message={message}
-          updateFunc={updateFunc}
-          cancelFunc={cancelFunc}
-        />
-      );
-    case CUSTOM_MESSAGE_TYPE.IMAGE:
-        return (
-          <MessageImageFormUpdate
-            message={message}
-            updateFunc={updateFunc}
-            cancelFunc={cancelFunc}
-          />
-        );
-    case CUSTOM_MESSAGE_TYPE.CHOICE:
-      // 型チェック
-      // TODO
-      break;
-    case CUSTOM_MESSAGE_TYPE.ORIGINAL:
-      // 型チェック
-      // TODO
-      break;
-    default:
-      throw new Error(`Invalid message type = ${m.type}`)
-  }
-}
-            
 
 function CustomMessageView({
   m,
@@ -733,23 +680,7 @@ function CustomMessageView({
         />
       );
 
-    case CUSTOM_MESSAGE_TYPE.CHOICE:
-      // 型チェック
-      // TODO
-      break;
-    case CUSTOM_MESSAGE_TYPE.ORIGINAL:
-      // 型チェック
-      // TODO
-      break;
     default:
-      // return (
-      //   <Text m ={{
-      //     type: CUSTOM_MESSAGE_TYPE.TEXT,
-      //     message: JSON.stringify({
-      //       content: m.message,
-      //     }),
-      //   }} />
-      // );
       console.log(m);
       throw new Error(`Invalid message type = ${m.type}`)
   }
