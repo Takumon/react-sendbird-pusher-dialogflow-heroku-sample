@@ -1,14 +1,11 @@
 
 import React, { useState  } from 'react';
-import styled from '@emotion/styled'
-import {
-  createFlightSeatFormMessage,
-} from '../../utils/message-converter';
+import styled from '@emotion/styled';
 import FlightSeatFullScreen from './flight-seat-fullscreen';
 import SelectSeatsCardSvg from '../../images/select-seats-card.svg';
 
 
-export default function FlightSeatView({ m, registerFunc, isAnswer, answer, yesAction }) {
+export default function FlightSeatView({ m, isAnswer, answer }) {
 
   const {
     title,
@@ -20,7 +17,6 @@ export default function FlightSeatView({ m, registerFunc, isAnswer, answer, yesA
   async function select(seat) {
     await answer(seat);
     setShowDetail(false);
-    await yesAction(seat);
   }
 
   const seats = contents && contents.seats;

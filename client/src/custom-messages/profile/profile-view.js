@@ -4,7 +4,7 @@ import { Card, Button, Input, DatePicker } from 'antd';
 import styled from '@emotion/styled'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
-  createTextMessage,
+  createTextMessage, createAnswerMessage,
 } from '../../utils/message-converter';
 
 
@@ -35,7 +35,7 @@ const Action = styled.div`
   }
 `;
 
-export default function ProfileView({ m, registerFunc, yesAction, noAction }) {
+export default function ProfileView({ m, answer }) {
 
   // const [id ] = useState('');
   // const [leadId ] = useState('');
@@ -116,59 +116,65 @@ export default function ProfileView({ m, registerFunc, yesAction, noAction }) {
     //   raw: JSON.stringify(patchOp)
     // };
 
-    registerFunc(createTextMessage('予約中です...'));
+    // TODO サブミットして成功したらAnswerする
+    answer({
+      lastName,
+      firstName,
+      phone,
+      birthday,
+      sex,
+    })
 
-    try {
-      // TODO Build Server for Profile
-      // const res = await patch(`/message/${messageId}`, payload);
-      const res = {
-        ok: true,
-      };
 
-      if (!res.ok) {
-        setSubmitting(new Error(res.error));
-      } else {
-        setSubmitting(false);
-        setSubmitted(true);
+    // registerFunc(createTextMessage('予約中です...'));
 
-        // const payload = {
-        //   name: firstName + ' ' + lastName,
-        //   phone,
-        //   sex,
-        //   birthday
-        // };
+    // try {
+    //   // TODO Build Server for Profile
+    //   // const res = await patch(`/message/${messageId}`, payload);
+    //   const res = {
+    //     ok: true,
+    //   };
 
-        try {
+    //   if (!res.ok) {
+    //     setSubmitting(new Error(res.error));
+    //   } else {
+    //     setSubmitting(false);
+    //     setSubmitted(true);
 
-          // TODO Build Server for Profile
-          // const resp = await patch(`/editProfile?leadID=${leadId}`, payload)
-          // const resp = { ok: true };
+    //     // const payload = {
+    //     //   name: firstName + ' ' + lastName,
+    //     //   phone,
+    //     //   sex,
+    //     //   birthday
+    //     // };
 
-          // TODO Build Message sender in Redux
-          // const conversation = WebSDK.getConversation(this.props.message.conversationId);
-          // const receiptMIMEType = `application/x.card-response+json`;
-          // const receiptMessage = conversation.createMessage({
-          //   parts: [{
-          //     body: JSON.stringify({}),
-          //     mimeType: receiptMIMEType,
-          //   }]
-          // });
-          // receiptMessage.send();
-          setTimeout(() => {
-            registerFunc(createTextMessage('ご予約が確定しました。'));
+    //     try {
 
-            setTimeout(() => {
-              yesAction()
-            }, 100)
-          }, 1000)
+    //       // TODO Build Server for Profile
+    //       // const resp = await patch(`/editProfile?leadID=${leadId}`, payload)
+    //       // const resp = { ok: true };
 
-        } catch(err) {
-          console.log(err);
-        }
-      }
-    } catch(err) {
-      setSubmitting(err);
-    }
+    //       // TODO Build Message sender in Redux
+    //       // const conversation = WebSDK.getConversation(this.props.message.conversationId);
+    //       // const receiptMIMEType = `application/x.card-response+json`;
+    //       // const receiptMessage = conversation.createMessage({
+    //       //   parts: [{
+    //       //     body: JSON.stringify({}),
+    //       //     mimeType: receiptMIMEType,
+    //       //   }]
+    //       // });
+    //       // receiptMessage.send();
+    //       // setTimeout(() => {
+    //       //   registerFunc(createTextMessage('ご予約が確定しました。次に進みますか。'));
+    //       // }, 1000)
+
+    //     } catch(err) {
+    //       console.log(err);
+    //     }
+    //   }
+    // } catch(err) {
+    //   setSubmitting(err);
+    // }
   }
 
 

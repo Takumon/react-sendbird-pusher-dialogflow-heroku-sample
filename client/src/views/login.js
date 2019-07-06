@@ -22,8 +22,6 @@ const SingleInputFormButton = styled.div`
 export default function Login({ setUserId }) {
   const [userIdForm, setUserIdForm] = useState('');
 
-  setUserId('inouetakumon@gmail.com');
-  history.push('/channel');
 
   function login(_userId) {
     setUserId(_userId);

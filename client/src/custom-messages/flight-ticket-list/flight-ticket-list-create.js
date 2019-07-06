@@ -23,7 +23,6 @@ export default function FlightTicketListCreate({ registerFunc }) {
 
   function action() {
     const messageStr = createFlightTicketListMessage(
-      'ご希望のフライトを選択してください',
       [
         {
           'id': '9b8810c8-18e8-4c8f-99ce-2a96915a21ab',

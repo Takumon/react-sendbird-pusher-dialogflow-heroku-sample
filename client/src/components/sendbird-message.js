@@ -12,7 +12,9 @@ import {
   MessageArrivalFormView,
   MessageConfirmationView,
   MessageFlightTicketListView,
+  MessageFlightTicketListConfirmView,
   MessageProfileView,
+  MessageProfileAnswerView,
   MessageFlightSeatPreConfirmView,
   MessageFlightSeatView,
   MessageFlightSeatConfirmView,
@@ -27,12 +29,13 @@ import {
   createAnswerMessage,
   createConfirmAirLineMessage,
   createDepartureFormMessage,
-  createArrivalFormMessage,
+  createArrivalToMessage,
   createConfirmationMessage,
   createFlightTicketListMessage,
   createFlightTicketAnswerMessage,
   createFlightTicketConfirmMessage,
   createProfileFormMessage,
+  createProfileAnswerMessage,
   createFlightSeatPreConfirmMessage,
   createFlightSeatFormMessage,
   createFlightSeatConfirmMessage,
@@ -193,23 +196,6 @@ function CustomMessageView({
         <MessageDepartureFormView
           m={message}
           registerFunc={registerFunc}
-
-          answer={async (value) => {
-            await registerFunc(createAnswerMessage(
-              value,
-              CUSTOM_MESSAGE_TYPE.DEPARTURE_FORM
-            ));
-          }}
-
-          validAction={async (value) => {
-            await registerFunc(createArrivalFormMessage(
-              '到着値は地域はどこでしょうか',
-            ))
-          }}
-
-          invalidAction={(value) => {
-            // TODO 実装
-          }}
         />
       );
 
@@ -218,265 +204,81 @@ function CustomMessageView({
         <MessageArrivalFormView
           m={message}
           registerFunc={registerFunc}
-
-          answer={async (value) => {
-            await registerFunc(createAnswerMessage(
-              value,
-              CUSTOM_MESSAGE_TYPE.ARRIVAL_FORM
-            ));
-          }}
-
-          validAction={async (value) => {
-            // TODO 日付の質問など
-            const messageStr = createConfirmationMessage(
-              // title
-              'フライト予約内容',
-              '以下の内容でフライトを検索しますか？',
-              // TODO 入力値をキャッシュして、キャッシュした値を代入
-              [
-                { name: '国内線・国際線', value: '国際線' },
-                { name: 'ご予約人数', value: '1' },
-                { name: '出発地域', value: '東京' },
-                { name: '到着地域', value: 'サンフランシスコ' },
-                { name: 'ご出発の日付', value: '2017/10/31' },
-                { name: 'お帰りの日付', value: '2017/11/01' }
-              ],
-            );
-            await registerFunc(messageStr);
-          }}
-
-          invalidAction={(value) => {
-            // TODO 実装
-          }}
         />
       );
 
 
-      case CUSTOM_MESSAGE_TYPE.CONFIRMATION:
-        return (
-          <MessageConfirmationView
-            m={message}
-            registerFunc={registerFunc}
-            answer={(value) => {
-              registerFunc(createAnswerMessage(
-                value,
-                CUSTOM_MESSAGE_TYPE.CONFIRMATION
-              ));
-            }}
-  
-            yesAction={() => {
-              // TODO 入力値をキャッシュして、キャッシュした値を代入
-              const messageStr = createFlightTicketListMessage(
-                'ご希望のフライトを選択してください',
-                [
-                  {
-                    'id': '9b8810c8-18e8-4c8f-99ce-2a96915a21ab',
-                    'selectable': true,
-                    'date': '12/28(木)',
-                    'routes': [
-                      {
-                        'seats': '○',
-                        'flightName': 'TL002',
-                        'depart': {
-                          'airport': 'HND',
-                          'airportJapanese': '羽田',
-                          'dateTime': '19:45'
-                        },
-                        'arrival': {
-                          'airport': 'SFO',
-                          'airportJapanese': 'サンフランシスコ',
-                          'dateTime': '12:00'
-                        }
-                      }
-                    ],
-                    'price': '￥156,000',
-                    'tax': '￥17,320',
-                    'time': '9時間 15分',
-                    'milage': '5130マイル'
-                  },
-                  {
-                    'id': '90ddd38a-0ab1-4e44-bcbf-699fc51d7381',
-                    'selectable': true,
-                    'date': '12/28(木)',
-                    'routes': [
-                      {
-                        'seats': '△',
-                        'flightName': 'TL012',
-                        'depart': {
-                          'airport': 'NRT',
-                          'airportJapanese': '成田',
-                          'dateTime': '11:50'
-                        },
-                        'arrival': {
-                          'airport': 'DFW',
-                          'airportJapanese': 'ダラス・フォートワース',
-          
-                          'dateTime': '08:05'
-                        }
-                      },
-                      {
-                        'seats': '7',
-                        'flightName': 'TL7577',
-                        'depart': {
-                          'airport': 'DFW',
-                          'airportJapanese': 'ダラス・フォートワース',
-                          'dateTime': '11:10'
-                        },
-                        'arrival': {
-                          'airport': 'SFO',
-                          'airportJapanese': 'サンフランシスコ',
-                          'dateTime': '13:14'
-                        }
-                      }
-                    ],
-                    'price': '￥166,500',
-                    'tax': '￥17,320',
-                    'time': '18時間 24分',
-                    'milage': '7904マイル'
-                  },
-                  {
-                    'id': '9f06f070-d434-4a20-bfec-05a71902ad4f',
-                    'selectable': true,
-                    'date': '12/28(木)',
-                    'routes': [
-                      {
-                        'seats': '7',
-                        'flightName': 'TL7016',
-                        'depart': {
-                          'airport': 'NRT',
-                          'airportJapanese': '成田',
-                          'dateTime': '18:45'
-                        },
-                        'arrival': {
-                          'airport': 'LAX',
-                          'airportJapanese': 'ロサンゼルス',
-                          'dateTime': '11:45'
-                        }
-                      },
-                      {
-                        'seats': '7',
-                        'flightName': 'TL7556',
-                        'depart': {
-                          'airport': 'LAX',
-                          'airportJapanese': 'ロサンゼルス',
-                          'dateTime': '14:00'
-                        },
-                        'arrival': {
-                          'airport': 'SFO',
-                          'airportJapanese': 'サンフランシスコ',
-                          'dateTime': '15:30'
-                        }
-                      }
-                    ],
-                    'price': '￥199,000',
-                    'tax': '￥17,320',
-                    'time': '13時間 45分',
-                    'milage': '5797マイル'
-                  }
-                ]
-              );
-              registerFunc(messageStr);
-            }}
-  
-            noAction={() => {
-              registerFunc(createTextMessage(
-                'いいえだったので処理を終了します'
-              ))
-            }}
-  
-          />
-        );
+    case CUSTOM_MESSAGE_TYPE.CONFIRMATION:
+      return (
+        <MessageConfirmationView
+          m={message}
+          registerFunc={registerFunc}
+          answer={(value) => {
+            registerFunc(createAnswerMessage(
+              value,
+              CUSTOM_MESSAGE_TYPE.CONFIRMATION
+            ));
+          }}
+        />
+      );
     
 
 
-      case CUSTOM_MESSAGE_TYPE.FLIGHT_TICKET_LIST:
-        return (
-          <MessageFlightTicketListView
-            m={message}
-            registerFunc={registerFunc}
-            answer={async (cards) => {
-              await registerFunc(createFlightTicketAnswerMessage(
-                'こちらのフライトを希望します。',
-                cards,
-                CUSTOM_MESSAGE_TYPE.FLIGHT_TICKET
-              ));
-            }}
-  
-            yesAction={async (cards) => {
-              // TODO 入力値をキャッシュして、キャッシュした値を代入
-              const messageStr = createFlightTicketConfirmMessage(
-                'ご希望のフライトは以下で間違いないでしょうか。',
-                cards,
-              );
-              await registerFunc(messageStr);
-            }}
-  
-            noAction={async () => {
-              await registerFunc(createTextMessage(
-                'いいえだったので処理を終了します'
-              ))
-            }}
-          />
-        );
+    case CUSTOM_MESSAGE_TYPE.FLIGHT_TICKET_LIST:
+      return (
+        <MessageFlightTicketListView
+          m={message}
+          registerFunc={registerFunc}
+          answer={async (cards) => {
+            await registerFunc(createFlightTicketAnswerMessage(
+              'こちらのフライトを希望します。',
+              cards,
+              CUSTOM_MESSAGE_TYPE.FLIGHT_TICKET
+            ));
+          }}
+        />
+      );
   
     case CUSTOM_MESSAGE_TYPE.FLIGHT_TICKET_ANSWER:
-        return (
-          <MessageFlightTicketListView
-            m={message}
-            isAnswer={true}
-          />
-        );
-
+      return (
+        <MessageFlightTicketListView
+          m={message}
+          isAnswer={true}
+        />
+      );
+    
     case CUSTOM_MESSAGE_TYPE.FLIGHT_TICKET_CONFIRM:
-        return (
-          <MessageFlightTicketListView
-            isConfirm={true}
-            m={message}
-            answer={async (cards) => {
-              await registerFunc(createAnswerMessage(
-                'はい',
-                CUSTOM_MESSAGE_TYPE.FLIGHT_TICKET_CONFIRM
-              ));
-            }}
-
-            yesAction={(cards) => {
-              // TODO 入力値をキャッシュして、キャッシュした値を代入
-              const messageStr = createProfileFormMessage(
-                '次にお客様の情報をお伺いします。',
-              );
-              registerFunc(messageStr);
-            }}
-  
-            noAction={async () => {
-              await registerFunc(createTextMessage(
-                'いいえだったので処理を終了します'
-              ))
-            }}
-
-          />
-        );
+      return (
+        <MessageFlightTicketListConfirmView
+          m={message}
+          answer={async (cards) => {
+            await registerFunc(createAnswerMessage(
+              'はい',
+              CUSTOM_MESSAGE_TYPE.FLIGHT_TICKET_CONFIRM
+            ));
+          }}
+        />
+      );
     
     case CUSTOM_MESSAGE_TYPE.PROFILE_FORM:
       return (
         <MessageProfileView
           m={message}
           registerFunc={registerFunc}
-
-          yesAction={async () => {
-            // TODO 入力値をキャッシュして、キャッシュした値を代入
-            const messageStr = createFlightSeatPreConfirmMessage(
-              '引き続き、お座席を指定しますか？',
-            );
-            await registerFunc(messageStr);
-          }}
-
-          noAction={async () => {
-            await registerFunc(createTextMessage(
-              'いいえだったので処理を終了します'
-            ))
+          answer={async (formData) => {
+            await registerFunc(createProfileAnswerMessage(
+              formData
+            ));
           }}
         />
       );
+
+    case CUSTOM_MESSAGE_TYPE.PROFILE_ANSWER:
+        return (
+          <MessageProfileAnswerView
+            m={message}
+          />
+        );
 
     case CUSTOM_MESSAGE_TYPE.FLIGHT_SEAT_PRE_CONFIRM:
       return (
@@ -522,22 +324,6 @@ function CustomMessageView({
             );
             await registerFunc(messageStr);
           }}
-
-          yesAction={async (seat) => {
-            // TODO 入力値をキャッシュして、キャッシュした値を代入
-            const messageStr = createFlightSeatConfirmMessage(
-              '以下の座席でよろしいですか。',
-              seat,
-            );
-            await registerFunc(messageStr);
-          }}
-
-          noAction={async () => {
-            await registerFunc(createTextMessage(
-              'いいえだったので処理を終了します'
-            ))
-          }}
-
         />
       );
 
@@ -552,20 +338,6 @@ function CustomMessageView({
               CUSTOM_MESSAGE_TYPE.FLIGHT_SEAT_CONFIRM
             ));
           }}
-
-          yesAction={async () => {
-            // TODO 入力値をキャッシュして、キャッシュした値を代入
-            const messageStr = createFlightTicketPurchasePreConfirmMessage(
-              '引き続き購入手続きを行いますか?',
-            );
-            await registerFunc(messageStr);
-          }}
-
-          noAction={async () => {
-            await registerFunc(createTextMessage(
-              'いいえだったので処理を終了します'
-            ))
-          }}
         />  
       );
 
@@ -574,38 +346,7 @@ function CustomMessageView({
         <MessageFlightTicketPurchasePreConfirmView
           m={message}
           registerFunc={registerFunc}
-          answer={async (value) => {
-            await registerFunc(createAnswerMessage(
-              value,
-              CUSTOM_MESSAGE_TYPE.FLIGHT_TICKET_PURCHASE_PRE_CONFIRM
-            ));
-          }}
-
-          yesAction={async () => {
-            // TODO 入力値をキャッシュして、キャッシュした値を代入
-            const messageStr = createFlightTicketPurchaseMessage(
-              '購入手続きをしてください。',
-              { order:
-                {
-                  price: '￥98,000',
-                  tax: '￥0',
-                  amount: '￥98,000',
-                  date: '12/30(月)',
-                  confirmed: false,
-                }
-              },        
-            );
-            await registerFunc(messageStr);
-          }}
-
-          noAction={async () => {
-            await registerFunc(createTextMessage(
-              'いいえだったので処理を終了します'
-            ))
-          }}
         />
-
-
       );
     
     
@@ -623,20 +364,8 @@ function CustomMessageView({
           }}
 
           yesAction={async () => {
-            // TODO 入力値をキャッシュして、キャッシュした値を代入
-            const messageStr = createFlightTicketPurchasePdfMessage(
-              'お支払いが完了しました。お客様のe-ticketです。',
-              { order:
-                {
-                  price: '￥98,000',
-                  tax: '￥0',
-                  amount: '￥98,000',
-                  date: '12/30(月)',
-                }
-              }
-            );
-            await registerFunc(messageStr);
-            await registerFunc(createTextMessage('ご予約を終了いたします。引き続き質問等があればオペレーターが対応いたします。ありがとうございました。'));
+            await registerFunc(
+              );
           }}
 
           noAction={async () => {

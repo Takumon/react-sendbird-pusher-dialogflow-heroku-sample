@@ -30,8 +30,11 @@ export { default as MessageConfirmationCreate } from "./confirmation-create";
 export { default as MessageFlightTicketListView } from "./flight-ticket-list/flight-ticket-list-view";
 export { default as MessageFlightTicketListCreate } from "./flight-ticket-list/flight-ticket-list-create";
 
+export { default as MessageFlightTicketListConfirmView } from "./flight-ticket-list/flight-ticket-list-confirm-view";
+
 export { default as MessageProfileView } from "./profile/profile-view";
 export { default as MessageProfileCreate } from "./profile/profile-create";
+export { default as MessageProfileAnswerView } from "./profile/profile-answer-view";
 
 export { default as MessageFlightSeatView } from "./flight-seat/flight-seat-view";
 export { default as MessageFlightSeatCreate } from "./flight-seat/flight-seat-create";

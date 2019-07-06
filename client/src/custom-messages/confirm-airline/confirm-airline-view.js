@@ -35,7 +35,7 @@ const Action = styled.div`
 
 
 
-export default function ConfirmAirLineView({ m, registerFunc, answer,  validAction, invalidAction }) {
+export default function ConfirmAirLineView({ m, answer }) {
   const {
     title,
     text,
@@ -49,7 +49,6 @@ export default function ConfirmAirLineView({ m, registerFunc, answer,  validActi
         const messageStr = '国際線';
         // TODO 入力チェック
         await answer(messageStr)
-        await validAction(messageStr);
       }}
     >国際線</Button>
   );

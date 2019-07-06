@@ -34,20 +34,15 @@ const Action = styled.div`
 
 
 
-export default function ConfirmationView({ m, answer, yesAction, noAction }) {
+export default function ConfirmationView({ m, answer }) {
   const {
     title,
     contents,
     text = 'デフォルト'
   } = m.customMessage;
 
-  async function validateAndNext(value) {
+  async function validate(value) {
     // TODO 
-    if(value === 'はい') {
-      await yesAction();
-    } else if (value === 'いいえ') {
-      await noAction();      
-    }
   }
 
 
@@ -58,7 +53,6 @@ export default function ConfirmationView({ m, answer, yesAction, noAction }) {
         const messageStr = 'はい';
         // TODO 入力チェック
         await answer(messageStr)
-        await validateAndNext(messageStr);
       }}
     >はい</Button>
   );
@@ -70,7 +64,6 @@ export default function ConfirmationView({ m, answer, yesAction, noAction }) {
         const messageStr = 'いいえ';
         // TODO 入力チェック
         await answer(messageStr)
-        await validateAndNext(messageStr);
       }}
     >いいえ</Button>
   );

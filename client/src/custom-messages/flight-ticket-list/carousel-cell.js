@@ -117,9 +117,7 @@ export default function CarouselCell(props) {
       })
     ];
 
-    console.log('君に決めた！っていうメッセージを次に送る', cards);
     await answer(cards);
-    await yesAction(cards)
   }
 
 

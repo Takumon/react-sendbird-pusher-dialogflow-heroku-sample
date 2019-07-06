@@ -12,6 +12,7 @@ export const CUSTOM_MESSAGE_TYPE = {
   FLIGHT_TICKET_ANSWER: 'FLIGHT_TICKET_ANSWER',
   FLIGHT_TICKET_CONFIRM: 'FLIGHT_TICKET_CONFIRM',
   PROFILE_FORM: 'PROFILE_FORM',
+  PROFILE_ANSWER: 'PROFILE_ANSWER',
   FLIGHT_SEAT_PRE_CONFIRM: 'FLIGHT_SEAT_PRE_CONFIRM', 
   FLIGHT_SEAT_FORM: 'FLIGHT_SEAT_FORM',
   FLIGHT_SEAT_CONFIRM: 'FLIGHT_SEAT_CONFIRM',
@@ -58,26 +59,26 @@ export function createDepartureFormMessage() {
   });
 }
 
-export function createArrivalFormMessage(text) {
+export function createArrivalToMessage() {
   return JSON.stringify({
     type: CUSTOM_MESSAGE_TYPE.ARRIVAL_FORM,
-    text,
+    text: '到着値は地域はどこでしょうか',
   });
 }
 
-export function createFlightSeatConfirmMessage(text, seat) {
+export function createFlightSeatConfirmMessage(seat) {
   return JSON.stringify({
     type: CUSTOM_MESSAGE_TYPE.FLIGHT_SEAT_CONFIRM,
-    text,
+    text: '以下の座席でよろしいですか。',
     seat,
   });
 }
 
 
-export function createFlightSeatPreConfirmMessage(text) {
+export function createFlightSeatPreConfirmMessage() {
   return JSON.stringify({
     type: CUSTOM_MESSAGE_TYPE.FLIGHT_SEAT_PRE_CONFIRM,
-    text,
+    text: 'お座席を指定しますか？',
   });
 }
 
@@ -118,22 +119,32 @@ export function createImageMessage(link, description, alt) {
   });
 }
 
-export function createConfirmationMessage(title, text, contents) {
+export function createConfirmationMessage(contents) {
   return JSON.stringify({
     type: CUSTOM_MESSAGE_TYPE.CONFIRMATION,
-    title,
-    text,
+    title: 'フライト予約内容',
+    text: '以下の内容でフライトを検索しますか？',
     contents,
   });
 }
 
-export function createFlightTicketListMessage(title, contents) {
+export function createFlightTicketListMessage(contents) {
   return JSON.stringify({
     type: CUSTOM_MESSAGE_TYPE.FLIGHT_TICKET_LIST,
-    title,
+    title: 'ご希望のフライトを選択してください',
     contents,
   });
 }
+
+export function reateFlightTicketConfirmMessage(contents) {
+  return JSON.stringify({
+    type: CUSTOM_MESSAGE_TYPE.FLIGHT_TICKET_LIST,
+    title: 'ご希望のフライトは以下で間違いないでしょうか。',
+    contents,
+  });
+}
+
+
 
 export function createFlightTicketAnswerMessage(title, contents, questionType) {
   return JSON.stringify({
@@ -154,26 +165,33 @@ export function createFlightTicketConfirmMessage(title, contents) {
 }
 
 
-export function createProfileFormMessage(title) {
+export function createProfileFormMessage() {
   return JSON.stringify({
     type: CUSTOM_MESSAGE_TYPE.PROFILE_FORM,
-    title,
+    title: '次にお客様の情報をお伺いします。',
   });
 }
 
-export function createFlightSeatFormMessage(title, contents) {
+export function createProfileAnswerMessage(formData) {
+  return JSON.stringify({
+    type: CUSTOM_MESSAGE_TYPE.PROFILE_ANSWER,
+    questionType: CUSTOM_MESSAGE_TYPE.PROFILE_FORM,
+    contents: formData,
+  });
+}
+
+export function createFlightSeatFormMessage() {
   return JSON.stringify({
     type: CUSTOM_MESSAGE_TYPE.FLIGHT_SEAT_FORM,
-    title,
-    contents,
+    title: '座席を指定してください。',
   });
 }
 
 
-export function createFlightTicketPurchasePreConfirmMessage(text) {
+export function createFlightTicketPurchasePreConfirmMessage() {
   return JSON.stringify({
     type: CUSTOM_MESSAGE_TYPE.FLIGHT_TICKET_PURCHASE_PRE_CONFIRM,
-    text,
+    text: '引き続き購入手続きを行いますか?',
   });
 }
 
@@ -188,10 +206,10 @@ export function createFlightTicketPurchaseMessage(title, contents) {
 }
 
 
-export function createFlightTicketPurchasePdfMessage(title, contents) {
+export function createFlightTicketPurchasePdfMessage(contents) {
   return JSON.stringify({
     type: CUSTOM_MESSAGE_TYPE.FLIGHT_TICKET_PURCHASE_PDF,
-    title,
+    title: 'お支払いが完了しました。お客様のe-ticketです。',
     contents,
   });
 }
