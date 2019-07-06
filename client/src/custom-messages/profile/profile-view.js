@@ -3,9 +3,6 @@ import React, { useState, useEffect  } from 'react';
 import { Card, Button, Input, DatePicker } from 'antd';
 import styled from '@emotion/styled'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import {
-  createTextMessage, createAnswerMessage,
-} from '../../utils/message-converter';
 
 
 const Container = styled.div`

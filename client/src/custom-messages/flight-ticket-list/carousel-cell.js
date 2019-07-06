@@ -95,7 +95,6 @@ export default function CarouselCell(props) {
     selectable,
     
     answer,
-    yesAction,
   } = props;
   
   const [isShowDetail, setShowDetail] = useState(false);

@@ -6,7 +6,7 @@ const Container = styled.div`
   text-align: left;
 `;
 
-export default function FlightSeatflightTicketPurchasePreConfirmView({ m, answer }) {
+export default function FlightSeatflightTicketPurchasePreConfirmView({ m }) {
 
   // TODO ボットなどによる入力チェック
   function validation() {

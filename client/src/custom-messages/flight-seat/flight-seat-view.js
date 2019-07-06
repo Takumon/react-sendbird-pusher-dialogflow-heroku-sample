@@ -5,7 +5,7 @@ import FlightSeatFullScreen from './flight-seat-fullscreen';
 import SelectSeatsCardSvg from '../../images/select-seats-card.svg';
 
 
-export default function FlightSeatView({ m, isAnswer, answer }) {
+export default function FlightSeatView({ m, answer }) {
 
   const {
     title,

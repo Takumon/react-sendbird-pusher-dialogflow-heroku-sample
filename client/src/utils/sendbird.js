@@ -147,7 +147,7 @@ export function getMessage(query) {
 
     if (query.hasMore && !query.isLoading) {
       query.load(50, false, (messageList, error) => {
-          error
+        error
           ? reject(error)
           : resolve(messageList);
       });

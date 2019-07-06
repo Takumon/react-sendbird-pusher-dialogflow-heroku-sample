@@ -2,13 +2,9 @@
 import React, { useState  } from 'react';
 import { Modal } from 'antd';
 import styled from '@emotion/styled'
-import {
-  createFlightTicketPurchaseMessage,
-} from '../../utils/message-converter';
 
 
-
-export default function FlightSeatView({ m, registerFunc, answer, yesAction, noAction }) {
+export default function FlightSeatView({ m, answer }) {
   const {
     title,
     contents,
@@ -35,7 +31,6 @@ export default function FlightSeatView({ m, registerFunc, answer, yesAction, noA
 
     // 精算処理
     await answer(order);
-    await yesAction();
   }
 
 

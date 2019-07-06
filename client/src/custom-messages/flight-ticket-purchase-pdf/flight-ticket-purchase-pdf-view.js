@@ -4,7 +4,7 @@ import { PDFDownloadLink } from "@react-pdf/renderer";
 import PurchasePdf from './purchase-pdf';
 
 
-export default function FlightTicketPurchasePdfView({ m, registerFunc }) {
+export default function FlightTicketPurchasePdfView({ m }) {
   const {
     title,
     contents,

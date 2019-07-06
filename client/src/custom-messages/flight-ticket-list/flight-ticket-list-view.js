@@ -4,7 +4,7 @@ import Carousel from './carousel';
 
 
 
-export default function FlightTicketListView({ m, isConfirm, isAnswer, registerFunc, answer, yesAction, noAction }) {
+export default function FlightTicketListView({ m, isConfirm, isAnswer, answer, yesAction, noAction }) {
   console.log(m)
   const {
     title,
@@ -34,7 +34,6 @@ export default function FlightTicketListView({ m, isConfirm, isAnswer, registerF
             width: '100%',
             justifyContent: 'flex-end',
           }}
-          registerFunc={registerFunc}
           answer={answer}
           contents={contents}
         />
@@ -45,7 +44,6 @@ export default function FlightTicketListView({ m, isConfirm, isAnswer, registerF
           {title && <div>{title}</div>}
         </div>
         <Carousel
-          registerFunc={registerFunc}
           answer={answer}
           contents={contents}
         />
@@ -56,7 +54,6 @@ export default function FlightTicketListView({ m, isConfirm, isAnswer, registerF
           {title && <div>{title}</div>}
         </div>
         <Carousel
-          registerFunc={registerFunc}
           answer={answer}
           contents={contents}
         />
