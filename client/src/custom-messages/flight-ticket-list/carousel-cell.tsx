@@ -84,7 +84,16 @@ const FlightTickets = styled.div`
 
 
 
-export default function CarouselCell(props) {
+export default function CarouselCell(props: {
+  id: string,
+  date: string,
+  routes: [any],
+  price: string,
+  time: string,
+  milage: string,
+  selectable: string,
+  answer: Function,
+}) {
   const {
     id,
     date,

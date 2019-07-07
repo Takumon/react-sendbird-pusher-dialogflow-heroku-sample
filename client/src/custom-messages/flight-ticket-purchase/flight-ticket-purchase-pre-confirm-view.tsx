@@ -6,7 +6,7 @@ const Container = styled.div`
   text-align: left;
 `;
 
-export default function FlightSeatflightTicketPurchasePreConfirmView({ m }) {
+export default function FlightSeatflightTicketPurchasePreConfirmView({ m }: { m: any }) {
 
   return (
     <Container>

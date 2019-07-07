@@ -4,7 +4,18 @@ import { Modal } from 'antd';
 import styled from '@emotion/styled'
 
 
-export default function FlightSeatView({ m, answer }) {
+export default function FlightSeatView(
+  {
+    m,
+    answer,
+  }
+  :
+  {
+    m: any,
+    answer: Function
+  }
+) {
+
   const {
     title,
     contents,

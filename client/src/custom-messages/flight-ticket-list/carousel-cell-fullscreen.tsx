@@ -102,19 +102,34 @@ const FlightDetail = styled.div`
   }
 `;
 
-export default function CarouselCellFullScreen({
-  close,
-  id,
-  date,
-  routes,
-  price,
-  time,
-  milage,
-  select,
-  selectable,
-}) {
+export default function CarouselCellFullScreen(
+  {
+    close,
+    id,
+    date,
+    routes,
+    price,
+    time,
+    milage,
+    select,
+    selectable,
+  }
+  :
+  {
+    close: Function,
+    id: string,
+    date: string,
+    routes: [any],
+    price: string,
+    time: string,
+    milage: string,
+    select: Function,
+    selectable: string,
+  }
 
-  const flights = routes.map((route, i) => (
+) {
+
+  const flights = routes.map((route: any, i: number) => (
     <FlightSammary key={i}>
       <table>
         <colgroup>
@@ -165,12 +180,12 @@ export default function CarouselCellFullScreen({
     </FlightDetail>
   );
 
-  const selectButton = selectable ? <button className='primary' onClick={select}>予約する</button> : null;
+  const selectButton = selectable ? <button className='primary' onClick={() => select()}>予約する</button> : null;
 
   console.log('フルスクリーンで表示')
   return (
     <Container>
-      <button onClick={close} className='dismiss'>close</button>
+      <button onClick={() => close()} className='dismiss'>close</button>
       <div className='carouselCellImage'>
         <h1>{date}</h1>
         {flights}

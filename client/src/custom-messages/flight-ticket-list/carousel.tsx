@@ -10,7 +10,19 @@ const CarouselContainer = styled.div`
   overflow: auto;
 `;
 
-export default function Carousel({ style, contents, answer }) {
+export default function Carousel(
+  {
+    style,
+    contents,
+    answer,
+  }
+  : {
+    style: any,
+    contents: [any],
+    answer: Function
+  }
+
+) {
   try {
     return (
       <CarouselContainer style={style} >

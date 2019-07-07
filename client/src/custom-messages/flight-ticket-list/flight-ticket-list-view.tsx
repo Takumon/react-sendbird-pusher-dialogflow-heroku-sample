@@ -4,7 +4,19 @@ import Carousel from './carousel';
 
 
 
-export default function FlightTicketListView({ m, isAnswer, answer }) {
+export default function FlightTicketListView(
+  {
+    m,
+    isAnswer,
+    answer
+  }
+  :
+  {
+    m: any,
+    isAnswer: boolean,
+    answer: Function
+  }
+) {
   const {
     title,
     contents,
@@ -36,6 +48,7 @@ export default function FlightTicketListView({ m, isAnswer, answer }) {
           {title && <div>{title}</div>}
         </div>
         <Carousel
+          style={{}}
           answer={answer}
           contents={contents}
         />
