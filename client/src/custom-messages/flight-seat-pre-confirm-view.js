@@ -9,12 +9,6 @@ const Container = styled.div`
 
 export default function FlightSeatPreConfirmView({ m }) {
 
-  // TODO ボットなどによる入力チェック
-  function validation() {
-    return true;
-  }
-
-
   return (
     <Container>
       {m.customMessage.text}

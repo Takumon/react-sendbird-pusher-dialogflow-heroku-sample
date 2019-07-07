@@ -11,11 +11,6 @@ export default function FlightTicketListConfirmView({ m, registerFunc, answer })
     contents,
   } = m.customMessage;
 
-  // TODO ボットなどによる入力チェック
-  function validation() {
-    return true;
-  }
-
 
   return (
     <div>

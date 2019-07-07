@@ -19,11 +19,11 @@ const SingleInputFormButton = styled.div`
 
 `;
 
-export default function Login({ setUserId }) {
-  const [userIdForm, setUserIdForm] = useState('');
+export default function Login({ setUserId }: { setUserId: Function }) {
+  const [userIdForm, setUserIdForm] = useState<string>('');
 
 
-  function login(_userId) {
+  function login(_userId: string) {
     setUserId(_userId);
     history.push('/channel');
   }

@@ -34,7 +34,7 @@ export default function ProfileAnswerView({ m }) {
     return (
       <>
       <Container>
-        <Card title={<><FontAwesomeIcon icon='bars' />入力結果</>} >
+        <Card title={'入力結果'} >
           <Content>
             <table>
               <colgroup>

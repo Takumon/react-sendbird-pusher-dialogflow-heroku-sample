@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback  } from 'react';
 import styled from '@emotion/styled'
 import history from '../history'
 import { Layout, Button } from 'antd';
-import SendBird from 'sendbird'
+import SendBird from 'sendbird';
 import Pusher from 'pusher-js';
 import SendBirdMessage from '../components/sendbird-message';
 import {
@@ -20,14 +20,14 @@ import { MessageWeatherBotCreate, MessageTextFormCreate } from '../custom-messag
 import FlightTicketRegisterBot from '../dialog-controllers/flight-ticket-register-bot';
 
 const { Header, Content, Footer } = Layout;
-const APP_ID = process.env.REACT_APP_APP_ID;
-const CHANNEL_ID = process.env.REACT_APP_CHANNEL_ID;
-const PUSHER_APP_ID = process.env.REACT_APP_PUSHER_APP_ID;
-const PUSHER_APP_CLUSTER = process.env.REACT_APP_PUSHER_APP_CLUSTER;
-const BOT_CHANNEL = process.env.REACT_APP_BOT_CHANNEL;
-const BOT_WEATHER_EVENT = process.env.REACT_APP_BOT_WEATHER_EVENT;
-const EVENT_HANDLER_ID = uuid4();
-const WEATHER_API_URL = 'http://localhost:5000/chat';
+const APP_ID: string = process.env.REACT_APP_APP_ID || '';
+const CHANNEL_ID: string = process.env.REACT_APP_CHANNEL_ID || '';
+const PUSHER_APP_ID: string = process.env.REACT_APP_PUSHER_APP_ID || '';
+const PUSHER_APP_CLUSTER: string = process.env.REACT_APP_PUSHER_APP_CLUSTER || '';
+const BOT_CHANNEL: string = process.env.REACT_APP_BOT_CHANNEL || '';
+const BOT_WEATHER_EVENT: string = process.env.REACT_APP_BOT_WEATHER_EVENT || '';
+const EVENT_HANDLER_ID: string = uuid4();
+const WEATHER_API_URL: string = 'http://localhost:5000/chat';
 
 
 /****************************/
@@ -50,17 +50,17 @@ const MessageArea = styled.div`
 /****************************/
 /*  Conponent               */
 /****************************/
-export default function Messages({ userId }) {
+export default function Messages({ userId }: { userId: string }) {
   if (!userId) {
     console.log('Please set userId');
     history.push('/login');
   }
 
-  const [attachedBot, setAttachedBot] = useState(null);
-  const [messages, setMessages] = useState([]);
-  const [sb, setSb] = useState(null);
-  const [channel, setChannel] = useState(null);
-  const [pusherChannel, setPusherChannel] = useState(null);
+  const [attachedBot, setAttachedBot] = useState<any>(null);
+  const [messages, setMessages] = useState<[any]>();
+  const [sb, setSb] = useState<any>(null);
+  const [channel, setChannel] = useState<any>(null);
+  const [pusherChannel, setPusherChannel] = useState<any>(null);
 
   /* Message Operations */
   const registerFunc = useCallback(
@@ -101,9 +101,9 @@ export default function Messages({ userId }) {
 
 
   /* Model Operations */
-  function addMessageInModel(newOne) {
-    setMessages(msgs => {
-      let targetIndex = null;
+  function addMessageInModel(newOne: any) {
+    setMessages((msgs: any) => {
+      let targetIndex: Number | null = null;
 
       for (const index in msgs) {
         if (msgs[index].messageId === newOne.messageId) {
@@ -118,9 +118,9 @@ export default function Messages({ userId }) {
     });
   }
 
-  function updateMessageInModel(updatedOne) {
-    setMessages(msgs => {
-      let targetIndex;
+  function updateMessageInModel(updatedOne: any) {
+    setMessages((msgs: any) => {
+      let targetIndex: Number | null = null;
       for (const index in msgs) {
         if (msgs[index].messageId === updatedOne.messageId) {
           targetIndex = Number(index); // index is string
@@ -133,14 +133,14 @@ export default function Messages({ userId }) {
         : [
           ...msgs.slice(0, targetIndex),
           updatedOne,
-          ...msgs.slice(targetIndex + 1)
+          ...msgs.slice(Number(targetIndex) + 1)
         ];
     });
   }
 
 
-  function deleteMessageInModel(deletedMessageId) {
-    setMessages(msgs => {
+  function deleteMessageInModel(deletedMessageId: string) {
+    setMessages((msgs: any) => {
       let targetIndex = null;
 
       for (const index in msgs) {
@@ -161,7 +161,7 @@ export default function Messages({ userId }) {
 
 
   /* API Operations */
-  function fetchToWeatherBotFunc(message) {
+  function fetchToWeatherBotFunc(message: any) {
     fetch(WEATHER_API_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -188,16 +188,16 @@ export default function Messages({ userId }) {
       const sb = new SendBird({appId: APP_ID});
       // const user = await connect(sb, userId);
       await connect(sb, userId);
-      const openedChannel = await openChannel(sb, CHANNEL_ID);
+      const openedChannel: any = await openChannel(sb, CHANNEL_ID);
       await enterChannel(openedChannel);
       setSb(sb);
       setChannel(openedChannel);
 
       const currentQuery = openedChannel.createPreviousMessageListQuery();
-      const messages = await getMessage(currentQuery);
+      const fetchedMessages: any = await getMessage(currentQuery);
 
-      if(messages) {
-        setMessages(messages);
+      if(fetchedMessages) {
+        setMessages(fetchedMessages);
       }
     })();
 
@@ -211,7 +211,7 @@ export default function Messages({ userId }) {
     const ChannelHandler = new sb.ChannelHandler();
   
     // Add event handlers for sync in other browser
-    ChannelHandler.onMessageReceived = (_, message) => {
+    ChannelHandler.onMessageReceived = (_: any, message: any) => {
       // ChatBot has to reaction
       addMessageInModel(message);
 
@@ -223,8 +223,8 @@ export default function Messages({ userId }) {
         attachedBot.next({ message, isValid: true });
       }
     };
-    ChannelHandler.onMessageUpdated = (_, message) => updateMessageInModel(message);
-    ChannelHandler.onMessageDeleted = (_, messageId) => deleteMessageInModel(messageId);
+    ChannelHandler.onMessageUpdated = (_: any, message: any) => updateMessageInModel(message);
+    ChannelHandler.onMessageDeleted = (_: any, messageId: any) => deleteMessageInModel(messageId);
     console.log('addChannelHandler')
     sb.addChannelHandler(EVENT_HANDLER_ID, ChannelHandler);
 
@@ -251,7 +251,7 @@ export default function Messages({ userId }) {
   useEffect(() => {
     if (!pusherChannel && !channel) return;
 
-    function registerFuncFromPusher({ message }) {
+    function registerFuncFromPusher({ message } : { message: any }) {
       registerFunc(createTextMessage(message))
     }
 
@@ -304,14 +304,13 @@ export default function Messages({ userId }) {
       <Content>
         <Container>
           <MessageArea>
-            {messages.map(m =>
+            {messages && messages.map(m =>
               <SendBirdMessage
                 m={m}
                 key={m.messageId}
                 viewerUserId={userId}
                 registerFunc={registerFunc}
                 registerFileFunc={registerFileFunc}
-                updateFunc={updateFunc}
                 deleteFunc={deleteFunc}
               />
             )}
@@ -323,7 +322,6 @@ export default function Messages({ userId }) {
 
           <MessageWeatherBotCreate
             registerFunc={registerFunc}
-            registerFileFunc={registerFileFunc}
             fetchToWeatherBotFunc={fetchToWeatherBotFunc}
           />
     

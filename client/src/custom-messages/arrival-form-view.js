@@ -8,11 +8,6 @@ const Container = styled.div`
 
 export default function ArrivalFormView({ m }) {
 
-  // TODO ボットなどによる入力チェック
-  function validation() {
-    return true;
-  }
-
   return (
     <>
       <Container>

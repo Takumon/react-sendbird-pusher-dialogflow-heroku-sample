@@ -1,6 +1,6 @@
 
 
-export function connect(sb, userId) {
+export function connect(sb: any, userId: string): Promise<any> {
   return new Promise((resolve, reject) => {
     if(!sb) {
       reject(`Incollect argument. sb is required.`);
@@ -9,7 +9,7 @@ export function connect(sb, userId) {
       reject(`Incollect argument. userId is required.`);
     }
 
-    sb.connect(userId, (user, error) => {
+    sb.connect(userId, (user: any, error: any) => {
       error
         ? reject(error)
         : resolve(user);
@@ -17,7 +17,7 @@ export function connect(sb, userId) {
   });
 }
 
-export function openChannel(sb, channelId) {
+export function openChannel(sb: any, channelId: string): Promise<any> {
   return new Promise((resolve, reject) => {
     if(!sb) {
       reject(`Incollect argument. sb is required.`);
@@ -26,7 +26,7 @@ export function openChannel(sb, channelId) {
       reject(`Incollect argument. channelId is required.`);
     }
 
-    sb.OpenChannel.getChannel(channelId, (openedChannel, error) => {
+    sb.OpenChannel.getChannel(channelId, (openedChannel: any, error: any) => {
       error
           ? reject(error)
           : resolve(openedChannel);
@@ -36,22 +36,22 @@ export function openChannel(sb, channelId) {
 
 
 
-export function enterChannel(channel) {
-return new Promise((resolve, reject) => {
-  if(!channel) {
-    reject(`Incollect argument. channel is required.`);
-  }
+export function enterChannel(channel: any): Promise<any> {
+  return new Promise((resolve, reject) => {
+    if(!channel) {
+      reject(`Incollect argument. channel is required.`);
+    }
 
-  channel.enter(function(response, error) {
-    error
-        ? reject(error)
-        : resolve('OK!');
+    channel.enter((response: any, error: any) => {
+      error
+          ? reject(error)
+          : resolve('OK!');
     })
   });
 }
 
 
-export function sendMessage(channel, message) {
+export function sendMessage(channel: any, message: any): Promise<any> {
   return new Promise((resolve, reject) => {
     if(!channel) {
       reject(`Incollect argument. channel is required.`);
@@ -62,7 +62,7 @@ export function sendMessage(channel, message) {
     }
 
     console.log('XXXXXXXXXXXX', message)
-    channel.sendUserMessage(message, (msg, error) => {
+    channel.sendUserMessage(message, (msg: any, error: any) => {
       error
         ? reject(error)
         : resolve(msg);
@@ -70,7 +70,7 @@ export function sendMessage(channel, message) {
   });
 }
 
-export function sendFileMessage(channel, file) {
+export function sendFileMessage(channel: any, file: any): Promise<any> {
   return new Promise((resolve, reject) => {
     if(!channel) {
       reject(`Incollect argument. channel is required.`);
@@ -81,7 +81,7 @@ export function sendFileMessage(channel, file) {
     }
 
     console.log('XXXXXXXXXXXX', file)
-    channel.sendFileMessage(file, (msg, error) => {
+    channel.sendFileMessage(file, (msg: any, error: any) => {
       error
         ? reject(error)
         : resolve(msg);
@@ -90,7 +90,7 @@ export function sendFileMessage(channel, file) {
 }
 
 
-export function updateMessage(channel, message, messageText) {
+export function updateMessage(channel: any, message: any, messageText: string): Promise<any> {
   return new Promise((resolve, reject) => {
     if(!channel) {
       reject(`Incollect argument. channel is required.`);
@@ -109,7 +109,7 @@ export function updateMessage(channel, message, messageText) {
       messageText,
       message.data,
       message.customType,
-      (msg, error) => {
+      (msg: any, error: any) => {
         error
           ? reject(error)
           : resolve(msg);
@@ -119,7 +119,7 @@ export function updateMessage(channel, message, messageText) {
 }
 
 
-export function deleteMessage(channel, message) {
+export function deleteMessage(channel: any, message: any): Promise<any> {
   return new Promise((resolve, reject) => {
     if(!channel) {
       reject(`Incollect argument. channel is required.`);
@@ -129,7 +129,7 @@ export function deleteMessage(channel, message) {
       reject(`Incollect argument. message is required.`);
     }
 
-    channel.deleteMessage(Object.assign({}, message), (res, error) => {
+    channel.deleteMessage(Object.assign({}, message), (res: any, error: any) => {
       error
         ? reject(error)
         : resolve('OK');
@@ -139,14 +139,14 @@ export function deleteMessage(channel, message) {
 
 
 
-export function getMessage(query) {
+export function getMessage(query: any): Promise<[string] | [] | string> {
   return new Promise((resolve, reject) => {
     if(!query) {
     reject(`Incollect argument. query is required.`);
     }
 
     if (query.hasMore && !query.isLoading) {
-      query.load(50, false, (messageList, error) => {
+      query.load(50, false, (messageList: any, error: any) => {
         error
           ? reject(error)
           : resolve(messageList);

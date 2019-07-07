@@ -1,23 +1,15 @@
 
-import React, { useState } from 'react';
+import React from 'react';
 import Carousel from './carousel';
 
 
 
 export default function FlightTicketListView({ m, isConfirm, isAnswer, answer, yesAction, noAction }) {
-  console.log(m)
   const {
     title,
     contents,
   } = m.customMessage;
 
-
-
-
-  // TODO ボットなどによる入力チェック
-  function validation() {
-    return true;
-  }
 
 
   return isAnswer ? (

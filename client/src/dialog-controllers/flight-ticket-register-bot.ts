@@ -17,20 +17,45 @@ import {
 } from '../utils/message-converter';
 
 
+type Bot = {
+  question: Question
+  setQuestion(question: Question): void
+  next({ message, isValid }: { message: Object, isValid: boolean }): void
+}
 
-export default class FlightTicketRegisterBot {
-  constructor({
-    registerFunc,
-  }) {
+interface Question {
+  bot: Bot;
+  init(): void
+  next({ message, isValid }: { message: Object, isValid: boolean }): void
+}
 
-    class AppStart {
-      constructor(bot) {
+export default class FlightTicketRegisterBot implements Bot {
+  question: Question;
+
+  next({ message, isValid }: { message: Object, isValid: boolean }) {
+    console.log('bot next', message, isValid)
+    if (!this.question) return;
+
+    this.question.next({message, isValid });
+  }
+
+  setQuestion(q: Question) {
+    this.question = q;
+  }
+
+  constructor({ registerFunc }: { registerFunc: Function }) {
+
+    class AppStart implements Question {
+      bot: Bot;
+
+      constructor(bot: Bot) {
         console.log('セットするbot', bot);
         this.bot = bot;
         this.init();
       }
 
-      init() {
+
+      init(): void {
         registerFunc(createConfirmMessage(
           '予約を開始しますか？',
           'チャットから航空機件予約が行えます。航空機件予約を開始しますか？'
@@ -38,7 +63,7 @@ export default class FlightTicketRegisterBot {
       }
 
 
-      async next({ message, isValid }) {
+      async next({ message, isValid }: { message: Object, isValid: boolean }) {
         console.log('question next', message, isValid)
         if (isValid) {
           console.log('次の質問をここで決めるのがいいのか？？')
@@ -53,17 +78,19 @@ export default class FlightTicketRegisterBot {
       }
     };
 
-    class ConfirmAirLine {
-      constructor(bot) {
+    class ConfirmAirLine implements Question {
+      bot: Bot;
+
+      constructor(bot: Bot) {
         this.bot = bot;
         this.init();
       }
 
-      init() {
+      init(): void {
         registerFunc(createConfirmAirLineMessage());
       }
 
-      async next({ message, isValid }) {
+      async next({ message, isValid }: { message: Object, isValid: boolean }) {
 
         if (!isValid) {
           await registerFunc(createTextMessage(
@@ -75,17 +102,19 @@ export default class FlightTicketRegisterBot {
       }
     }
 
-    class DepartureFrom {
-      constructor(bot) {
+    class DepartureFrom implements Question {
+      bot: Bot;
+
+      constructor(bot: Bot) {
         this.bot = bot;
         this.init();
       }
 
-      init() {
+      init(): void {
         registerFunc(createDepartureFormMessage());
       }
 
-      async next({ message, isValid }) {
+      async next({ message, isValid }: { message: Object, isValid: boolean }) {
 
         if (!isValid) {
           await registerFunc(createTextMessage(
@@ -97,17 +126,18 @@ export default class FlightTicketRegisterBot {
       }
     }
 
-    class ArrivalTo {
-      constructor(bot) {
+    class ArrivalTo implements Question {
+      bot: any;
+      constructor(bot: Bot) {
         this.bot = bot;
         this.init();
       }
 
-      init() {
+      init(): void {
         registerFunc(createArrivalToMessage());
       }
 
-      async next({ message, isValid }) {
+      async next({ message, isValid }: { message: Object, isValid: boolean }) {
 
         if (!isValid) {
           await registerFunc(createTextMessage(
@@ -119,13 +149,15 @@ export default class FlightTicketRegisterBot {
       }
     }
 
-    class Confirmation {
-      constructor(bot) {
+    class Confirmation implements Question {
+      bot: Bot;
+  
+      constructor(bot: Bot) {
         this.bot = bot;
         this.init();
       }
 
-      init() {
+      init(): void {
         // TODO 登録したデータを元にコメントを生成したい
         registerFunc(createConfirmationMessage(
           // title
@@ -142,7 +174,7 @@ export default class FlightTicketRegisterBot {
         ));
       }
 
-      async next({ message, isValid }) {
+      async next({ message, isValid }: { message: Object, isValid: boolean }) {
 
         if (!isValid) {
           await registerFunc(createTextMessage(
@@ -155,13 +187,15 @@ export default class FlightTicketRegisterBot {
     }
 
 
-    class FlightTicketList {
-      constructor(bot) {
+    class FlightTicketList implements Question {
+      bot: Bot;
+
+      constructor(bot: Bot) {
         this.bot = bot;
         this.init();
       }
 
-      init() {
+      init(): void {
         // TODO 登録したデータを元にコメントを生成したい
         registerFunc(createFlightTicketListMessage(
             [
@@ -273,7 +307,7 @@ export default class FlightTicketRegisterBot {
         ));
       }
 
-      async next({ message, isValid }) {
+      async next({ message, isValid }: { message: Object, isValid: boolean }) {
 
         if (!isValid) {
           await registerFunc(createTextMessage(
@@ -287,13 +321,15 @@ export default class FlightTicketRegisterBot {
 
 
 
-    class FlightTicketListConfirm {
-      constructor(bot) {
+    class FlightTicketListConfirm implements Question {
+      bot: Bot;
+
+      constructor(bot: Bot) {
         this.bot = bot;
         this.init();
       }
 
-      init() {
+      init(): void {
         // TODO 登録したデータを元にコメントを生成したい
         registerFunc(reateFlightTicketConfirmMessage(
           [{
@@ -324,7 +360,7 @@ export default class FlightTicketRegisterBot {
         ));
       }
 
-      async next({ message, isValid }) {
+      async next({ message, isValid }: { message: Object, isValid: boolean }) {
 
         if (!isValid) {
           await registerFunc(createTextMessage(
@@ -338,18 +374,20 @@ export default class FlightTicketRegisterBot {
 
 
 
-    class ProfileForm {
-      constructor(bot) {
+    class ProfileForm implements Question {
+      bot: Bot;
+  
+      constructor(bot: Bot) {
         this.bot = bot;
         this.init();
       }
 
-      init() {
+      init(): void {
         // TODO 登録したデータを元にコメントを生成したい
         registerFunc(createProfileFormMessage());
       }
 
-      async next({ message, isValid }) {
+      async next({ message, isValid }: { message: Object, isValid: boolean }) {
 
         if (!isValid) {
           await registerFunc(createTextMessage(
@@ -361,18 +399,19 @@ export default class FlightTicketRegisterBot {
       }
     }
 
-    class FlightSeatPreConfirm {
-      constructor(bot) {
+    class FlightSeatPreConfirm implements Question {
+      bot: any;
+      constructor(bot: Bot) {
         this.bot = bot;
         this.init();
       }
 
-      init() {
+      init(): void {
         // TODO 登録したデータを元にコメントを生成したい
         registerFunc(createFlightSeatPreConfirmMessage())  
       }
 
-      async next({ message, isValid }) {
+      async next({ message, isValid }: { message: Object, isValid: boolean }) {
 
         if (!isValid) {
           await registerFunc(createTextMessage(
@@ -385,18 +424,20 @@ export default class FlightTicketRegisterBot {
     }
 
 
-    class FlightSeatForm {
-      constructor(bot) {
+    class FlightSeatForm implements Question {
+      bot: Bot;
+
+      constructor(bot: Bot) {
         this.bot = bot;
         this.init();
       }
 
-      init() {
+      init(): void {
         // TODO 登録したデータを元にコメントを生成したい
         registerFunc(createFlightSeatFormMessage())  
       }
 
-      async next({ message, isValid }) {
+      async next({ message, isValid }: { message: Object, isValid: boolean }) {
 
         if (!isValid) {
           await registerFunc(createTextMessage(
@@ -409,19 +450,21 @@ export default class FlightTicketRegisterBot {
     }
 
 
-    class FlightSeatConfirm {
-      constructor(bot) {
+    class FlightSeatConfirm implements Question {
+      bot: Bot;
+
+      constructor(bot: Bot) {
         this.bot = bot;
         this.init();
       }
 
-      init() {
+      init(): void {
         // TODO 登録したデータを元にコメントを生成したい
         const seat = { name: 'E4' };
         registerFunc(createFlightSeatConfirmMessage(seat))  
       }
 
-      async next({ message, isValid }) {
+      async next({ message, isValid }: { message: Object, isValid: boolean }) {
 
         if (!isValid) {
           await registerFunc(createTextMessage(
@@ -435,17 +478,19 @@ export default class FlightTicketRegisterBot {
 
 
 
-    class FlightTicketPurchasePreConfirm {
-      constructor(bot) {
+    class FlightTicketPurchasePreConfirm implements Question {
+      bot: Bot;
+
+      constructor(bot: Bot) {
         this.bot = bot;
         this.init();
       }
 
-      init() {
+      init(): void {
         registerFunc(createFlightTicketPurchasePreConfirmMessage())  
       }
 
-      async next({ message, isValid }) {
+      async next({ message, isValid }: { message: Object, isValid: boolean }) {
 
         if (!isValid) {
           await registerFunc(createTextMessage(
@@ -458,13 +503,14 @@ export default class FlightTicketRegisterBot {
     }
 
 
-    class FlightTicketPurchaseForm {
-      constructor(bot) {
+    class FlightTicketPurchaseForm implements Question {
+      bot: any;
+      constructor(bot: Bot) {
         this.bot = bot;
         this.init();
       }
 
-      init() {
+      init(): void {
         registerFunc(createFlightTicketPurchaseMessage(
           '購入手続きをしてください。',
           { order:
@@ -479,7 +525,7 @@ export default class FlightTicketRegisterBot {
         ))  
       }
 
-      async next({ message, isValid }) {
+      async next({ message, isValid }: { message: Object, isValid: boolean }) {
 
         if (!isValid) {
           await registerFunc(createTextMessage(
@@ -492,8 +538,10 @@ export default class FlightTicketRegisterBot {
     }
 
 
-    class FlightTicketPurchasePdf {
-      constructor(bot) {
+    class FlightTicketPurchasePdf implements Question {
+      bot: Bot;
+
+      constructor(bot: Bot) {
         this.bot = bot;
         this.init();
       }
@@ -512,23 +560,14 @@ export default class FlightTicketRegisterBot {
 
         await registerFunc(createTextMessage('ご予約を終了いたします。引き続き質問等があればオペレーターが対応いたします。ありがとうございました。'));
       }
+
+      async next({ message, isValid }: { message: Object, isValid: boolean }) {
+
+      }
     }
 
 
-
-
     this.question = new AppStart(this);
-  }
-
-  next({ message, isValid }) {
-    console.log('bot next', message, isValid)
-    if (!this.question) return;
-
-    this.question.next({message, isValid });
-  }
-
-  setQuestion(q) {
-    this.question = q;
   }
 }
 

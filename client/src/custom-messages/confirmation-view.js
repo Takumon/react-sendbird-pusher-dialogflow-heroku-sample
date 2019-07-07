@@ -41,11 +41,6 @@ export default function ConfirmationView({ m, answer }) {
     text = 'デフォルト'
   } = m.customMessage;
 
-  async function validate(value) {
-    // TODO 
-  }
-
-
   const ActionYes = (
     <Button
       type="primary"

@@ -200,7 +200,7 @@ export default function ProfileView({ m, answer }) {
       <>
       <div style={{textAlign: 'left'}}>{m.customMessage.title}</div>
       <Container>
-        <Card title={<><FontAwesomeIcon icon='bars' /> お客様情報</>} >
+        <Card title={'お客様情報'} >
           <Content>
             <table>
               <colgroup>

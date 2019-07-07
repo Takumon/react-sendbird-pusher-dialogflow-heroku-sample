@@ -8,16 +8,9 @@ const Container = styled.div`
 
 export default function DepartureFormView({ m }) {
 
-  // TODO ボットなどによる入力チェック
-  function validation() {
-    return true;
-  }
-
   return (
-    <>
-      <Container>
-        {m.customMessage.text}
-      </Container>
-    </>
+    <Container>
+      {m.customMessage.text}
+    </Container>
   );
 }
