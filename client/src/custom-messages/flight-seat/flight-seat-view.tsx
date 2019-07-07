@@ -27,7 +27,7 @@ const Container = styled.div`
       display: flex;
       align-items: center;
       font-size: 15px;
-    
+
       svg {
         margin-right: 10px;
       }
@@ -52,7 +52,7 @@ const Container = styled.div`
 
 
 export default function FlightSeatView(
-  { 
+  {
     m,
     answer
   }
@@ -74,7 +74,7 @@ export default function FlightSeatView(
     setShowDetail(false);
   }
 
-  
+
 
   try {
     const selectedSeats = (
@@ -96,7 +96,7 @@ export default function FlightSeatView(
           {title}
         </div>
         {selectedSeats}
-        { isShowDetail 
+        { isShowDetail
           ? (
             <FlightSeatFullScreen
               close={() => setShowDetail(false)}

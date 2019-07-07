@@ -34,7 +34,7 @@ export default function Carousel(
           />
         ))}
       </CarouselContainer>
-    )
+    );
   } catch (e) {
     console.log(e);
     return (

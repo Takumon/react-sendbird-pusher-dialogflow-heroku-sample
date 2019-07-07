@@ -2,8 +2,6 @@
 import React from 'react';
 import Carousel from './carousel';
 
-
-
 export default function FlightTicketListView(
   {
     m,
@@ -21,8 +19,6 @@ export default function FlightTicketListView(
     title,
     contents,
   } = m.customMessage;
-
-
 
   return isAnswer ? (
       <div style={{

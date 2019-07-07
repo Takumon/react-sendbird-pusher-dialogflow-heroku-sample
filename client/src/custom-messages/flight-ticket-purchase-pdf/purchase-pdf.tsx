@@ -35,28 +35,28 @@ export default function PurchasePdf(
         <Text style={styles.text}>
           {date}
         </Text>
-        
+
         <Text style={styles.subtitle}>
           Price
         </Text>
         <Text style={styles.text}>
           {price}
         </Text>
-        
+
         <Text style={styles.subtitle}>
           Tax
         </Text>
         <Text style={styles.text}>
           {tax}
         </Text>
-        
+
         <Text style={styles.subtitle}>
           Total
         </Text>
         <Text style={styles.text}>
           {amount}
         </Text>
-        
+
         <Text
           style={styles.pageNumber}
           render={({ pageNumber, totalPages }) => (
@@ -66,8 +66,8 @@ export default function PurchasePdf(
         />
       </Page>
     </Document>
-    );
-};
+  );
+}
 
 const styles = StyleSheet.create({
   body: {

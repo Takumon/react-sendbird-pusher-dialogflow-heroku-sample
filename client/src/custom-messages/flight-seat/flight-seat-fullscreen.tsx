@@ -1,6 +1,6 @@
 
 import React from 'react';
-import styled from '@emotion/styled'
+import styled from '@emotion/styled';
 import FlightSeatsSvg from '../../images/flight-seats.svg';
 
 
@@ -25,7 +25,7 @@ const Container = styled.div`
     position: relative;
     top: 0;
     margin: 0 auto;
-    
+
     .header {
       display: flex;
       align-items: center;
@@ -48,7 +48,7 @@ const Container = styled.div`
         top: 0;
       }
     }
-    
+
     svg {
       width: 100%;
       max-width: 375px;
@@ -77,7 +77,7 @@ const Container = styled.div`
     color: white;
     background-color: #EFF4F9;
     padding: 10px;
-    
+
     button {
       height: 50px;
       width: 100%;
@@ -94,18 +94,18 @@ const Container = styled.div`
     background-repeat: no-repeat;
     background-size: cover;
     flex: 3;
-    
+
     h1 {
       width: 100%;
       text-align: center;
     }
-    
+
     .submit {
       margin: auto;
       width: 100%;
       max-width: 500px;
       margin-top: 10px;
-      
+
       button {
         font-size: 15px;
         margin-right: 10px;

@@ -2,7 +2,7 @@ import {
   SET_USER_ID,
   CLEAR_USER_ID,
   AuthActionTypes,
-} from '../constants/ActionTypes'
+} from '../constants/ActionTypes';
 
 export interface AuthState {
   userId: string | null

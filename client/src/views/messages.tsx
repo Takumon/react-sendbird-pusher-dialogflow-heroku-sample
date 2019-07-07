@@ -96,7 +96,7 @@ export default function Messages({ userId }: { userId: string }) {
       // TODO deleteイベントが自分のブラウザでも発生してまう問題の調査
       deleteMessageInModel(message.messageId);
     },
-    [ channel ],  
+    [ channel ],
   );
 
 
@@ -156,7 +156,7 @@ export default function Messages({ userId }: { userId: string }) {
           ...msgs.slice(0, targetIndex),
           ...msgs.slice(targetIndex + 1)
         ];
-    })
+    });
   }
 
 
@@ -206,17 +206,21 @@ export default function Messages({ userId }: { userId: string }) {
 
 
   useEffect(() => {
-    if (!sb || !channel) return;
+    if (!sb || !channel) {
+      return;
+    }
 
     const ChannelHandler = new sb.ChannelHandler();
-  
+
     // Add event handlers for sync in other browser
     ChannelHandler.onMessageReceived = (_: any, message: any) => {
       // ChatBot has to reaction
       addMessageInModel(message);
 
       console.log('execNextBotAction', message, attachedBot)
-      if (!attachedBot) return;
+      if (!attachedBot) {
+        return;
+      }
 
       // 受付側
       if (attachBot && message._sender.userId !== 'inouetakumon@gmail.com') {
@@ -229,11 +233,13 @@ export default function Messages({ userId }: { userId: string }) {
     sb.addChannelHandler(EVENT_HANDLER_ID, ChannelHandler);
 
     return () => {
-      if (!sb || !channel) return;
-      
+      if (!sb || !channel) {
+        return;
+      }
+
       console.log('removeChannelHandler')
       sb.removeChannelHandler(EVENT_HANDLER_ID);
-    }
+    };
 
   }, [sb, channel, attachedBot])
 
@@ -249,7 +255,9 @@ export default function Messages({ userId }: { userId: string }) {
   }, [])
 
   useEffect(() => {
-    if (!pusherChannel && !channel) return;
+    if (!pusherChannel && !channel) {
+      return;
+    }
 
     function registerFuncFromPusher({ message } : { message: any }) {
       registerFunc(createTextMessage(message))
@@ -265,7 +273,7 @@ export default function Messages({ userId }: { userId: string }) {
     };
 
   }, [pusherChannel, channel, registerFunc])
-  
+
 
   const UserId = styled.div`
     font-size: 12px;
@@ -276,7 +284,7 @@ export default function Messages({ userId }: { userId: string }) {
     padding: 12px;
     height: 32px;
   `;
-  
+
   return (
     <Layout>
       <Header>
@@ -324,7 +332,7 @@ export default function Messages({ userId }: { userId: string }) {
             registerFunc={registerFunc}
             fetchToWeatherBotFunc={fetchToWeatherBotFunc}
           />
-    
+
         </Container>
       </Content>
       <Footer>Footer</Footer>
@@ -332,10 +340,10 @@ export default function Messages({ userId }: { userId: string }) {
   );
 }
 
-
 function uuid4() {
   let d = new Date().getTime();
-  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c: string) => {
     const r = ((d + Math.random() * 16) % 16) | 0;
     d = Math.floor(d / 16);
     return (c === 'x' ? r : (r & 0x3) | 0x8).toString(16);

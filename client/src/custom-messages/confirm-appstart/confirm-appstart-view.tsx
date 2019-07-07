@@ -1,8 +1,7 @@
 
 import React from 'react';
-import styled from '@emotion/styled'
+import styled from '@emotion/styled';
 import { Card, Button } from 'antd';
-
 
 const Container = styled.div`
   text-align: left;
@@ -21,7 +20,7 @@ const Content = styled.div`
   }
   td {
     text-align: right;
-  }    
+  }
 `;
 
 const Action = styled.div`
@@ -33,24 +32,22 @@ const Action = styled.div`
   }
 `;
 
-
-
 export default function ConfirmAppStartView(
-  { m, answer } :
-  { m: any, answer: Function } 
+  { m, answer }
+  :
+  { m: any, answer: Function }
 ) {
   const {
     title,
     text,
   } = m.customMessage;
 
-
   const ActionYes = (
     <Button
       type="primary"
       onClick={async (e) => {
         const ansMessage = 'はい';
-        await answer(ansMessage)
+        await answer(ansMessage);
       }}
     >はい</Button>
   );
@@ -58,13 +55,13 @@ export default function ConfirmAppStartView(
   const ActionNo = (
     <Button
       type="danger"
-      onClick={e => {
+      onClick={async () => {
         const ansMessage = 'いいえ';
-        answer(ansMessage)
+        await answer(ansMessage);
       }}
     >いいえ</Button>
   );
-  
+
   return (
     <Container>
       <Card title={title} >

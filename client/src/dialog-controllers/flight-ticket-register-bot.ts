@@ -25,8 +25,8 @@ type Bot = {
 
 interface Question {
   bot: Bot;
-  init(): void
-  next({ message, isValid }: { message: Object, isValid: boolean }): void
+  init(): void;
+  next({ message, isValid }: { message: Object, isValid: boolean }): void;
 }
 
 export default class FlightTicketRegisterBot implements Bot {
@@ -34,7 +34,9 @@ export default class FlightTicketRegisterBot implements Bot {
 
   next({ message, isValid }: { message: Object, isValid: boolean }) {
     console.log('bot next', message, isValid)
-    if (!this.question) return;
+    if (!this.question) {
+      return;
+    }
 
     this.question.next({message, isValid });
   }
@@ -44,7 +46,6 @@ export default class FlightTicketRegisterBot implements Bot {
   }
 
   constructor({ registerFunc }: { registerFunc: Function }) {
-
     class AppStart implements Question {
       bot: Bot;
 
@@ -53,7 +54,6 @@ export default class FlightTicketRegisterBot implements Bot {
         this.bot = bot;
         this.init();
       }
-
 
       init(): void {
         registerFunc(createConfirmMessage(

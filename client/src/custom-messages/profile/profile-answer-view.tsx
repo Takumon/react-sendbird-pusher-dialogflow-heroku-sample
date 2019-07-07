@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Card } from 'antd';
-import styled from '@emotion/styled'
+import styled from '@emotion/styled';
 
 
 const Container = styled.div`
@@ -15,7 +15,7 @@ const Content = styled.div`
 
   table {
     width: 100%;
-    
+
     tbody th {
       font-weight: normal;
     }
@@ -35,7 +35,7 @@ export default function ProfileAnswerView({ m }: { m: any }) {
           <Content>
             <table>
               <colgroup>
-                <col style={{width: "100px"}}/>
+                <col style={{width: '100px'}}/>
                 <col/>
               </colgroup>
               <tbody>

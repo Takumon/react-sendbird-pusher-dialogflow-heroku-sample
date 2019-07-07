@@ -48,7 +48,7 @@ const FlightSammary = styled.div`
   .flightTicketCell {
     word-wrap: break-word;
     text-align: center;
-  
+
     p {
       font-size: 40px;
       margin: 0;
@@ -133,13 +133,13 @@ export default function CarouselCellFullScreen(
     <FlightSammary key={i}>
       <table>
         <colgroup>
-          <col style={{width: "40%"}}/>
+          <col style={{width: '40%'}}/>
           <col/>
-          <col style={{width: "40%"}}/>
+          <col style={{width: '40%'}}/>
         </colgroup>
         <tbody>
           <tr>
-            <td className='flightTicketCell' style={{wordWrap: 'break-word',textAlign: 'center'}}>
+            <td className='flightTicketCell' style={{wordWrap: 'break-word', textAlign: 'center'}}>
               <p>{route.depart.airport}</p>
             </td>
             <td><img style={{width: '100%'}} alt="arrow" src={ArrowSvg} /></td>

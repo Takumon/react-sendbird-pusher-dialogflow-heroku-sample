@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect  } from 'react';
 import { Card, Button, Input, DatePicker } from 'antd';
-import styled from '@emotion/styled'
+import styled from '@emotion/styled';
 
 
 const Container = styled.div`
@@ -15,7 +15,7 @@ const Content = styled.div`
 
   table {
     width: 100%;
-    
+
     tbody th {
       font-weight: normal;
     }
@@ -52,9 +52,9 @@ export default function ProfileView(
   const [sex, setSex] = useState<string>('');
   const [savedResponses, setSavedResponses] = useState<any>(undefined);
   const [isSubmitting, setSubmitting] = useState<boolean>(false);
-const [submitted /* , setSubmitted*/] = useState<boolean>(false);
+  const [submitted /* , setSubmitted*/] = useState<boolean>(false);
 
-  
+
   useEffect(() => {
     let unmounted = false;
 
@@ -69,7 +69,7 @@ const [submitted /* , setSubmitted*/] = useState<boolean>(false);
         // TODO Build Server for Profile
         // const messageId = '' + m.messageId;
         // const res = await get(`/message/${stripPrefix(m.messageId)}`);
-        
+
         // if (!unmounted) {
         //   setSavedResponses(res);
 
@@ -91,15 +91,14 @@ const [submitted /* , setSubmitted*/] = useState<boolean>(false);
           setSavedResponses(err);
         }
       }
-      
+
     })();
 
     // clean up
     return () => {
       unmounted = true
     };
-  })
-
+  });
 
   async function onSubmit() {
     setSubmitting(true);
@@ -132,8 +131,7 @@ const [submitted /* , setSubmitted*/] = useState<boolean>(false);
       phone,
       birthday,
       sex,
-    })
-
+    });
 
     // registerFunc(createTextMessage('予約中です...'));
 
@@ -189,7 +187,6 @@ const [submitted /* , setSubmitted*/] = useState<boolean>(false);
     }
   }
 
-
   const submitButton =
     submitted ?
       <span>登録済</span>
@@ -219,7 +216,7 @@ const [submitted /* , setSubmitted*/] = useState<boolean>(false);
           <Content>
             <table>
               <colgroup>
-                <col style={{width: "100px"}}/>
+                <col style={{width: '100px'}}/>
                 <col/>
               </colgroup>
               <tbody>

@@ -1,6 +1,6 @@
 
 import React from 'react';
-import styled from '@emotion/styled'
+import styled from '@emotion/styled';
 import { Card, Button } from 'antd';
 
 
@@ -21,7 +21,7 @@ const Content = styled.div`
   }
   td {
     text-align: right;
-  }    
+  }
 `;
 
 const Action = styled.div`
@@ -36,7 +36,8 @@ const Action = styled.div`
 
 
 export default function AirLineSearchAirLineView(
-  { m, answer }: 
+  { m, answer }
+  :
   { m: any, answer: Function }
 ) {
   const {
@@ -44,11 +45,10 @@ export default function AirLineSearchAirLineView(
     text,
   } = m.customMessage;
 
-
   const ActionYes = (
     <Button
       type="primary"
-      onClick={async e => {
+      onClick={async () => {
         const messageStr = '国際線';
         // TODO 入力チェック
         await answer(messageStr)
@@ -62,7 +62,7 @@ export default function AirLineSearchAirLineView(
       onClick={e => console.log('TODO 実装')}
     >国内線</Button>
   );
-  
+
   return (
     <Container>
       <Card title={title} >

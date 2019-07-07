@@ -1,32 +1,32 @@
-const Dialogflow = require('dialogflow');
-const Pusher = require('pusher');
-const getWeatherInfo = require('./weather');
+import Dialogflow from 'dialogflow';
+import Pusher from 'pusher';
+import getWeatherInfo from './weather';
 
 // You can find your project ID in your Dialogflow agent settings
-const projectId = 'weather-bot-swcbpp'; //https://dialogflow.com/docs/agents#settings
+const projectId = 'weather-bot-swcbpp'; // https://dialogflow.com/docs/agents#settings
 const sessionId = '123456';
 const languageCode = 'en-US';
 
 const config = {
   credentials: {
-    private_key: process.env.DIALOGFLOW_PRIVATE_KEY,
     client_email: process.env.DIALOGFLOW_CLIENT_EMAIL,
+    private_key: process.env.DIALOGFLOW_PRIVATE_KEY,
   },
 };
 
 const pusher = new Pusher({
   appId: process.env.PUSHER_APP_ID,
-  key: process.env.PUSHER_APP_KEY,
-  secret: process.env.PUSHER_APP_SECRET,
   cluster: process.env.PUSHER_APP_CLUSTER,
   encrypted: true,
+  key: process.env.PUSHER_APP_KEY,
+  secret: process.env.PUSHER_APP_SECRET,
 });
 
 const sessionClient = new Dialogflow.SessionsClient(config);
 
 const sessionPath = sessionClient.sessionPath(projectId, sessionId);
 
-const processMessage = async message => {
+export default async function processMessage(message: string) {
   const request = {
     session: sessionPath,
     queryInput: {
@@ -39,8 +39,7 @@ const processMessage = async message => {
 
   try {
     // throw a message to DialogFlow
-    const [ { queryResult } ] = await sessionClient.detectIntent(request)
-
+    const [ { queryResult } ] = await sessionClient.detectIntent(request);
 
     // If the intent matches 'detect-city'
     if (queryResult.intent.displayName === 'detect-city') {
@@ -48,17 +47,17 @@ const processMessage = async message => {
 
       // fetch the temperature from openweather map
       const temperature = await getWeatherInfo(city);
-      const message = `The weather is ${city} is ${temperature}°C`;
-      return pusher.trigger('bot', 'bot-response', { message });
+      return pusher.trigger(
+        'bot', 'bot-response',
+        { message: `The weather is ${city} is ${temperature}°C` }
+      );
     }
 
-    const message = queryResult.fulfillmentText;
-    console.log('Server = ', message)
-    return pusher.trigger('bot', 'bot-response', { message });
+    const fetchedMessage = queryResult.fulfillmentText;
+    console.log('Server = ', fetchedMessage);
+    return pusher.trigger('bot', 'bot-response', { message: fetchedMessage });
 
-  } catch(err) {
+  } catch (err) {
     console.error('ERROR:', err);
   }
-};
-
-module.exports = processMessage;
+}

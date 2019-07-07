@@ -2,18 +2,16 @@
 import React from 'react';
 import Carousel from './carousel';
 
-
-
 export default function FlightTicketListConfirmView(
   { m, answer }
-  :{ m: any, answer: Function }
+  :
+  { m: any, answer: Function }
 ) {
 
   const {
     title,
     contents,
   } = m.customMessage;
-
 
   return (
     <div>

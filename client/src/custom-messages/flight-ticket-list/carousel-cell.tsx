@@ -102,10 +102,10 @@ export default function CarouselCell(props: {
     time,
     milage,
     selectable,
-    
+
     answer,
   } = props;
-  
+
   const [isShowDetail, setShowDetail] = useState(false);
 
   async function selectFlight() {
@@ -135,9 +135,9 @@ export default function CarouselCell(props: {
       <FlightTicket key={i}>
         <table>
           <colgroup>
-            <col style={{width: "40%"}}/>
+            <col style={{width: '40%'}}/>
             <col/>
-            <col style={{width: "40%"}}/>
+            <col style={{width: '40%'}}/>
           </colgroup>
           <tbody>
             <tr><td colSpan={3} className='dateHeader'>{dateHeader}</td></tr>
@@ -164,7 +164,7 @@ export default function CarouselCell(props: {
           </tbody>
         </table>
       </FlightTicket>
-    )
+    );
   });
 
   const selectButton =

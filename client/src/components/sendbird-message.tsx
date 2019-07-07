@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from '@emotion/styled'
+import styled from '@emotion/styled';
 import { Button, Menu, Dropdown, Icon } from 'antd';
 import BotAvatorIcon from '../images/bot.png';
 import MineAvatorIcon from '../images/mine.png';

@@ -1,6 +1,6 @@
 
 import React from 'react';
-import styled from '@emotion/styled'
+import styled from '@emotion/styled';
 
 
 
@@ -21,11 +21,11 @@ const Container = styled.div`
     background-color: #00539C;
     color: white;
     padding: 10px;
-    
+
     span {
       float: left;
     }
-    
+
     span.date {
       float: right;
       background-color: #236BA4;
@@ -37,16 +37,16 @@ const Container = styled.div`
 
   .content {
     padding: 10px;
-    
+
     hr {
       border-style: solid;
       border-color: #DBDBDB;
     }
-    
+
     table {
       width: 100%;
     }
-    
+
     td {
       text-align: right;
     }
@@ -85,7 +85,7 @@ export default function FlightSeatView({ m }: { m: any }) {
     date,
   } = contents.order;
 
-  
+
   try {
     const footer =(
       <div className="footer confirmed">

@@ -1,5 +1,3 @@
-
-
 export function connect(sb: any, userId: string): Promise<any> {
   return new Promise((resolve, reject) => {
     if(!sb) {
@@ -34,8 +32,6 @@ export function openChannel(sb: any, channelId: string): Promise<any> {
   });
 }
 
-
-
 export function enterChannel(channel: any): Promise<any> {
   return new Promise((resolve, reject) => {
     if(!channel) {
@@ -49,7 +45,6 @@ export function enterChannel(channel: any): Promise<any> {
     })
   });
 }
-
 
 export function sendMessage(channel: any, message: any): Promise<any> {
   return new Promise((resolve, reject) => {
@@ -89,7 +84,6 @@ export function sendFileMessage(channel: any, file: any): Promise<any> {
   });
 }
 
-
 export function updateMessage(channel: any, message: any, messageText: string): Promise<any> {
   return new Promise((resolve, reject) => {
     if(!channel) {
@@ -118,7 +112,6 @@ export function updateMessage(channel: any, message: any, messageText: string): 
   });
 }
 
-
 export function deleteMessage(channel: any, message: any): Promise<any> {
   return new Promise((resolve, reject) => {
     if(!channel) {
@@ -136,8 +129,6 @@ export function deleteMessage(channel: any, message: any): Promise<any> {
     });
   });
 }
-
-
 
 export function getMessage(query: any): Promise<[string] | [] | string> {
   return new Promise((resolve, reject) => {

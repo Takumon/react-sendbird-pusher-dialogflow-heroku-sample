@@ -1,6 +1,6 @@
 
 import React from 'react';
-import styled from '@emotion/styled'
+import styled from '@emotion/styled';
 import { Card, Button } from 'antd';
 
 const Container = styled.div`
@@ -20,7 +20,7 @@ const Content = styled.div`
   }
   td {
     text-align: right;
-  }    
+  }
 `;
 
 const Action = styled.div`
@@ -35,7 +35,8 @@ const Action = styled.div`
 
 
 export default function AirLineSearchConfirmView(
-  { m, answer }: 
+  { m, answer }
+  :
   { m: any, answer: Function }
 ) {
   const {
@@ -65,7 +66,7 @@ export default function AirLineSearchConfirmView(
       }}
     >いいえ</Button>
   );
-  
+
   return (
     <Container>
       <Card title={title} >
@@ -74,7 +75,7 @@ export default function AirLineSearchConfirmView(
           <hr/>
           <table>
             <tbody>
-              {contents.map((d: any )=> (
+              {contents.map((d: any ) => (
                 <tr key={d.name} >
                   <th>{d.name}</th>
                   <td>{d.value}</td>

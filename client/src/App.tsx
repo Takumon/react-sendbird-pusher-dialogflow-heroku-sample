@@ -1,11 +1,10 @@
 import React from 'react';
-import { Router, Route } from 'react-router-dom'
-import history from './history'
+import { Router, Route } from 'react-router-dom';
+import history from './history';
 import './App.css';
 import 'antd/dist/antd.css';
 import Login from './containers/login';
 import Messages from './containers/messages';
-
 
 function App() {
   // runSample();
