@@ -15,9 +15,9 @@ import {
   sendMessage,
   sendFileMessage,
 } from '../utils/sendbird';
-import { createTextMessage } from '../utils/message-converter';
+import { createTextMessage, toCustom } from '../utils/message-converter';
 import { MessageWeatherBotCreate, MessageTextFormCreate } from '../custom-messages';
-import FlightTicketRegisterBot from '../dialog-controllers/flight-ticket-register-bot';
+import FlightTicketRegisterBot from '../dialog-controllers/flight-ticket-register/bot';
 
 const { Header, Content, Footer } = Layout;
 const APP_ID: string = process.env.REACT_APP_APP_ID || '';
@@ -28,7 +28,8 @@ const BOT_CHANNEL: string = process.env.REACT_APP_BOT_CHANNEL || '';
 const BOT_WEATHER_EVENT: string = process.env.REACT_APP_BOT_WEATHER_EVENT || '';
 const EVENT_HANDLER_ID: string = uuid4();
 const WEATHER_API_URL: string = 'http://localhost:5000/chat';
-
+// TODO temp user id
+const BOT_USER_ID: string = 'inouetakumon@gmail.com';
 
 /****************************/
 /*  Style                   */
@@ -177,7 +178,10 @@ export default function Messages({ userId }: { userId: string }) {
 
 
   function attachBot() {
-    setAttachedBot(new FlightTicketRegisterBot({ registerFunc }));
+    // TODO To be able to chage bot.
+    const bot = new FlightTicketRegisterBot(registerFunc, {});
+    bot.execQuestion();
+    setAttachedBot(bot);
   }
 
 
@@ -214,22 +218,19 @@ export default function Messages({ userId }: { userId: string }) {
 
     // Add event handlers for sync in other browser
     ChannelHandler.onMessageReceived = (_: any, message: any) => {
+      const m = toCustom(message);
+
       // ChatBot has to reaction
-      addMessageInModel(message);
+      addMessageInModel(m);
 
-      console.log('execNextBotAction', message, attachedBot)
-      if (!attachedBot) {
-        return;
-      }
-
-      // 受付側
-      if (attachBot && message._sender.userId !== 'inouetakumon@gmail.com') {
-        attachedBot.next({ message, isValid: true });
+      if (attachBot && message._sender.userId !== BOT_USER_ID) {
+        attachedBot.reactionToAnwer(message);
       }
     };
+
     // ChannelHandler.onMessageUpdated = (_: any, message: any) => updateMessageInModel(message);
     ChannelHandler.onMessageDeleted = (_: any, messageId: any) => deleteMessageInModel(messageId);
-    console.log('addChannelHandler')
+    console.log('addChannelHandler');
     sb.addChannelHandler(EVENT_HANDLER_ID, ChannelHandler);
 
     return () => {
@@ -252,7 +253,7 @@ export default function Messages({ userId }: { userId: string }) {
       encrypted: true,
     });
     setPusherChannel(pusher.subscribe(BOT_CHANNEL));
-  }, [])
+  }, []);
 
   useEffect(() => {
     if (!pusherChannel && !channel) {
