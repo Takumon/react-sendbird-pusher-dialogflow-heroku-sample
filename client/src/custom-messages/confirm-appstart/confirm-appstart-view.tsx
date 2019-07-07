@@ -35,7 +35,10 @@ const Action = styled.div`
 
 
 
-export default function ConfirmAppStartView({ m, answer }) {
+export default function ConfirmAppStartView(
+  { m, answer } :
+  { m: any, answer: Function } 
+) {
   const {
     title,
     text,
@@ -54,7 +57,7 @@ export default function ConfirmAppStartView({ m, answer }) {
 
   const ActionNo = (
     <Button
-      type="dainger"
+      type="danger"
       onClick={e => {
         const ansMessage = 'いいえ';
         answer(ansMessage)

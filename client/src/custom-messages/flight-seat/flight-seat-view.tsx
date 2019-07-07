@@ -51,7 +51,17 @@ const Container = styled.div`
 `;
 
 
-export default function FlightSeatView({ m, answer }) {
+export default function FlightSeatView(
+  { 
+    m,
+    answer
+  }
+  :
+  {
+    m: any
+    answer: Function
+  }
+) {
 
   const {
     title,
@@ -59,7 +69,7 @@ export default function FlightSeatView({ m, answer }) {
 
   const [isShowDetail, setShowDetail] = useState(false);
 
-  async function select(seat) {
+  async function select(seat: any) {
     await answer(seat);
     setShowDetail(false);
   }

@@ -7,12 +7,11 @@ const Container = styled.div`
 `;
 
 
-export default function FlightSeatConfirmView({ m }) {
+export default function FlightSeatPreConfirmView({ m }: { m: any }) {
 
   return (
     <Container>
-      <div>{m.customMessage.text}</div>
-      <div>{m.customMessage.seat.name}</div>
+      {m.customMessage.text}
     </Container>
   );
 }

@@ -6,13 +6,15 @@ const Container = styled.div`
   text-align: left;
 `;
 
-export default function ArrivalFormView({ m }) {
-
+export default function LinkView(
+  { m }
+  : { m: any }
+) {
   return (
-    <>
-      <Container>
+    <Container>
+      <a href={m.customMessage.link} >
         {m.customMessage.text}
-      </Container>
-    </>
+      </a>
+    </Container>
   );
 }

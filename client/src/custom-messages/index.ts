@@ -6,10 +6,10 @@ export { default as MessageImageView } from "./image-view";
 
 export { default as MessageConfirmAppStartView } from "./confirm-appstart/confirm-appstart-view";
 
-export { default as MessageConfirmAirLineView } from "./confirm-airline/confirm-airline-view";
-export { default as MessageDepartureFormView } from "./departure-form-view";
-export { default as MessageArrivalFormView } from "./arrival-form-view";
-export { default as MessageConfirmationView } from "./confirmation-view";
+export { default as MessageAirLineSearchAirLineView } from "./airline-search/airline-search-airline-view";
+export { default as MessageAirLineSearchDepartureView } from "./airline-search/airline-search-departure-view";
+export { default as MessageAirLineSearchArrivalView } from "./airline-search/airline-search-arrival-view";
+export { default as MessageAirLineSearchConfirmView } from "./airline-search/airline-search-confirm-view";
 
 
 export { default as MessageFlightTicketListView } from "./flight-ticket-list/flight-ticket-list-view";

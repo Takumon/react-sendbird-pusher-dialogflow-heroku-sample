@@ -14,7 +14,15 @@ const Description = styled.div`
   color: #444;
 `;
 
-export default function ImageView({ m }) {
+export default function ImageView(
+  {
+    m
+  }
+  :
+  {
+    m: any
+  }
+) {
   return (
     <Container>
       <img

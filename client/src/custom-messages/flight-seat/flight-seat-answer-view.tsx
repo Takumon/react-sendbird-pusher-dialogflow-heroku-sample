@@ -52,7 +52,7 @@ const Container = styled.div`
 `;
 
 
-export default function FlightSeatAnswerView({ m }) {
+export default function FlightSeatAnswerView({ m }: { m: any }) {
 
   const {
     title,

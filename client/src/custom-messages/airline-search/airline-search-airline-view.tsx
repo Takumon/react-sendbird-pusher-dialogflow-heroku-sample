@@ -3,6 +3,7 @@ import React from 'react';
 import styled from '@emotion/styled'
 import { Card, Button } from 'antd';
 
+
 const Container = styled.div`
   text-align: left;
   border: 0.1px solid #222;
@@ -34,51 +35,39 @@ const Action = styled.div`
 
 
 
-export default function ConfirmationView({ m, answer }) {
+export default function AirLineSearchAirLineView(
+  { m, answer }: 
+  { m: any, answer: Function }
+) {
   const {
     title,
-    contents,
-    text = 'デフォルト'
+    text,
   } = m.customMessage;
+
 
   const ActionYes = (
     <Button
       type="primary"
-      onClick={async (e) => {
-        const messageStr = 'はい';
+      onClick={async e => {
+        const messageStr = '国際線';
         // TODO 入力チェック
         await answer(messageStr)
       }}
-    >はい</Button>
+    >国際線</Button>
   );
 
   const ActionNo = (
     <Button
-      type="dainger"
-      onClick={async (e) => {
-        const messageStr = 'いいえ';
-        // TODO 入力チェック
-        await answer(messageStr)
-      }}
-    >いいえ</Button>
+      type="danger"
+      onClick={e => console.log('TODO 実装')}
+    >国内線</Button>
   );
   
   return (
     <Container>
       <Card title={title} >
         <Content>
-          <div>{text}</div>
-          <hr/>
-          <table>
-            <tbody>
-              {contents.map(d => (
-                <tr key={d.name} >
-                  <th>{d.name}</th>
-                  <td>{d.value}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+          {text}
         </Content>
 
         <Action>

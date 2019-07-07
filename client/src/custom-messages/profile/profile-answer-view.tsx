@@ -23,7 +23,7 @@ const Content = styled.div`
 `;
 
 
-export default function ProfileAnswerView({ m }) {
+export default function ProfileAnswerView({ m }: { m: any }) {
 
   const { contents } = m.customMessage;
 

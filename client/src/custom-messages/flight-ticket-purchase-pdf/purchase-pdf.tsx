@@ -7,12 +7,21 @@ import {
   StyleSheet,
 } from "@react-pdf/renderer";
 
-export default function PurchasePdf({
-  date,
-  price,
-  tax,
-  amount,
-}) {
+export default function PurchasePdf(
+  {
+    date,
+    price,
+    tax,
+    amount,
+  }
+  :
+  {
+    date: string
+    price: string
+    tax: string
+    amount: string
+  }
+) {
   return (
     <Document>
       <Page style={styles.body}>

@@ -6,12 +6,11 @@ const Container = styled.div`
   text-align: left;
 `;
 
-export default function LinkView({ m }) {
+export default function AirLineSearchArrivalView({ m }: { m: any}) {
+
   return (
     <Container>
-      <a href={m.customMessage.link} >
-        {m.customMessage.text}
-      </a>
+      {m.customMessage.text}
     </Container>
   );
 }

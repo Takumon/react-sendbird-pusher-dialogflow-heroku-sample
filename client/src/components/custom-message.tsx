@@ -5,10 +5,10 @@ import {
   MessageImageView,
 
   MessageConfirmAppStartView,
-  MessageConfirmAirLineView,
-  MessageDepartureFormView,
-  MessageArrivalFormView,
-  MessageConfirmationView,
+  MessageAirLineSearchAirLineView,
+  MessageAirLineSearchDepartureView,
+  MessageAirLineSearchArrivalView,
+  MessageAirLineSearchConfirmView,
   MessageFlightTicketListView,
   MessageFlightTicketListConfirmView,
   MessageProfileView,
@@ -78,7 +78,7 @@ export default function CustomMessage({
       />,
 
     [CUSTOM_MESSAGE_TYPE.CONFIRM_AIR_LINE]:
-      <MessageConfirmAirLineView
+      <MessageAirLineSearchAirLineView
         m={message}
         answer={(value: any) => {
           registerFunc(createAnswerMessage(
@@ -89,17 +89,17 @@ export default function CustomMessage({
       />,
 
     [CUSTOM_MESSAGE_TYPE.DEPARTURE_FORM]:
-      <MessageDepartureFormView
+      <MessageAirLineSearchDepartureView
         m={message}
       />,
 
     [CUSTOM_MESSAGE_TYPE.ARRIVAL_FORM]:
-      <MessageArrivalFormView
+      <MessageAirLineSearchArrivalView
         m={message}
       />,
 
     [CUSTOM_MESSAGE_TYPE.CONFIRMATION]:
-      <MessageConfirmationView
+      <MessageAirLineSearchConfirmView
         m={message}
         answer={(value: any) => {
           registerFunc(createAnswerMessage(

@@ -23,13 +23,21 @@ const ButtonArea = styled.div`
 
 `;
 
-export default function TextFormUpdate({
-  message,
-  updateFunc,
-  cancelFunc,
-}) {
+export default function TextFormUpdate(
+  {
+    message,
+    updateFunc,
+    cancelFunc,
+  }
+  :
+  {
+    message: any,
+    updateFunc: Function,
+    cancelFunc: Function,
+  }
+) {
 
-  const [text, setText] = useState(message.customMessage.text);
+  const [text, setText] = useState<string>(message.customMessage.text);
 
   function clearForm() {
     setText('');
@@ -54,8 +62,8 @@ export default function TextFormUpdate({
       </InputArea>
       <ButtonArea>
         <Button
-          onClick={cancelFunc}
-          type="dainger"
+          onClick={() => cancelFunc()}
+          type="danger"
         >CANCEL</Button>
       </ButtonArea>
       <ButtonArea>

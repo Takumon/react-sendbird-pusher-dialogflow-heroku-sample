@@ -7,7 +7,7 @@ import {
 } from 'antd';
 import {
   createTextMessage,
-} from '../utils/message-converter';
+} from '../../utils/message-converter';
 
 const Container = styled.div`
   margin-top: 2rem;
@@ -23,7 +23,17 @@ const ButtonArea = styled.div`
 
 `;
 
-export default function TextFormCreate({ registerFunc }) {
+export default function WeatherBotFormCreate(
+  {
+    registerFunc,
+    fetchToWeatherBotFunc,
+  }
+  :
+  {
+    registerFunc: Function
+    fetchToWeatherBotFunc: Function
+  }
+) {
 
   const [message, setMessage] = useState('');
 
@@ -34,6 +44,8 @@ export default function TextFormCreate({ registerFunc }) {
   function action() {
     const messageStr = createTextMessage(message);
     registerFunc(messageStr);
+    // ここでWeather Botを呼び出す
+    fetchToWeatherBotFunc(messageStr)
     clearForm();
   }
 
@@ -43,7 +55,7 @@ export default function TextFormCreate({ registerFunc }) {
           <Input
             type="text"
             value={message}
-            placeholder="New message"
+            placeholder="New message for Weather Bot!"
             onChange={e => setMessage(e.target.value)}
           />
         </InputArea>

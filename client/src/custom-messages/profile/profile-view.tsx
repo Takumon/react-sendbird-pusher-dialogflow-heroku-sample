@@ -2,7 +2,6 @@
 import React, { useState, useEffect  } from 'react';
 import { Card, Button, Input, DatePicker } from 'antd';
 import styled from '@emotion/styled'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 
 const Container = styled.div`
@@ -32,18 +31,28 @@ const Action = styled.div`
   }
 `;
 
-export default function ProfileView({ m, answer }) {
+export default function ProfileView(
+  {
+    m,
+    answer
+  }
+  :
+  {
+    m: any
+    answer: any
+  }
+) {
 
   // const [id ] = useState('');
   // const [leadId ] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [firstName, setFirstName] = useState('');
-  const [phone, setPhone] = useState('');
-  const [birthday, setBirthday] = useState('');
-  const [sex, setSex] = useState('');
-  const [savedResponses, setSavedResponses] = useState(undefined);
-  const [isSubmitting, setSubmitting] = useState(false);
-const [submitted /* , setSubmitted*/] = useState(false);
+  const [lastName, setLastName] = useState<string>('');
+  const [firstName, setFirstName] = useState<string>('');
+  const [phone, setPhone] = useState<string>('');
+  const [birthday, setBirthday] = useState<string>('');
+  const [sex, setSex] = useState<string>('');
+  const [savedResponses, setSavedResponses] = useState<any>(undefined);
+  const [isSubmitting, setSubmitting] = useState<boolean>(false);
+const [submitted /* , setSubmitted*/] = useState<boolean>(false);
 
   
   useEffect(() => {
@@ -82,10 +91,13 @@ const [submitted /* , setSubmitted*/] = useState(false);
           setSavedResponses(err);
         }
       }
+      
     })();
 
     // clean up
-    return () => unmounted = true;
+    return () => {
+      unmounted = true
+    };
   })
 
 
@@ -172,22 +184,25 @@ const [submitted /* , setSubmitted*/] = useState(false);
     // } catch(err) {
     //   setSubmitting(err);
     // }
+    return () => {
+      console.log('do nothing');
+    }
   }
 
 
   const submitButton =
     submitted ?
       <span>登録済</span>
-    : isSubmitting instanceof Error ?
+    : savedResponses instanceof Error ?
       <Button
         className='inline error'
-        onClick={() => alert(isSubmitting.message)}
+        onClick={() => alert(savedResponses.message)}
       >Error</Button>
     : isSubmitting ?
       <Button
         className='inline'
         disabled
-      >登録中&hellip; <FontAwesomeIcon icon="spinner" sping /></Button>
+      >登録中</Button>
     :
       <Button
         className='inline'
@@ -237,7 +252,6 @@ const [submitted /* , setSubmitted*/] = useState(false);
                   <th>生年月日</th>
                   <td>
                     <DatePicker
-                      defaultValue={birthday}
                       disabled={submitted}
                       onChange={(date, dateString) => setBirthday(dateString)}
                     />
@@ -295,9 +309,3 @@ const [submitted /* , setSubmitted*/] = useState(false);
     return <p>Undefined profile type</p>;
   }
 }
-
-// TODO Export other file
-// function stripPrefix(prefixedLayerID) {
-//   const pieces = prefixedLayerID.split('/');
-//   return pieces[pieces.length - 1];
-// }

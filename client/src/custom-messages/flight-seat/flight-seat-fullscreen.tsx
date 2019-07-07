@@ -1,6 +1,5 @@
 
 import React from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import styled from '@emotion/styled'
 import FlightSeatsSvg from '../../images/flight-seats.svg';
 
@@ -130,11 +129,19 @@ const Container = styled.div`
   }
 `;
 
-export default function FlightSeatFullScreen({
-  close,
-  selectedSeat,
-  select,
-}) {
+export default function FlightSeatFullScreen(
+  {
+    close,
+    selectedSeat,
+    select,
+  }
+  :
+  {
+    close: any,
+    select: any,
+    selectedSeat: any,
+  }
+) {
   
 
   const business = (
@@ -189,17 +196,17 @@ export default function FlightSeatFullScreen({
     <Container>
       <div className='flightSeatMap'>
         <div className='header'>
-          <div style={{float: 'flex', display: 'flex', alignItems: 'center'}}>&nbsp;{business} &nbsp;Business&nbsp;</div>
-          <div style={{float: 'flex', display: 'flex', alignItems: 'center'}}>&nbsp;{economy} &nbsp;Economy&nbsp;</div>
-          <div style={{float: 'flex', display: 'flex', alignItems: 'center'}}>&nbsp;{unavailable} &nbsp;Unavailable</div>
-          <button onClick={close} className='dismiss'><FontAwesomeIcon icon='close' /></button>
+          <div style={{float: 'left', display: 'left', alignItems: 'center'}}>&nbsp;{business} &nbsp;Business&nbsp;</div>
+          <div style={{float: 'left', display: 'left', alignItems: 'center'}}>&nbsp;{economy} &nbsp;Economy&nbsp;</div>
+          <div style={{float: 'left', display: 'flex', alignItems: 'center'}}>&nbsp;{unavailable} &nbsp;Unavailable</div>
+          <button onClick={close} className='dismiss'>×</button>
         </div>
         <svg height="667px" width="375px" version="1.1" viewBox="0 0 375 667">
           <defs>
-            <lineargradient id="linearGradient-1" x1="0%" x2="101.999998%" y1="0%" y2="100.999999%">
+            <linearGradient id="linearGradient-1" x1="0%" x2="101.999998%" y1="0%" y2="100.999999%">
               <stop offset="0%" stopColor="#106DA9"/>
               <stop offset="100%" stopColor="#59A1DB"/>
-            </lineargradient>
+            </linearGradient>
             <rect height="679" id="path-2" width="375" rx="6" x="0" y="-2.84217094e-14"/>
           </defs>
           <g id="App" fill="none" stroke="none" strokeWidth="1">
