@@ -11,7 +11,7 @@ import {
   enterChannel,
   getMessage,
   openChannel,
-  updateMessage,
+  // updateMessage,
   sendMessage,
   sendFileMessage,
 } from '../utils/sendbird';
@@ -81,13 +81,13 @@ export default function Messages({ userId }: { userId: string }) {
   );
 
 
-  const updateFunc = useCallback(
-    async (message, messageText) => {
-      const updatedMessage = await updateMessage(channel, message, messageText);
-      updateMessageInModel(updatedMessage);
-    },
-    [ channel ],
-  );
+  // const updateFunc = useCallback(
+  //   async (message, messageText) => {
+  //     const updatedMessage = await updateMessage(channel, message, messageText);
+  //     updateMessageInModel(updatedMessage);
+  //   },
+  //   [ channel ],
+  // );
 
 
   const deleteFunc = useCallback(
@@ -118,25 +118,25 @@ export default function Messages({ userId }: { userId: string }) {
     });
   }
 
-  function updateMessageInModel(updatedOne: any) {
-    setMessages((msgs: any) => {
-      let targetIndex: Number | null = null;
-      for (const index in msgs) {
-        if (msgs[index].messageId === updatedOne.messageId) {
-          targetIndex = Number(index); // index is string
-          break;
-        }
-      }
+  // function updateMessageInModel(updatedOne: any) {
+  //   setMessages((msgs: any) => {
+  //     let targetIndex: Number | null = null;
+  //     for (const index in msgs) {
+  //       if (msgs[index].messageId === updatedOne.messageId) {
+  //         targetIndex = Number(index); // index is string
+  //         break;
+  //       }
+  //     }
 
-      return targetIndex === null
-        ? msgs
-        : [
-          ...msgs.slice(0, targetIndex),
-          updatedOne,
-          ...msgs.slice(Number(targetIndex) + 1)
-        ];
-    });
-  }
+  //     return targetIndex === null
+  //       ? msgs
+  //       : [
+  //         ...msgs.slice(0, targetIndex),
+  //         updatedOne,
+  //         ...msgs.slice(Number(targetIndex) + 1)
+  //       ];
+  //   });
+  // }
 
 
   function deleteMessageInModel(deletedMessageId: string) {
@@ -223,7 +223,7 @@ export default function Messages({ userId }: { userId: string }) {
         attachedBot.next({ message, isValid: true });
       }
     };
-    ChannelHandler.onMessageUpdated = (_: any, message: any) => updateMessageInModel(message);
+    // ChannelHandler.onMessageUpdated = (_: any, message: any) => updateMessageInModel(message);
     ChannelHandler.onMessageDeleted = (_: any, messageId: any) => deleteMessageInModel(messageId);
     console.log('addChannelHandler')
     sb.addChannelHandler(EVENT_HANDLER_ID, ChannelHandler);

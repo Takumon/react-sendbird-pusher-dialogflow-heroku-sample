@@ -35,6 +35,13 @@ export default function SendBirdMessage({
   registerFunc,
   registerFileFunc,
   deleteFunc
+}: {
+  m: any
+  viewerUserId: string
+  registerFunc: Function
+  registerFileFunc: Function
+  deleteFunc: Function
+
 }) {
 
   const menu = (
@@ -72,8 +79,6 @@ export default function SendBirdMessage({
         <CustomMessage
           m={m}
           registerFunc={registerFunc}
-          registerFileFunc={registerFileFunc}
-          viewerUserId={viewerUserId}
         />
         {dropdown}
       </MessageArea>

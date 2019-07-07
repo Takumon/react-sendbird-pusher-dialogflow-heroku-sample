@@ -43,7 +43,7 @@ export default function ProfileView({ m, answer }) {
   const [sex, setSex] = useState('');
   const [savedResponses, setSavedResponses] = useState(undefined);
   const [isSubmitting, setSubmitting] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
+const [submitted /* , setSubmitted*/] = useState(false);
 
   
   useEffect(() => {

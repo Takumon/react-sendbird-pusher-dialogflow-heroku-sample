@@ -10,17 +10,14 @@ const CarouselContainer = styled.div`
   overflow: auto;
 `;
 
-export default function Carousel({ style, contents, registerFunc, answer, yesAction, noAction }) {
+export default function Carousel({ style, contents, answer }) {
   try {
     return (
       <CarouselContainer style={style} >
         {contents.map((props, idx) => (
           <CarouselCell
             {...props}
-            registerFunc={registerFunc}
             answer={answer}
-            yesAction={yesAction}
-            noAction={noAction}
             key={idx}
           />
         ))}

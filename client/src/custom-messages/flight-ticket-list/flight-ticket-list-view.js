@@ -4,7 +4,7 @@ import Carousel from './carousel';
 
 
 
-export default function FlightTicketListView({ m, isConfirm, isAnswer, answer, yesAction, noAction }) {
+export default function FlightTicketListView({ m, isAnswer, answer }) {
   const {
     title,
     contents,
@@ -26,16 +26,6 @@ export default function FlightTicketListView({ m, isConfirm, isAnswer, answer, y
             width: '100%',
             justifyContent: 'flex-end',
           }}
-          answer={answer}
-          contents={contents}
-        />
-      </div>
-    ) : isConfirm ? (
-      <div>
-        <div style={{textAlign: 'left' }} >
-          {title && <div>{title}</div>}
-        </div>
-        <Carousel
           answer={answer}
           contents={contents}
         />

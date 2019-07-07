@@ -1,8 +1,8 @@
 
 import React, { useState  } from 'react';
 import styled from '@emotion/styled';
-import SelectSeatsCardSvg from '../../images/select-seats-card.svg';
 import FlightSeatFullScreen from './flight-seat-fullscreen';
+import SelectSeatsCardSvg from '../../images/select-seats-card.svg';
 
 
 const Container = styled.div`
@@ -11,6 +11,7 @@ const Container = styled.div`
   box-shadow: 0 0 2px 0px #DDD;
   display: inline-block;
   margin: 0.25rem 0.5rem;
+  margin-left: 'auto'; /* aligh left */
   overflow: hidden;
   width: 300px;
   background-image: url(${SelectSeatsCardSvg});
@@ -51,30 +52,40 @@ const Container = styled.div`
 `;
 
 
-export default function FlightSeatView({ m, answer }) {
+export default function FlightSeatAnswerView({ m }) {
 
   const {
     title,
+    contents: seat,
   } = m.customMessage;
 
   const [isShowDetail, setShowDetail] = useState(false);
 
-  async function select(seat) {
-    await answer(seat);
+  function select() {
     setShowDetail(false);
   }
-
-  
 
   try {
     const selectedSeats = (
       <Container>
         <div className='selectedSeat'>
           <span>
+            {<>
+              <svg height="22px" width="22px" version="1.1" viewBox="0 0 22 22">
+                <defs/>
+                <g id="Symbols" fill="none" stroke="none" strokeWidth="1">
+                  <g id="card/selected-seat" transform="translate(-15.000000, -37.000000)">
+                    <circle id="Oval-6" cx="26" cy="48" fill="#BE2026" r="10" stroke="#BE2026"/>
+                    <polygon id="Check" fill="#FFFFFF" points="21.5 47.5 20 49 24 53 33 44.5 31.5 43 24 50"/>
+                  </g>
+                </g>
+              </svg>
+              <span >{seat.name} が選択されています</span>
+            </>}
           </span>
         </div>
         <div className='selectSeatLabel'>
-          <span onClick={() => setShowDetail(true)}>座席を選択する</span>
+          <span onClick={() => setShowDetail(true)}>座席表で確認する</span>
         </div>
       </Container>
     );
@@ -82,7 +93,7 @@ export default function FlightSeatView({ m, answer }) {
 
     return (
       <>
-        <div style={{ textAlign: 'left' }} >
+        <div style={{ textAlign: 'right' }}>
           {title}
         </div>
         {selectedSeats}
@@ -90,7 +101,7 @@ export default function FlightSeatView({ m, answer }) {
           ? (
             <FlightSeatFullScreen
               close={() => setShowDetail(false)}
-              selectedSeat={null}
+              selectedSeat={seat}
               select={select}
             />
           )

@@ -2,7 +2,6 @@
 import React from 'react';
 import { Card } from 'antd';
 import styled from '@emotion/styled'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 
 const Container = styled.div`
@@ -26,9 +25,7 @@ const Content = styled.div`
 
 export default function ProfileAnswerView({ m }) {
 
-  console.log('xxx', m)
   const { contents } = m.customMessage;
-
 
   try {
     return (

@@ -512,7 +512,6 @@ export default class FlightTicketRegisterBot implements Bot {
 
       init(): void {
         registerFunc(createFlightTicketPurchaseMessage(
-          '購入手続きをしてください。',
           { order:
             {
               price: '￥98,000',
