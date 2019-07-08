@@ -149,13 +149,12 @@ export function reateFlightTicketConfirmMessage(contents: Object): string {
 
 
 export function createFlightTicketAnswerMessage(
-  title: string,
   contents: Object,
   questionType: string
 ): string {
   return JSON.stringify({
     type: CUSTOM_MESSAGE_TYPE.FLIGHT_TICKET_ANSWER,
-    title,
+    title: 'こちらのフライトを希望します。',
     contents,
     questionType,
   });
@@ -204,11 +203,11 @@ export function createFlightSeatFormMessage(): string {
   });
 }
 
-export function createFlightSeatAnswerMessage(seats: any): string {
+export function createFlightSeatAnswerMessage(seat: any): string {
   return JSON.stringify({
     type: CUSTOM_MESSAGE_TYPE.FLIGHT_SEAT_ANSWER,
     title: 'こちらの座席にします。',
-    contents: seats
+    contents: seat
   });
 }
 

@@ -12,7 +12,7 @@ export default function FlightTicketPurchasePdfView({ m }: { m: any }) {
 
   const pdf = (
     <PurchasePdf
-      {...contents.order}
+      {...contents}
     />
   );
 

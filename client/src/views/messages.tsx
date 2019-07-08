@@ -18,6 +18,7 @@ import {
 import { createTextMessage, toCustom } from '../utils/message-converter';
 import { MessageWeatherBotCreate, MessageTextFormCreate } from '../custom-messages';
 import FlightTicketRegisterBot from '../dialog-controllers/flight-ticket-register/bot';
+import { DATA_TYPE } from '../dialog-controllers/flight-ticket-register/types';
 
 const { Header, Content, Footer } = Layout;
 const APP_ID: string = process.env.REACT_APP_APP_ID || '';
@@ -173,17 +174,24 @@ export default function Messages({ userId }: { userId: string }) {
 
   /* BOT Operations */
   function detachBot() {
+    console.log('detachBotするよ');
+    console.log('before', attachedBot);
     setAttachedBot(null);
+    console.log('after', attachedBot);
   }
 
 
   function attachBot() {
     // TODO To be able to chage bot.
-    const bot = new FlightTicketRegisterBot(registerFunc, {});
+    // TODO making departure and arriaval date question
+    const bot = new FlightTicketRegisterBot(registerFunc, {
+      [DATA_TYPE.CONDITON_NUMBER_OF_PASSENGERS]: 1,
+      [DATA_TYPE.CONDITON_DEPARTURE_DATE]: '2019/07/04',
+      [DATA_TYPE.CONDITON_ARRIVAL_DATE]: '2019/07/14',
+    });
     bot.execQuestion();
     setAttachedBot(bot);
   }
-
 
 
   useEffect(() => {
@@ -208,7 +216,6 @@ export default function Messages({ userId }: { userId: string }) {
   }, [userId]);
 
 
-
   useEffect(() => {
     if (!sb || !channel) {
       return;
@@ -217,14 +224,18 @@ export default function Messages({ userId }: { userId: string }) {
     const ChannelHandler = new sb.ChannelHandler();
 
     // Add event handlers for sync in other browser
-    ChannelHandler.onMessageReceived = (_: any, message: any) => {
+    ChannelHandler.onMessageReceived = async (_: any, message: any) => {
       const m = toCustom(message);
 
       // ChatBot has to reaction
       addMessageInModel(m);
 
-      if (attachBot && message._sender.userId !== BOT_USER_ID) {
-        attachedBot.reactionToAnwer(message);
+      if (attachedBot && message._sender.userId !== BOT_USER_ID) {
+        const hasNext = await attachedBot.reactionToAnwer(message);
+        console.log('reactionToAnwerの結果', hasNext);
+        if (!hasNext) {
+          detachBot();
+        }
       }
     };
 
@@ -242,7 +253,7 @@ export default function Messages({ userId }: { userId: string }) {
       sb.removeChannelHandler(EVENT_HANDLER_ID);
     };
 
-  }, [sb, channel, attachedBot])
+  }, [sb, channel, attachedBot]);
 
 
 
@@ -273,7 +284,7 @@ export default function Messages({ userId }: { userId: string }) {
       pusherChannel.unbind(BOT_WEATHER_EVENT, registerFuncFromPusher);
     };
 
-  }, [pusherChannel, channel, registerFunc])
+  }, [pusherChannel, channel, registerFunc]);
 
 
   const UserId = styled.div`
@@ -292,15 +303,13 @@ export default function Messages({ userId }: { userId: string }) {
         <HeaderTitle>
           航空券予約
         </HeaderTitle>
-        { attachedBot ? (
-          <Button onClick={detachBot} >
-            Detach Bot
+          <Button onClick={() => {
+            attachedBot
+              ? detachBot()
+              : attachBot();
+          }} >
+            { attachedBot ? 'detach' : 'Attach' } Bot
           </Button>
-        ) : (
-          <Button onClick={attachBot} >
-            Attach Bot
-          </Button>
-        )}
         <UserId>
           { userId }
         </UserId>

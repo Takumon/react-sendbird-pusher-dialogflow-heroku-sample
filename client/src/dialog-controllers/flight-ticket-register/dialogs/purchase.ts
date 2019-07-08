@@ -1,6 +1,6 @@
 import { Question, Bot} from '../types';
 import {
-  createConfirmAirLineMessage,
+  createFlightTicketPurchaseMessage,
 } from '../../../utils/message-converter';
 import {
   ValidationResult,
@@ -8,19 +8,19 @@ import {
   DATA_TYPE,
 } from '../types';
 
-
-export default class AirLineType implements Question {
+export default class Purchase implements Question {
   public bot: Bot;
   public registerFunc: Function;
 
   constructor(bot: Bot, registerFunc: Function) {
-    console.log('セットするbot', bot);
     this.bot = bot;
     this.registerFunc = registerFunc;
   }
 
   public async exec(): Promise<boolean> {
-    this.registerFunc(createConfirmAirLineMessage());
+    const order = await fetchOrder();
+    const oderForData = Object.assign({}, order, { confirmed: false });
+    await this.registerFunc(createFlightTicketPurchaseMessage(oderForData));
     return true;
   }
 
@@ -29,15 +29,24 @@ export default class AirLineType implements Question {
   }
 
   public async postProcess(message: any): Promise<PostProcessResult> {
-    const answer = message.customMessage.text;
-    this.bot.saveData(DATA_TYPE.CONDITON_AIRELINE_TYPE, answer);
+    const purchase = message.customMessage.contents;
+    this.bot.saveData(DATA_TYPE.PURCHASE, purchase);
     return { success: true };
   }
 
   private validate(message: any ) {
-    const answer = message.customMessage.text;
-    return answer === '国際線' ? { isValid: true }
-      : answer === '国内線' ? { isValid: true }
-      : { isValid: false, error: '「国際線」か「国内線」を指定してください。' };
+    // Nothing because entire prossecc is execued in client side.
+    return { isValid: true };
   }
 }
+
+async function fetchOrder(): Promise<any> {
+  // TODO fetch Order in API
+  return {
+    price: '￥98,000',
+    tax: '￥0',
+    amount: '￥98,000',
+    date: '12/30(月)',
+  };
+}
+

@@ -27,7 +27,7 @@ export default function FlightSeatView(
     amount,
     date,
     confirmed,
-  } = contents.order;
+  } = contents;
 
   const [isShowModal, setShowModal] = useState(false);
 

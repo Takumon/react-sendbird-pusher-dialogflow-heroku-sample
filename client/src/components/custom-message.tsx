@@ -114,21 +114,20 @@ export default function CustomMessage({
         m={message}
         answer={async (cards: any) => {
           await registerFunc(createFlightTicketAnswerMessage(
-            'こちらのフライトを希望します。',
             cards,
             CUSTOM_MESSAGE_TYPE.FLIGHT_TICKET_LIST
           ));
         }}
         isAnswer={false}
       />,
-  
+
     [CUSTOM_MESSAGE_TYPE.FLIGHT_TICKET_ANSWER]:
       <MessageFlightTicketListView
         m={message}
         isAnswer={true}
         answer={() => console.log('No function')}
       />,
-    
+
     [CUSTOM_MESSAGE_TYPE.FLIGHT_TICKET_CONFIRM]:
       <MessageFlightTicketListConfirmView
         m={message}
@@ -139,7 +138,7 @@ export default function CustomMessage({
           ));
         }}
       />,
-    
+
     [CUSTOM_MESSAGE_TYPE.PROFILE_FORM]:
       <MessageProfileView
         m={message}
@@ -179,21 +178,19 @@ export default function CustomMessage({
     [CUSTOM_MESSAGE_TYPE.FLIGHT_SEAT_CONFIRM]:
       <MessageFlightSeatConfirmView
         m={message}
-      />,  
+      />,
 
     [CUSTOM_MESSAGE_TYPE.FLIGHT_TICKET_PURCHASE_PRE_CONFIRM]:
       <MessageFlightTicketPurchasePreConfirmView
         m={message}
       />,
-    
+
     [CUSTOM_MESSAGE_TYPE.FLIGHT_TICKET_PURCHASE_FORM]:
       <MessageFlightTicketPurchaseView
         m={message}
         answer={async (value: any) => {
-          const messageStr = createFlightTicketPurchaseAnswerMessage(
-            { order: value },
-          );
-          await registerFunc(messageStr);        
+          const messageStr = createFlightTicketPurchaseAnswerMessage(value);
+          await registerFunc(messageStr);
         }}
       />,
 

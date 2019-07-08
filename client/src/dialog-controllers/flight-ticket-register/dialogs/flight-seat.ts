@@ -1,6 +1,6 @@
 import { Question, Bot} from '../types';
 import {
-  createConfirmAirLineMessage,
+  createFlightSeatFormMessage,
 } from '../../../utils/message-converter';
 import {
   ValidationResult,
@@ -8,19 +8,17 @@ import {
   DATA_TYPE,
 } from '../types';
 
-
-export default class AirLineType implements Question {
+export default class FlightSeat implements Question {
   public bot: Bot;
   public registerFunc: Function;
 
   constructor(bot: Bot, registerFunc: Function) {
-    console.log('セットするbot', bot);
     this.bot = bot;
     this.registerFunc = registerFunc;
   }
 
   public async exec(): Promise<boolean> {
-    this.registerFunc(createConfirmAirLineMessage());
+    await this.registerFunc(createFlightSeatFormMessage());
     return true;
   }
 
@@ -29,15 +27,15 @@ export default class AirLineType implements Question {
   }
 
   public async postProcess(message: any): Promise<PostProcessResult> {
-    const answer = message.customMessage.text;
-    this.bot.saveData(DATA_TYPE.CONDITON_AIRELINE_TYPE, answer);
+    const seats = message.customMessage.contents;
+    // No nead to register seats in API because next confirmation follow it
+    this.bot.saveData(DATA_TYPE.SELECTED_SEAT, seats);
     return { success: true };
   }
 
   private validate(message: any ) {
-    const answer = message.customMessage.text;
-    return answer === '国際線' ? { isValid: true }
-      : answer === '国内線' ? { isValid: true }
-      : { isValid: false, error: '「国際線」か「国内線」を指定してください。' };
+    const seats = message.customMessage.contents;
+    // TODO seats validation
+    return { isValid: true };
   }
 }

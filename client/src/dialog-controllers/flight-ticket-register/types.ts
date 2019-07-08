@@ -6,10 +6,10 @@ export interface Bot {
 
     getCurrentQuestion(): Question;
     hasNextQuestion(): boolean;
-    reactionToAnwer(message: any): void;
+    reactionToAnwer(message: any): Promise<boolean>; // isDetacheBot
     backToSquareOne(): void;
-    nextQuestion(): void;
-    execQuestion(): void;
+    nextQuestion(): Promise<boolean>; // isDetachBot
+    execQuestion(): Promise<boolean>; // isDetachBot
 
     saveData(key: string, value: any): void;
     updateData(key: string, value: any): any; // return updatedValue
@@ -34,7 +34,7 @@ export type PostProcessResult = {
 export interface Question {
   bot: Bot;
   registerFunc: Function;
-  exec(): Promise<void>;
+  exec(): Promise<boolean>;
   validateAnswer(mesage: any): Promise<ValidationResult>;
   postProcess(message: any): Promise<PostProcessResult>;
 }
@@ -43,4 +43,13 @@ export interface Questions extends Array<Question>{}
 
 export const DATA_TYPE = {
   CONDITON_AIRELINE_TYPE: 'CONDITON_AIRELINE_TYPE',
+  CONDITON_NUMBER_OF_PASSENGERS: 'CONDITON_NUMBER_OF_PASSENGERS',
+  CONDITON_DEPARTURE: 'CONDITON_DEPARTURE',
+  CONDITON_ARRIVAL: 'CONDITON_ARRIVAL',
+  CONDITON_DEPARTURE_DATE: 'CONDITON_DEPARTURE_DATE',
+  CONDITON_ARRIVAL_DATE: 'CONDITON_ARRIVAL_DATE',
+  CONDITON_SELECTED_FLIGHT: 'CONDITON_SELECTED_FLIGHT',
+  CONDITON_PROFILE: 'CONDITON_PROFILE',
+  SELECTED_SEAT: 'SELECTED_SEAT',
+  PURCHASE: 'PURCHASE',
 };
