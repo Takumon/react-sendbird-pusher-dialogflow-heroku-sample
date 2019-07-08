@@ -34,15 +34,15 @@ export function openChannel(sb: any, channelId: string): Promise<any> {
 
 export function enterChannel(channel: any): Promise<any> {
   return new Promise((resolve, reject) => {
-    if(!channel) {
+    if (!channel) {
       reject(`Incollect argument. channel is required.`);
     }
 
     channel.enter((response: any, error: any) => {
       error
-          ? reject(error)
-          : resolve('OK!');
-    })
+        ? reject(error)
+        : resolve('OK!');
+    });
   });
 }
 
