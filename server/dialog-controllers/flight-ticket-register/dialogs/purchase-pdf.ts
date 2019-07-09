@@ -1,7 +1,7 @@
 import { Question, Bot} from '../types';
 import {
   createFlightTicketPurchasePdfMessage,
-} from '../../../utils/message-converter';
+} from '../../utils/message-converter';
 import {
   ValidationResult,
   PostProcessResult,
@@ -33,4 +33,3 @@ export default class PurchaseaPdf implements Question {
     return { success: true };
   }
 }
-

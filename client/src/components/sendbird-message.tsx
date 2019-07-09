@@ -33,7 +33,6 @@ export default function SendBirdMessage({
   m,
   viewerUserId,
   registerFunc,
-  registerFileFunc,
   deleteFunc
 }: {
   m: any
@@ -73,7 +72,7 @@ export default function SendBirdMessage({
     <Container>
       <Avator
         alt="avator"
-        src={m.sender.userId === 'inouetakumon@gmail.com' ? BotAvatorIcon : MineAvatorIcon }
+        src={m._sender.userId === 'inouetakumon@gmail.com' ? BotAvatorIcon : MineAvatorIcon }
       />
       <MessageArea>
         <CustomMessage

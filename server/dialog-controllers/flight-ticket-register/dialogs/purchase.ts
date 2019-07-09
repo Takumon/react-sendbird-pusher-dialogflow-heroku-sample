@@ -1,7 +1,7 @@
 import { Question, Bot} from '../types';
 import {
   createFlightTicketPurchaseMessage,
-} from '../../../utils/message-converter';
+} from '../../utils/message-converter';
 import {
   ValidationResult,
   PostProcessResult,
@@ -49,4 +49,3 @@ async function fetchOrder(): Promise<any> {
     date: '12/30(月)',
   };
 }
-

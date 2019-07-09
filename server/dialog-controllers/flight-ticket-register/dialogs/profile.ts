@@ -1,13 +1,12 @@
 import { Question, Bot} from '../types';
 import {
   createProfileFormMessage,
-} from '../../../utils/message-converter';
+} from '../../utils/message-converter';
 import {
   ValidationResult,
   PostProcessResult,
   DATA_TYPE,
 } from '../types';
-
 
 export default class Profile implements Question {
   public bot: Bot;
@@ -41,13 +40,13 @@ export default class Profile implements Question {
     const errors: string[] = [];
     if (!formData.lastName) {
       errors.push('名前(氏)を入力してください。');
-    } else if(formData.lastName >= 50) {
+    } else if (formData.lastName >= 50) {
       errors.push('名前(氏)は50文字以内で入力してください。');
     }
 
     if (!formData.firstName) {
       errors.push('名前(名)を入力してください。');
-    } else if(formData.firstName >= 50) {
+    } else if (formData.firstName >= 50) {
       errors.push('名前(名)は50文字以内で入力してください。');
     }
 
@@ -57,6 +56,6 @@ export default class Profile implements Question {
 
     return errors.length === 0
       ? { isValid: true }
-      : { isValid: false, error: errors.join('¥n') }
+      : { isValid: false, error: errors.join('¥n') };
   }
 }

@@ -1,5 +1,4 @@
 import Dialogflow from 'dialogflow';
-import Pusher from 'pusher';
 import getWeatherInfo from './weather';
 
 // You can find your project ID in your Dialogflow agent settings
@@ -9,24 +8,16 @@ const languageCode = 'en-US';
 
 const config = {
   credentials: {
-    client_email: process.env.DIALOGFLOW_CLIENT_EMAIL,
-    private_key: process.env.DIALOGFLOW_PRIVATE_KEY,
+    client_email: process.env.DIALOGFLOW_CLIENT_EMAIL || '',
+    private_key: process.env.DIALOGFLOW_PRIVATE_KEY || '',
   },
 };
-
-const pusher = new Pusher({
-  appId: process.env.PUSHER_APP_ID,
-  cluster: process.env.PUSHER_APP_CLUSTER,
-  encrypted: true,
-  key: process.env.PUSHER_APP_KEY,
-  secret: process.env.PUSHER_APP_SECRET,
-});
 
 const sessionClient = new Dialogflow.SessionsClient(config);
 
 const sessionPath = sessionClient.sessionPath(projectId, sessionId);
 
-export default async function processMessage(message: string) {
+export default async function processMessage(message: string, pusher: any) {
   const request = {
     session: sessionPath,
     queryInput: {

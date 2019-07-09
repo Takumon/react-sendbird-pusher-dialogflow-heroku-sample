@@ -1,14 +1,16 @@
 import { Question, Bot} from '../types';
 import {
-  createFlightSeatFormMessage,
-} from '../../../utils/message-converter';
+  createDepartureFormMessage,
+} from '../../utils/message-converter';
 import {
   ValidationResult,
   PostProcessResult,
   DATA_TYPE,
 } from '../types';
 
-export default class FlightSeat implements Question {
+const PLACES: string[] = ['日本', 'サンノゼ', 'サンフランシスコ' ];
+
+export default class Departure implements Question {
   public bot: Bot;
   public registerFunc: Function;
 
@@ -18,7 +20,7 @@ export default class FlightSeat implements Question {
   }
 
   public async exec(): Promise<boolean> {
-    await this.registerFunc(createFlightSeatFormMessage());
+    await this.registerFunc(createDepartureFormMessage());
     return true;
   }
 
@@ -27,15 +29,16 @@ export default class FlightSeat implements Question {
   }
 
   public async postProcess(message: any): Promise<PostProcessResult> {
-    const seats = message.customMessage.contents;
-    // No nead to register seats in API because next confirmation follow it
-    this.bot.saveData(DATA_TYPE.SELECTED_SEAT, seats);
+    const answer = message.customMessage.text;
+    this.bot.saveData(DATA_TYPE.CONDITON_DEPARTURE, answer);
     return { success: true };
   }
 
   private validate(message: any ) {
-    const seats = message.customMessage.contents;
-    // TODO seats validation
-    return { isValid: true };
+    const answer = message.customMessage.text;
+    // tempolary logic. I want to connect dialogflow
+    return PLACES.includes(answer)
+      ? { isValid: true }
+      : { isValid: false, error: '空港がある地名を入力してください。' };
   }
 }

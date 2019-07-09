@@ -9,7 +9,9 @@
     "ordered-imports": [false],
     "object-literal-sort-keys": [false],
     "quotemark": [true, "single" ],
-    "no-console": [false]
+    "no-console": [false],
+    "ban-types": false,
+    "interface-name": [false]
   },
   "rulesDirectory": []
 }

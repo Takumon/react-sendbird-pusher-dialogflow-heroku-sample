@@ -1,14 +1,13 @@
 import { Question, Bot} from '../types';
 import {
-  reateFlightTicketConfirmMessage,
-} from '../../../utils/message-converter';
+  createFlightSeatPreConfirmMessage,
+} from '../../utils/message-converter';
 import {
   ValidationResult,
   PostProcessResult,
-  DATA_TYPE,
 } from '../types';
 
-export default class FlightTicketList implements Question {
+export default class FlightSeatPreConfirm implements Question {
   public bot: Bot;
   public registerFunc: Function;
 
@@ -18,8 +17,7 @@ export default class FlightTicketList implements Question {
   }
 
   public async exec(): Promise<boolean> {
-    const result = this.bot.getData(DATA_TYPE.CONDITON_SELECTED_FLIGHT);
-    await this.registerFunc(reateFlightTicketConfirmMessage(result));
+    await this.registerFunc(createFlightSeatPreConfirmMessage());
     return true;
   }
 
@@ -28,16 +26,7 @@ export default class FlightTicketList implements Question {
   }
 
   public async postProcess(message: any): Promise<PostProcessResult> {
-    const selectedFlight = this.bot.getData(DATA_TYPE.CONDITON_SELECTED_FLIGHT);
-    // TODO Where is it best to execute registation
-    const { result, error } = await registerFlight(selectedFlight);
-
-    if (error) {
-      // TODO Error handling
-      return { success: false, error };
-    }
-
-    return { success: true, result };
+    return { success: true };
   }
 
   private validate(message: any ) {
@@ -46,11 +35,4 @@ export default class FlightTicketList implements Question {
       : answer === 'いいえ' ? { isValid: true }
       : { isValid: false, error: '「はい」か「いいえ」を指定してください。' };
   }
-}
-
-async function registerFlight(fileght: any): Promise<any> {
-  return {
-    result: '成功したよ',
-    error: null
-  };
 }

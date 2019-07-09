@@ -1,7 +1,7 @@
 export interface Bot {
     questions: Questions;
-    offset: Number;
-    datas: Object;
+    offset: number;
+    datas: object;
     registerFunc: Function;
 
     getCurrentQuestion(): Question;
@@ -20,16 +20,16 @@ export interface Bot {
     restart(): void; // delete all datas and retry from first question.
   }
 
-export type ValidationResult = {
+export interface ValidationResult {
   isValid: boolean;
   error?: any;
-};
+}
 
-export type PostProcessResult = {
+export interface PostProcessResult {
   success: boolean;
   error?: any;
   result?: any;
-};
+}
 
 export interface Question {
   bot: Bot;
@@ -39,7 +39,7 @@ export interface Question {
   postProcess(message: any): Promise<PostProcessResult>;
 }
 
-export interface Questions extends Array<Question>{}
+export interface Questions extends Array<Question> {}
 
 export const DATA_TYPE = {
   CONDITON_AIRELINE_TYPE: 'CONDITON_AIRELINE_TYPE',

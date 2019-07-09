@@ -1,7 +1,7 @@
 import { Question, Bot} from '../types';
 import {
   createConfirmationMessage,
-} from '../../../utils/message-converter';
+} from '../../utils/message-converter';
 import {
   ValidationResult,
   PostProcessResult,

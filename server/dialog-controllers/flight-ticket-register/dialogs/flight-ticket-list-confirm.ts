@@ -1,14 +1,14 @@
 import { Question, Bot} from '../types';
 import {
-  createFlightSeatConfirmMessage,
-} from '../../../utils/message-converter';
+  reateFlightTicketConfirmMessage,
+} from '../../utils/message-converter';
 import {
   ValidationResult,
   PostProcessResult,
   DATA_TYPE,
 } from '../types';
 
-export default class FlightSeatConfirm implements Question {
+export default class FlightTicketList implements Question {
   public bot: Bot;
   public registerFunc: Function;
 
@@ -18,8 +18,8 @@ export default class FlightSeatConfirm implements Question {
   }
 
   public async exec(): Promise<boolean> {
-    const seat = this.bot.getData(DATA_TYPE.SELECTED_SEAT);
-    this.registerFunc(createFlightSeatConfirmMessage(seat));
+    const result = this.bot.getData(DATA_TYPE.CONDITON_SELECTED_FLIGHT);
+    await this.registerFunc(reateFlightTicketConfirmMessage(result));
     return true;
   }
 
@@ -28,10 +28,16 @@ export default class FlightSeatConfirm implements Question {
   }
 
   public async postProcess(message: any): Promise<PostProcessResult> {
-    const seat = this.bot.getData(DATA_TYPE.SELECTED_SEAT);
-    console.log(seat);
-    // TODO register seat in API
-    return { success: true };
+    const selectedFlight = this.bot.getData(DATA_TYPE.CONDITON_SELECTED_FLIGHT);
+    // TODO Where is it best to execute registation
+    const { result, error } = await registerFlight(selectedFlight);
+
+    if (error) {
+      // TODO Error handling
+      return { success: false, error };
+    }
+
+    return { success: true, result };
   }
 
   private validate(message: any ) {
@@ -40,4 +46,11 @@ export default class FlightSeatConfirm implements Question {
       : answer === 'いいえ' ? { isValid: true }
       : { isValid: false, error: '「はい」か「いいえ」を指定してください。' };
   }
+}
+
+async function registerFlight(fileght: any): Promise<any> {
+  return {
+    result: '成功したよ',
+    error: null
+  };
 }

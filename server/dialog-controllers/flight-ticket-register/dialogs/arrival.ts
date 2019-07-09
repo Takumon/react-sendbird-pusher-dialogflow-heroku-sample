@@ -1,13 +1,16 @@
 import { Question, Bot} from '../types';
 import {
-  createFlightTicketPurchasePreConfirmMessage,
-} from '../../../utils/message-converter';
+  createArrivalToMessage,
+} from '../../utils/message-converter';
 import {
   ValidationResult,
   PostProcessResult,
+  DATA_TYPE,
 } from '../types';
 
-export default class PurchasePreConfirm implements Question {
+const PLACES: string[] = ['日本', 'サンノゼ', 'サンフランシスコ' ];
+
+export default class Arrival implements Question {
   public bot: Bot;
   public registerFunc: Function;
 
@@ -17,7 +20,7 @@ export default class PurchasePreConfirm implements Question {
   }
 
   public async exec(): Promise<boolean> {
-    await this.registerFunc(createFlightTicketPurchasePreConfirmMessage());
+    await this.registerFunc(createArrivalToMessage());
     return true;
   }
 
@@ -26,13 +29,16 @@ export default class PurchasePreConfirm implements Question {
   }
 
   public async postProcess(message: any): Promise<PostProcessResult> {
+    const answer = message.customMessage.text;
+    this.bot.saveData(DATA_TYPE.CONDITON_ARRIVAL, answer);
     return { success: true };
   }
 
   private validate(message: any ) {
     const answer = message.customMessage.text;
-    return answer === 'はい' ? { isValid: true }
-      : answer === 'いいえ' ? { isValid: true }
-      : { isValid: false, error: '「はい」か「いいえ」を指定してください。' };
+    // tempolary logic. I want to connect dialogflow
+    return PLACES.includes(answer)
+      ? { isValid: true }
+      : { isValid: false, error: '空港がある地名を入力してください。' };
   }
 }

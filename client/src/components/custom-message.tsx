@@ -41,7 +41,7 @@ export default function CustomMessage({
   registerFunc: Function
 }) {
 
-  const message = toCustom(m)
+  const message = toCustom(m);
 
   const customMessages = {
     [CUSTOM_MESSAGE_TYPE.TEXT] :

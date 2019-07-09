@@ -1,4 +1,4 @@
-import { createTextMessage } from '../../utils/message-converter';
+import { createTextMessage } from '../utils/message-converter';
 import { Question, Questions, Bot} from './types';
 import Starter from './dialogs/starter';
 import AirLineType from './dialogs/airline-type';
@@ -59,10 +59,18 @@ export default class FlightTicketRegisterBot implements Bot {
 
   public async nextQuestion(): Promise<boolean> {
     if (this.hasNextQuestion()) {
+      console.log('あるよ');
       this.offset++;
+      // 質問だけで終わるケースも考慮する
       const hasNext = await this.execQuestion();
+      if (!hasNext) {
+        await this.registerFunc(createTextMessage('ご予約を終了いたします。引き続き質問等があればオペレーターが対応いたします。ありがとうございました。'));
+        this.restart();
+      }
+
       return hasNext;
     } else {
+      console.log('ないよ');
       if (this.questions.length - 1 === this.offset) {
         await this.registerFunc(createTextMessage('ご予約を終了いたします。引き続き質問等があればオペレーターが対応いたします。ありがとうございました。'));
       } else {
@@ -137,7 +145,7 @@ export default class FlightTicketRegisterBot implements Bot {
   }
 
   public saveDatas(datas: [{ key: string, value: any }]): void {
-    datas.forEach(data => this.saveData(data.key, data.value));
+    datas.forEach((data) => this.saveData(data.key, data.value));
   }
 
   public restart(): void {

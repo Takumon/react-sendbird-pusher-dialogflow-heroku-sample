@@ -1,13 +1,11 @@
+
 import { Question, Bot} from '../types';
 import {
-  createFlightSeatPreConfirmMessage,
-} from '../../../utils/message-converter';
-import {
-  ValidationResult,
-  PostProcessResult,
-} from '../types';
+  createConfirmMessage,
+} from '../../utils/message-converter';
+import { ValidationResult, PostProcessResult } from '../types';
 
-export default class FlightSeatPreConfirm implements Question {
+export default class Starter implements Question {
   public bot: Bot;
   public registerFunc: Function;
 
@@ -17,7 +15,10 @@ export default class FlightSeatPreConfirm implements Question {
   }
 
   public async exec(): Promise<boolean> {
-    await this.registerFunc(createFlightSeatPreConfirmMessage());
+    await this.registerFunc(createConfirmMessage(
+      '予約を開始しますか？',
+      'チャットから航空機件予約が行えます。航空機件予約を開始しますか？'
+    ));
     return true;
   }
 
@@ -26,6 +27,8 @@ export default class FlightSeatPreConfirm implements Question {
   }
 
   public async postProcess(message: any): Promise<PostProcessResult> {
+    // nothing
+    console.log(message);
     return { success: true };
   }
 
